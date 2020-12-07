@@ -1,7 +1,12 @@
-# source: http://localhost:4466
-# timestamp: Wed Oct 28 2020 12:23:25 GMT+0100 (Central European Standard Time)
+type AggregateBlacklist {
+  count: Int!
+}
 
-type AggregatePost {
+type AggregateGreeting {
+  count: Int!
+}
+
+type AggregateGroup {
   count: Int!
 }
 
@@ -9,36 +14,402 @@ type AggregateUser {
   count: Int!
 }
 
+type AggregateUser_Group {
+  count: Int!
+}
+
 type BatchPayload {
-  """The number of nodes that have been affected by the Batch operation."""
   count: Long!
+}
+
+type Blacklist {
+  id: Int!
+  ip: String
+  end_time: DateTime
+  tries: Int
+}
+
+type BlacklistConnection {
+  pageInfo: PageInfo!
+  edges: [BlacklistEdge]!
+  aggregate: AggregateBlacklist!
+}
+
+input BlacklistCreateInput {
+  id: Int
+  ip: String
+  end_time: DateTime
+  tries: Int
+}
+
+type BlacklistEdge {
+  node: Blacklist!
+  cursor: String!
+}
+
+enum BlacklistOrderByInput {
+  id_ASC
+  id_DESC
+  ip_ASC
+  ip_DESC
+  end_time_ASC
+  end_time_DESC
+  tries_ASC
+  tries_DESC
+}
+
+type BlacklistPreviousValues {
+  id: Int!
+  ip: String
+  end_time: DateTime
+  tries: Int
+}
+
+type BlacklistSubscriptionPayload {
+  mutation: MutationType!
+  node: Blacklist
+  updatedFields: [String!]
+  previousValues: BlacklistPreviousValues
+}
+
+input BlacklistSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: BlacklistWhereInput
+  AND: [BlacklistSubscriptionWhereInput!]
+  OR: [BlacklistSubscriptionWhereInput!]
+  NOT: [BlacklistSubscriptionWhereInput!]
+}
+
+input BlacklistUpdateInput {
+  ip: String
+  end_time: DateTime
+  tries: Int
+}
+
+input BlacklistUpdateManyMutationInput {
+  ip: String
+  end_time: DateTime
+  tries: Int
+}
+
+input BlacklistWhereInput {
+  id: Int
+  id_not: Int
+  id_in: [Int!]
+  id_not_in: [Int!]
+  id_lt: Int
+  id_lte: Int
+  id_gt: Int
+  id_gte: Int
+  ip: String
+  ip_not: String
+  ip_in: [String!]
+  ip_not_in: [String!]
+  ip_lt: String
+  ip_lte: String
+  ip_gt: String
+  ip_gte: String
+  ip_contains: String
+  ip_not_contains: String
+  ip_starts_with: String
+  ip_not_starts_with: String
+  ip_ends_with: String
+  ip_not_ends_with: String
+  end_time: DateTime
+  end_time_not: DateTime
+  end_time_in: [DateTime!]
+  end_time_not_in: [DateTime!]
+  end_time_lt: DateTime
+  end_time_lte: DateTime
+  end_time_gt: DateTime
+  end_time_gte: DateTime
+  tries: Int
+  tries_not: Int
+  tries_in: [Int!]
+  tries_not_in: [Int!]
+  tries_lt: Int
+  tries_lte: Int
+  tries_gt: Int
+  tries_gte: Int
+  AND: [BlacklistWhereInput!]
+  OR: [BlacklistWhereInput!]
+  NOT: [BlacklistWhereInput!]
+}
+
+input BlacklistWhereUniqueInput {
+  id: Int
 }
 
 scalar DateTime
 
-"""Raw JSON value"""
+type Greeting {
+  id: Int!
+  name: String
+}
+
+type GreetingConnection {
+  pageInfo: PageInfo!
+  edges: [GreetingEdge]!
+  aggregate: AggregateGreeting!
+}
+
+input GreetingCreateInput {
+  id: Int
+  name: String
+}
+
+type GreetingEdge {
+  node: Greeting!
+  cursor: String!
+}
+
+enum GreetingOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+}
+
+type GreetingPreviousValues {
+  id: Int!
+  name: String
+}
+
+type GreetingSubscriptionPayload {
+  mutation: MutationType!
+  node: Greeting
+  updatedFields: [String!]
+  previousValues: GreetingPreviousValues
+}
+
+input GreetingSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: GreetingWhereInput
+  AND: [GreetingSubscriptionWhereInput!]
+  OR: [GreetingSubscriptionWhereInput!]
+  NOT: [GreetingSubscriptionWhereInput!]
+}
+
+input GreetingUpdateInput {
+  name: String
+}
+
+input GreetingUpdateManyMutationInput {
+  name: String
+}
+
+input GreetingWhereInput {
+  id: Int
+  id_not: Int
+  id_in: [Int!]
+  id_not_in: [Int!]
+  id_lt: Int
+  id_lte: Int
+  id_gt: Int
+  id_gte: Int
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [GreetingWhereInput!]
+  OR: [GreetingWhereInput!]
+  NOT: [GreetingWhereInput!]
+}
+
+input GreetingWhereUniqueInput {
+  id: Int
+}
+
+type Group {
+  id: Int!
+  owner_id: Int
+  name: String
+  create_at: DateTime
+  tchat_jwt: String
+}
+
+type GroupConnection {
+  pageInfo: PageInfo!
+  edges: [GroupEdge]!
+  aggregate: AggregateGroup!
+}
+
+input GroupCreateInput {
+  id: Int
+  owner_id: Int
+  name: String
+  create_at: DateTime
+  tchat_jwt: String
+}
+
+type GroupEdge {
+  node: Group!
+  cursor: String!
+}
+
+enum GroupOrderByInput {
+  id_ASC
+  id_DESC
+  owner_id_ASC
+  owner_id_DESC
+  name_ASC
+  name_DESC
+  create_at_ASC
+  create_at_DESC
+  tchat_jwt_ASC
+  tchat_jwt_DESC
+}
+
+type GroupPreviousValues {
+  id: Int!
+  owner_id: Int
+  name: String
+  create_at: DateTime
+  tchat_jwt: String
+}
+
+type GroupSubscriptionPayload {
+  mutation: MutationType!
+  node: Group
+  updatedFields: [String!]
+  previousValues: GroupPreviousValues
+}
+
+input GroupSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: GroupWhereInput
+  AND: [GroupSubscriptionWhereInput!]
+  OR: [GroupSubscriptionWhereInput!]
+  NOT: [GroupSubscriptionWhereInput!]
+}
+
+input GroupUpdateInput {
+  owner_id: Int
+  name: String
+  create_at: DateTime
+  tchat_jwt: String
+}
+
+input GroupUpdateManyMutationInput {
+  owner_id: Int
+  name: String
+  create_at: DateTime
+  tchat_jwt: String
+}
+
+input GroupWhereInput {
+  id: Int
+  id_not: Int
+  id_in: [Int!]
+  id_not_in: [Int!]
+  id_lt: Int
+  id_lte: Int
+  id_gt: Int
+  id_gte: Int
+  owner_id: Int
+  owner_id_not: Int
+  owner_id_in: [Int!]
+  owner_id_not_in: [Int!]
+  owner_id_lt: Int
+  owner_id_lte: Int
+  owner_id_gt: Int
+  owner_id_gte: Int
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  create_at: DateTime
+  create_at_not: DateTime
+  create_at_in: [DateTime!]
+  create_at_not_in: [DateTime!]
+  create_at_lt: DateTime
+  create_at_lte: DateTime
+  create_at_gt: DateTime
+  create_at_gte: DateTime
+  tchat_jwt: String
+  tchat_jwt_not: String
+  tchat_jwt_in: [String!]
+  tchat_jwt_not_in: [String!]
+  tchat_jwt_lt: String
+  tchat_jwt_lte: String
+  tchat_jwt_gt: String
+  tchat_jwt_gte: String
+  tchat_jwt_contains: String
+  tchat_jwt_not_contains: String
+  tchat_jwt_starts_with: String
+  tchat_jwt_not_starts_with: String
+  tchat_jwt_ends_with: String
+  tchat_jwt_not_ends_with: String
+  AND: [GroupWhereInput!]
+  OR: [GroupWhereInput!]
+  NOT: [GroupWhereInput!]
+}
+
+input GroupWhereUniqueInput {
+  id: Int
+}
+
 scalar Json
 
-"""
-The `Long` scalar type represents non-fractional signed whole numeric values.
-Long can represent values between -(2^63) and 2^63 - 1.
-"""
 scalar Long
 
 type Mutation {
+  createBlacklist(data: BlacklistCreateInput!): Blacklist!
+  updateBlacklist(data: BlacklistUpdateInput!, where: BlacklistWhereUniqueInput!): Blacklist
+  updateManyBlacklists(data: BlacklistUpdateManyMutationInput!, where: BlacklistWhereInput): BatchPayload!
+  upsertBlacklist(where: BlacklistWhereUniqueInput!, create: BlacklistCreateInput!, update: BlacklistUpdateInput!): Blacklist!
+  deleteBlacklist(where: BlacklistWhereUniqueInput!): Blacklist
+  deleteManyBlacklists(where: BlacklistWhereInput): BatchPayload!
+  createGreeting(data: GreetingCreateInput!): Greeting!
+  updateGreeting(data: GreetingUpdateInput!, where: GreetingWhereUniqueInput!): Greeting
+  updateManyGreetings(data: GreetingUpdateManyMutationInput!, where: GreetingWhereInput): BatchPayload!
+  upsertGreeting(where: GreetingWhereUniqueInput!, create: GreetingCreateInput!, update: GreetingUpdateInput!): Greeting!
+  deleteGreeting(where: GreetingWhereUniqueInput!): Greeting
+  deleteManyGreetings(where: GreetingWhereInput): BatchPayload!
+  createGroup(data: GroupCreateInput!): Group!
+  updateGroup(data: GroupUpdateInput!, where: GroupWhereUniqueInput!): Group
+  updateManyGroups(data: GroupUpdateManyMutationInput!, where: GroupWhereInput): BatchPayload!
+  upsertGroup(where: GroupWhereUniqueInput!, create: GroupCreateInput!, update: GroupUpdateInput!): Group!
+  deleteGroup(where: GroupWhereUniqueInput!): Group
+  deleteManyGroups(where: GroupWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
-  createPost(data: PostCreateInput!): Post!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
-  deleteUser(where: UserWhereUniqueInput!): User
-  deletePost(where: PostWhereUniqueInput!): Post
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  upsertPost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  updateManyPosts(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  deleteUser(where: UserWhereUniqueInput!): User
   deleteManyUsers(where: UserWhereInput): BatchPayload!
-  deleteManyPosts(where: PostWhereInput): BatchPayload!
-  executeRaw(database: PrismaDatabase, query: String!): Json!
+  createUser_Group(data: User_GroupCreateInput!): User_Group!
+  deleteUser_Group(where: User_GroupWhereUniqueInput!): User_Group
+  deleteManyUser_Groups(where: User_GroupWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -47,551 +418,179 @@ enum MutationType {
   DELETED
 }
 
-"""An object with an ID"""
 interface Node {
-  """The id of the object."""
   id: ID!
 }
 
-"""Information about pagination in a connection."""
 type PageInfo {
-  """When paginating forwards, are there more items?"""
   hasNextPage: Boolean!
-
-  """When paginating backwards, are there more items?"""
   hasPreviousPage: Boolean!
-
-  """When paginating backwards, the cursor to continue."""
   startCursor: String
-
-  """When paginating forwards, the cursor to continue."""
   endCursor: String
 }
 
-type Post implements Node {
-  id: ID!
-  content: String!
-  author: User!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
-"""A connection to a list of items."""
-type PostConnection {
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """A list of edges."""
-  edges: [PostEdge]!
-  aggregate: AggregatePost!
-}
-
-input PostCreateInput {
-  id: ID
-  content: String!
-  author: UserCreateOneWithoutPostsInput!
-}
-
-input PostCreateManyWithoutAuthorInput {
-  create: [PostCreateWithoutAuthorInput!]
-  connect: [PostWhereUniqueInput!]
-}
-
-input PostCreateWithoutAuthorInput {
-  id: ID
-  content: String!
-}
-
-"""An edge in a connection."""
-type PostEdge {
-  """The item at the end of the edge."""
-  node: Post!
-
-  """A cursor for use in pagination."""
-  cursor: String!
-}
-
-enum PostOrderByInput {
-  id_ASC
-  id_DESC
-  content_ASC
-  content_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-}
-
-type PostPreviousValues {
-  id: ID!
-  content: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
-input PostScalarWhereInput {
-  """Logical AND on all given filters."""
-  AND: [PostScalarWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [PostScalarWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [PostScalarWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  content: String
-
-  """All values that are not equal to given value."""
-  content_not: String
-
-  """All values that are contained in given list."""
-  content_in: [String!]
-
-  """All values that are not contained in given list."""
-  content_not_in: [String!]
-
-  """All values less than the given value."""
-  content_lt: String
-
-  """All values less than or equal the given value."""
-  content_lte: String
-
-  """All values greater than the given value."""
-  content_gt: String
-
-  """All values greater than or equal the given value."""
-  content_gte: String
-
-  """All values containing the given string."""
-  content_contains: String
-
-  """All values not containing the given string."""
-  content_not_contains: String
-
-  """All values starting with the given string."""
-  content_starts_with: String
-
-  """All values not starting with the given string."""
-  content_not_starts_with: String
-
-  """All values ending with the given string."""
-  content_ends_with: String
-
-  """All values not ending with the given string."""
-  content_not_ends_with: String
-  createdAt: DateTime
-
-  """All values that are not equal to given value."""
-  createdAt_not: DateTime
-
-  """All values that are contained in given list."""
-  createdAt_in: [DateTime!]
-
-  """All values that are not contained in given list."""
-  createdAt_not_in: [DateTime!]
-
-  """All values less than the given value."""
-  createdAt_lt: DateTime
-
-  """All values less than or equal the given value."""
-  createdAt_lte: DateTime
-
-  """All values greater than the given value."""
-  createdAt_gt: DateTime
-
-  """All values greater than or equal the given value."""
-  createdAt_gte: DateTime
-  updatedAt: DateTime
-
-  """All values that are not equal to given value."""
-  updatedAt_not: DateTime
-
-  """All values that are contained in given list."""
-  updatedAt_in: [DateTime!]
-
-  """All values that are not contained in given list."""
-  updatedAt_not_in: [DateTime!]
-
-  """All values less than the given value."""
-  updatedAt_lt: DateTime
-
-  """All values less than or equal the given value."""
-  updatedAt_lte: DateTime
-
-  """All values greater than the given value."""
-  updatedAt_gt: DateTime
-
-  """All values greater than or equal the given value."""
-  updatedAt_gte: DateTime
-}
-
-type PostSubscriptionPayload {
-  mutation: MutationType!
-  node: Post
-  updatedFields: [String!]
-  previousValues: PostPreviousValues
-}
-
-input PostSubscriptionWhereInput {
-  """Logical AND on all given filters."""
-  AND: [PostSubscriptionWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [PostSubscriptionWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [PostSubscriptionWhereInput!]
-
-  """The subscription event gets dispatched when it's listed in mutation_in"""
-  mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
-  updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
-  updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
-  updatedFields_contains_some: [String!]
-  node: PostWhereInput
-}
-
-input PostUpdateInput {
-  content: String
-  author: UserUpdateOneRequiredWithoutPostsInput
-}
-
-input PostUpdateManyDataInput {
-  content: String
-}
-
-input PostUpdateManyMutationInput {
-  content: String
-}
-
-input PostUpdateManyWithoutAuthorInput {
-  create: [PostCreateWithoutAuthorInput!]
-  connect: [PostWhereUniqueInput!]
-  set: [PostWhereUniqueInput!]
-  disconnect: [PostWhereUniqueInput!]
-  delete: [PostWhereUniqueInput!]
-  update: [PostUpdateWithWhereUniqueWithoutAuthorInput!]
-  updateMany: [PostUpdateManyWithWhereNestedInput!]
-  deleteMany: [PostScalarWhereInput!]
-  upsert: [PostUpsertWithWhereUniqueWithoutAuthorInput!]
-}
-
-input PostUpdateManyWithWhereNestedInput {
-  where: PostScalarWhereInput!
-  data: PostUpdateManyDataInput!
-}
-
-input PostUpdateWithoutAuthorDataInput {
-  content: String
-}
-
-input PostUpdateWithWhereUniqueWithoutAuthorInput {
-  where: PostWhereUniqueInput!
-  data: PostUpdateWithoutAuthorDataInput!
-}
-
-input PostUpsertWithWhereUniqueWithoutAuthorInput {
-  where: PostWhereUniqueInput!
-  update: PostUpdateWithoutAuthorDataInput!
-  create: PostCreateWithoutAuthorInput!
-}
-
-input PostWhereInput {
-  """Logical AND on all given filters."""
-  AND: [PostWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [PostWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [PostWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  content: String
-
-  """All values that are not equal to given value."""
-  content_not: String
-
-  """All values that are contained in given list."""
-  content_in: [String!]
-
-  """All values that are not contained in given list."""
-  content_not_in: [String!]
-
-  """All values less than the given value."""
-  content_lt: String
-
-  """All values less than or equal the given value."""
-  content_lte: String
-
-  """All values greater than the given value."""
-  content_gt: String
-
-  """All values greater than or equal the given value."""
-  content_gte: String
-
-  """All values containing the given string."""
-  content_contains: String
-
-  """All values not containing the given string."""
-  content_not_contains: String
-
-  """All values starting with the given string."""
-  content_starts_with: String
-
-  """All values not starting with the given string."""
-  content_not_starts_with: String
-
-  """All values ending with the given string."""
-  content_ends_with: String
-
-  """All values not ending with the given string."""
-  content_not_ends_with: String
-  createdAt: DateTime
-
-  """All values that are not equal to given value."""
-  createdAt_not: DateTime
-
-  """All values that are contained in given list."""
-  createdAt_in: [DateTime!]
-
-  """All values that are not contained in given list."""
-  createdAt_not_in: [DateTime!]
-
-  """All values less than the given value."""
-  createdAt_lt: DateTime
-
-  """All values less than or equal the given value."""
-  createdAt_lte: DateTime
-
-  """All values greater than the given value."""
-  createdAt_gt: DateTime
-
-  """All values greater than or equal the given value."""
-  createdAt_gte: DateTime
-  updatedAt: DateTime
-
-  """All values that are not equal to given value."""
-  updatedAt_not: DateTime
-
-  """All values that are contained in given list."""
-  updatedAt_in: [DateTime!]
-
-  """All values that are not contained in given list."""
-  updatedAt_not_in: [DateTime!]
-
-  """All values less than the given value."""
-  updatedAt_lt: DateTime
-
-  """All values less than or equal the given value."""
-  updatedAt_lte: DateTime
-
-  """All values greater than the given value."""
-  updatedAt_gt: DateTime
-
-  """All values greater than or equal the given value."""
-  updatedAt_gte: DateTime
-  author: UserWhereInput
-}
-
-input PostWhereUniqueInput {
-  id: ID
-}
-
-enum PrismaDatabase {
-  default
-}
-
 type Query {
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post]!
+  blacklist(where: BlacklistWhereUniqueInput!): Blacklist
+  blacklists(where: BlacklistWhereInput, orderBy: BlacklistOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Blacklist]!
+  blacklistsConnection(where: BlacklistWhereInput, orderBy: BlacklistOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BlacklistConnection!
+  greeting(where: GreetingWhereUniqueInput!): Greeting
+  greetings(where: GreetingWhereInput, orderBy: GreetingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Greeting]!
+  greetingsConnection(where: GreetingWhereInput, orderBy: GreetingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GreetingConnection!
+  group(where: GroupWhereUniqueInput!): Group
+  groups(where: GroupWhereInput, orderBy: GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Group]!
+  groupsConnection(where: GroupWhereInput, orderBy: GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GroupConnection!
   user(where: UserWhereUniqueInput!): User
-  post(where: PostWhereUniqueInput!): Post
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
-  postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
-
-  """Fetches an object given its ID"""
-  node(
-    """The ID of an object"""
-    id: ID!
-  ): Node
-}
-
-enum Role {
-  USER
-  ADMIN
+  userGroup(where: User_GroupWhereUniqueInput!): User_Group
+  userGroups(where: User_GroupWhereInput, orderBy: User_GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User_Group]!
+  userGroupsConnection(where: User_GroupWhereInput, orderBy: User_GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): User_GroupConnection!
+  node(id: ID!): Node
 }
 
 type Subscription {
+  blacklist(where: BlacklistSubscriptionWhereInput): BlacklistSubscriptionPayload
+  greeting(where: GreetingSubscriptionWhereInput): GreetingSubscriptionPayload
+  group(where: GroupSubscriptionWhereInput): GroupSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
-  post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
+  userGroup(where: User_GroupSubscriptionWhereInput): User_GroupSubscriptionPayload
 }
 
-type User implements Node {
-  id: ID!
-  name: String!
-  email: String!
-  password: String!
-  role: Role
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
+type User {
+  id: Int!
+  email: String
+  roles: Json
+  password: String
+  firstname: String
+  lastname: String
+  is_verified: Boolean
+  is_ban: Boolean
+  token: String
+  create_at: DateTime
 }
 
-"""A connection to a list of items."""
-type UserConnection {
-  """Information to aid in pagination."""
+type User_Group {
+  id: Int!
+}
+
+type User_GroupConnection {
   pageInfo: PageInfo!
+  edges: [User_GroupEdge]!
+  aggregate: AggregateUser_Group!
+}
 
-  """A list of edges."""
+input User_GroupCreateInput {
+  id: Int
+}
+
+type User_GroupEdge {
+  node: User_Group!
+  cursor: String!
+}
+
+enum User_GroupOrderByInput {
+  id_ASC
+  id_DESC
+}
+
+type User_GroupPreviousValues {
+  id: Int!
+}
+
+type User_GroupSubscriptionPayload {
+  mutation: MutationType!
+  node: User_Group
+  updatedFields: [String!]
+  previousValues: User_GroupPreviousValues
+}
+
+input User_GroupSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: User_GroupWhereInput
+  AND: [User_GroupSubscriptionWhereInput!]
+  OR: [User_GroupSubscriptionWhereInput!]
+  NOT: [User_GroupSubscriptionWhereInput!]
+}
+
+input User_GroupWhereInput {
+  id: Int
+  id_not: Int
+  id_in: [Int!]
+  id_not_in: [Int!]
+  id_lt: Int
+  id_lte: Int
+  id_gt: Int
+  id_gte: Int
+  AND: [User_GroupWhereInput!]
+  OR: [User_GroupWhereInput!]
+  NOT: [User_GroupWhereInput!]
+}
+
+input User_GroupWhereUniqueInput {
+  id: Int
+}
+
+type UserConnection {
+  pageInfo: PageInfo!
   edges: [UserEdge]!
   aggregate: AggregateUser!
 }
 
 input UserCreateInput {
-  id: ID
-  name: String!
-  email: String!
-  password: String!
-  role: Role
-  posts: PostCreateManyWithoutAuthorInput
+  id: Int
+  email: String
+  roles: Json
+  password: String
+  firstname: String
+  lastname: String
+  is_verified: Boolean
+  is_ban: Boolean
+  token: String
+  create_at: DateTime
 }
 
-input UserCreateOneWithoutPostsInput {
-  create: UserCreateWithoutPostsInput
-  connect: UserWhereUniqueInput
-}
-
-input UserCreateWithoutPostsInput {
-  id: ID
-  name: String!
-  email: String!
-  password: String!
-  role: Role
-}
-
-"""An edge in a connection."""
 type UserEdge {
-  """The item at the end of the edge."""
   node: User!
-
-  """A cursor for use in pagination."""
   cursor: String!
 }
 
 enum UserOrderByInput {
   id_ASC
   id_DESC
-  name_ASC
-  name_DESC
   email_ASC
   email_DESC
+  roles_ASC
+  roles_DESC
   password_ASC
   password_DESC
-  role_ASC
-  role_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
+  firstname_ASC
+  firstname_DESC
+  lastname_ASC
+  lastname_DESC
+  is_verified_ASC
+  is_verified_DESC
+  is_ban_ASC
+  is_ban_DESC
+  token_ASC
+  token_DESC
+  create_at_ASC
+  create_at_DESC
 }
 
 type UserPreviousValues {
-  id: ID!
-  name: String!
-  email: String!
-  password: String!
-  role: Role
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  id: Int!
+  email: String
+  roles: Json
+  password: String
+  firstname: String
+  lastname: String
+  is_verified: Boolean
+  is_ban: Boolean
+  token: String
+  create_at: DateTime
 }
 
 type UserSubscriptionPayload {
@@ -602,298 +601,137 @@ type UserSubscriptionPayload {
 }
 
 input UserSubscriptionWhereInput {
-  """Logical AND on all given filters."""
-  AND: [UserSubscriptionWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [UserSubscriptionWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [UserSubscriptionWhereInput!]
-
-  """The subscription event gets dispatched when it's listed in mutation_in"""
   mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
   updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
   updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
   updatedFields_contains_some: [String!]
   node: UserWhereInput
+  AND: [UserSubscriptionWhereInput!]
+  OR: [UserSubscriptionWhereInput!]
+  NOT: [UserSubscriptionWhereInput!]
 }
 
 input UserUpdateInput {
-  name: String
   email: String
+  roles: Json
   password: String
-  role: Role
-  posts: PostUpdateManyWithoutAuthorInput
+  firstname: String
+  lastname: String
+  is_verified: Boolean
+  is_ban: Boolean
+  token: String
+  create_at: DateTime
 }
 
 input UserUpdateManyMutationInput {
-  name: String
   email: String
+  roles: Json
   password: String
-  role: Role
-}
-
-input UserUpdateOneRequiredWithoutPostsInput {
-  create: UserCreateWithoutPostsInput
-  connect: UserWhereUniqueInput
-  update: UserUpdateWithoutPostsDataInput
-  upsert: UserUpsertWithoutPostsInput
-}
-
-input UserUpdateWithoutPostsDataInput {
-  name: String
-  email: String
-  password: String
-  role: Role
-}
-
-input UserUpsertWithoutPostsInput {
-  update: UserUpdateWithoutPostsDataInput!
-  create: UserCreateWithoutPostsInput!
+  firstname: String
+  lastname: String
+  is_verified: Boolean
+  is_ban: Boolean
+  token: String
+  create_at: DateTime
 }
 
 input UserWhereInput {
-  """Logical AND on all given filters."""
-  AND: [UserWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [UserWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [UserWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  name: String
-
-  """All values that are not equal to given value."""
-  name_not: String
-
-  """All values that are contained in given list."""
-  name_in: [String!]
-
-  """All values that are not contained in given list."""
-  name_not_in: [String!]
-
-  """All values less than the given value."""
-  name_lt: String
-
-  """All values less than or equal the given value."""
-  name_lte: String
-
-  """All values greater than the given value."""
-  name_gt: String
-
-  """All values greater than or equal the given value."""
-  name_gte: String
-
-  """All values containing the given string."""
-  name_contains: String
-
-  """All values not containing the given string."""
-  name_not_contains: String
-
-  """All values starting with the given string."""
-  name_starts_with: String
-
-  """All values not starting with the given string."""
-  name_not_starts_with: String
-
-  """All values ending with the given string."""
-  name_ends_with: String
-
-  """All values not ending with the given string."""
-  name_not_ends_with: String
+  id: Int
+  id_not: Int
+  id_in: [Int!]
+  id_not_in: [Int!]
+  id_lt: Int
+  id_lte: Int
+  id_gt: Int
+  id_gte: Int
   email: String
-
-  """All values that are not equal to given value."""
   email_not: String
-
-  """All values that are contained in given list."""
   email_in: [String!]
-
-  """All values that are not contained in given list."""
   email_not_in: [String!]
-
-  """All values less than the given value."""
   email_lt: String
-
-  """All values less than or equal the given value."""
   email_lte: String
-
-  """All values greater than the given value."""
   email_gt: String
-
-  """All values greater than or equal the given value."""
   email_gte: String
-
-  """All values containing the given string."""
   email_contains: String
-
-  """All values not containing the given string."""
   email_not_contains: String
-
-  """All values starting with the given string."""
   email_starts_with: String
-
-  """All values not starting with the given string."""
   email_not_starts_with: String
-
-  """All values ending with the given string."""
   email_ends_with: String
-
-  """All values not ending with the given string."""
   email_not_ends_with: String
   password: String
-
-  """All values that are not equal to given value."""
   password_not: String
-
-  """All values that are contained in given list."""
   password_in: [String!]
-
-  """All values that are not contained in given list."""
   password_not_in: [String!]
-
-  """All values less than the given value."""
   password_lt: String
-
-  """All values less than or equal the given value."""
   password_lte: String
-
-  """All values greater than the given value."""
   password_gt: String
-
-  """All values greater than or equal the given value."""
   password_gte: String
-
-  """All values containing the given string."""
   password_contains: String
-
-  """All values not containing the given string."""
   password_not_contains: String
-
-  """All values starting with the given string."""
   password_starts_with: String
-
-  """All values not starting with the given string."""
   password_not_starts_with: String
-
-  """All values ending with the given string."""
   password_ends_with: String
-
-  """All values not ending with the given string."""
   password_not_ends_with: String
-  role: Role
-
-  """All values that are not equal to given value."""
-  role_not: Role
-
-  """All values that are contained in given list."""
-  role_in: [Role!]
-
-  """All values that are not contained in given list."""
-  role_not_in: [Role!]
-  createdAt: DateTime
-
-  """All values that are not equal to given value."""
-  createdAt_not: DateTime
-
-  """All values that are contained in given list."""
-  createdAt_in: [DateTime!]
-
-  """All values that are not contained in given list."""
-  createdAt_not_in: [DateTime!]
-
-  """All values less than the given value."""
-  createdAt_lt: DateTime
-
-  """All values less than or equal the given value."""
-  createdAt_lte: DateTime
-
-  """All values greater than the given value."""
-  createdAt_gt: DateTime
-
-  """All values greater than or equal the given value."""
-  createdAt_gte: DateTime
-  updatedAt: DateTime
-
-  """All values that are not equal to given value."""
-  updatedAt_not: DateTime
-
-  """All values that are contained in given list."""
-  updatedAt_in: [DateTime!]
-
-  """All values that are not contained in given list."""
-  updatedAt_not_in: [DateTime!]
-
-  """All values less than the given value."""
-  updatedAt_lt: DateTime
-
-  """All values less than or equal the given value."""
-  updatedAt_lte: DateTime
-
-  """All values greater than the given value."""
-  updatedAt_gt: DateTime
-
-  """All values greater than or equal the given value."""
-  updatedAt_gte: DateTime
-  posts_every: PostWhereInput
-  posts_some: PostWhereInput
-  posts_none: PostWhereInput
+  firstname: String
+  firstname_not: String
+  firstname_in: [String!]
+  firstname_not_in: [String!]
+  firstname_lt: String
+  firstname_lte: String
+  firstname_gt: String
+  firstname_gte: String
+  firstname_contains: String
+  firstname_not_contains: String
+  firstname_starts_with: String
+  firstname_not_starts_with: String
+  firstname_ends_with: String
+  firstname_not_ends_with: String
+  lastname: String
+  lastname_not: String
+  lastname_in: [String!]
+  lastname_not_in: [String!]
+  lastname_lt: String
+  lastname_lte: String
+  lastname_gt: String
+  lastname_gte: String
+  lastname_contains: String
+  lastname_not_contains: String
+  lastname_starts_with: String
+  lastname_not_starts_with: String
+  lastname_ends_with: String
+  lastname_not_ends_with: String
+  is_verified: Boolean
+  is_verified_not: Boolean
+  is_ban: Boolean
+  is_ban_not: Boolean
+  token: String
+  token_not: String
+  token_in: [String!]
+  token_not_in: [String!]
+  token_lt: String
+  token_lte: String
+  token_gt: String
+  token_gte: String
+  token_contains: String
+  token_not_contains: String
+  token_starts_with: String
+  token_not_starts_with: String
+  token_ends_with: String
+  token_not_ends_with: String
+  create_at: DateTime
+  create_at_not: DateTime
+  create_at_in: [DateTime!]
+  create_at_not_in: [DateTime!]
+  create_at_lt: DateTime
+  create_at_lte: DateTime
+  create_at_gt: DateTime
+  create_at_gte: DateTime
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
 }
 
 input UserWhereUniqueInput {
-  id: ID
+  id: Int
   email: String
 }
