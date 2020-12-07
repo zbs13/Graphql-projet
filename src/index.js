@@ -17,5 +17,5 @@ const server = new GraphQLServer({
 })
 
 server.start(
-    () => console.log(`GraphQL server is running on http://localhost:4000`)
+    () => console.log("GraphQL server is running on " + process.env.URL_DB_PRISMA)
 )
