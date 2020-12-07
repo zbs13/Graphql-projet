@@ -49,6 +49,7 @@ model user {
 enum Role {
   USER
   ADMIN
+  TEST
 }
 
 model user_group {
