@@ -1,20 +1,33 @@
 {
-  "name": "prisma_course",
+  "name": "graphql-projet",
   "version": "1.0.0",
-  "description": "",
+  "description": "graphql projet",
   "main": "index.js",
   "scripts": {
     "start": "nodemon -e js,graphql src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "RobinTHOREL",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasestrade/Graphql-projet.git"
+  },
+  "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lucasestrade/Graphql-projet/issues"
+  },
+  "prisma.schema": "./datamodel.prisma",
+  "homepage": "https://github.com/lucasestrade/Graphql-projet#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "@prisma/client": "^2.12.1",
     "dotenv": "^8.2.0",
-    "graphql-yoga": "^1.18.3",
     "jsonwebtoken": "^8.5.1",
+    "graphql-yoga": "^1.18.3",
     "nodemon": "^2.0.4",
     "prisma-binding": "^2.3.16"
+  },
+  "devDependencies": {
+    "@prisma/cli": "^2.12.1"
   }
 }

@@ -1,5 +1,23 @@
 version: '3'
 services:
+  postgres:
+    image: postgres
+    restart: always
+    # Uncomment the next two lines to connect to your your database from outside the Docker environment, e.g. using a database GUI like Postico
+    ports:
+     - "5432:5432"
+    environment:
+      POSTGRES_USER: prisma
+      POSTGRES_PASSWORD: prisma
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
   prisma:
     image: prismagraphql/prisma:1.34
     restart: always
@@ -19,16 +37,6 @@ services:
             rawAccess: true
             port: 5432
             migrations: true
-  postgres:
-    image: postgres
-    restart: always
-    # Uncomment the next two lines to connect to your your database from outside the Docker environment, e.g. using a database GUI like Postico
-    # ports:
-    # - "5432:5432"
-    environment:
-      POSTGRES_USER: prisma
-      POSTGRES_PASSWORD: prisma
-    volumes:
-      - postgres:/var/lib/postgresql/data
+  
 volumes:
   postgres:
