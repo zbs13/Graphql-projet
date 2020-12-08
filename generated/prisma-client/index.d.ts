@@ -17,10 +17,10 @@ export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
   blacklist: (where?: BlacklistWhereInput) => Promise<boolean>;
-  greeting: (where?: GreetingWhereInput) => Promise<boolean>;
   group: (where?: GroupWhereInput) => Promise<boolean>;
+  right: (where?: RightWhereInput) => Promise<boolean>;
+  role: (where?: RoleWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
-  user_Group: (where?: User_GroupWhereInput) => Promise<boolean>;
 }
 
 export interface Node {}
@@ -61,25 +61,6 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => BlacklistConnectionPromise;
-  greeting: (where: GreetingWhereUniqueInput) => GreetingNullablePromise;
-  greetings: (args?: {
-    where?: GreetingWhereInput;
-    orderBy?: GreetingOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => FragmentableArray<Greeting>;
-  greetingsConnection: (args?: {
-    where?: GreetingWhereInput;
-    orderBy?: GreetingOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => GreetingConnectionPromise;
   group: (where: GroupWhereUniqueInput) => GroupNullablePromise;
   groups: (args?: {
     where?: GroupWhereInput;
@@ -99,6 +80,44 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => GroupConnectionPromise;
+  right: (where: RightWhereUniqueInput) => RightNullablePromise;
+  rights: (args?: {
+    where?: RightWhereInput;
+    orderBy?: RightOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Right>;
+  rightsConnection: (args?: {
+    where?: RightWhereInput;
+    orderBy?: RightOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => RightConnectionPromise;
+  role: (where: RoleWhereUniqueInput) => RoleNullablePromise;
+  roles: (args?: {
+    where?: RoleWhereInput;
+    orderBy?: RoleOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Role>;
+  rolesConnection: (args?: {
+    where?: RoleWhereInput;
+    orderBy?: RoleOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => RoleConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -118,25 +137,6 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => UserConnectionPromise;
-  userGroup: (where: User_GroupWhereUniqueInput) => User_GroupNullablePromise;
-  userGroups: (args?: {
-    where?: User_GroupWhereInput;
-    orderBy?: User_GroupOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => FragmentableArray<User_Group>;
-  userGroupsConnection: (args?: {
-    where?: User_GroupWhereInput;
-    orderBy?: User_GroupOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => User_GroupConnectionPromise;
   node: (args: { id: ID_Output }) => Node;
 
   /**
@@ -159,22 +159,6 @@ export interface Prisma {
   }) => BlacklistPromise;
   deleteBlacklist: (where: BlacklistWhereUniqueInput) => BlacklistPromise;
   deleteManyBlacklists: (where?: BlacklistWhereInput) => BatchPayloadPromise;
-  createGreeting: (data: GreetingCreateInput) => GreetingPromise;
-  updateGreeting: (args: {
-    data: GreetingUpdateInput;
-    where: GreetingWhereUniqueInput;
-  }) => GreetingPromise;
-  updateManyGreetings: (args: {
-    data: GreetingUpdateManyMutationInput;
-    where?: GreetingWhereInput;
-  }) => BatchPayloadPromise;
-  upsertGreeting: (args: {
-    where: GreetingWhereUniqueInput;
-    create: GreetingCreateInput;
-    update: GreetingUpdateInput;
-  }) => GreetingPromise;
-  deleteGreeting: (where: GreetingWhereUniqueInput) => GreetingPromise;
-  deleteManyGreetings: (where?: GreetingWhereInput) => BatchPayloadPromise;
   createGroup: (data: GroupCreateInput) => GroupPromise;
   updateGroup: (args: {
     data: GroupUpdateInput;
@@ -191,6 +175,38 @@ export interface Prisma {
   }) => GroupPromise;
   deleteGroup: (where: GroupWhereUniqueInput) => GroupPromise;
   deleteManyGroups: (where?: GroupWhereInput) => BatchPayloadPromise;
+  createRight: (data: RightCreateInput) => RightPromise;
+  updateRight: (args: {
+    data: RightUpdateInput;
+    where: RightWhereUniqueInput;
+  }) => RightPromise;
+  updateManyRights: (args: {
+    data: RightUpdateManyMutationInput;
+    where?: RightWhereInput;
+  }) => BatchPayloadPromise;
+  upsertRight: (args: {
+    where: RightWhereUniqueInput;
+    create: RightCreateInput;
+    update: RightUpdateInput;
+  }) => RightPromise;
+  deleteRight: (where: RightWhereUniqueInput) => RightPromise;
+  deleteManyRights: (where?: RightWhereInput) => BatchPayloadPromise;
+  createRole: (data: RoleCreateInput) => RolePromise;
+  updateRole: (args: {
+    data: RoleUpdateInput;
+    where: RoleWhereUniqueInput;
+  }) => RolePromise;
+  updateManyRoles: (args: {
+    data: RoleUpdateManyMutationInput;
+    where?: RoleWhereInput;
+  }) => BatchPayloadPromise;
+  upsertRole: (args: {
+    where: RoleWhereUniqueInput;
+    create: RoleCreateInput;
+    update: RoleUpdateInput;
+  }) => RolePromise;
+  deleteRole: (where: RoleWhereUniqueInput) => RolePromise;
+  deleteManyRoles: (where?: RoleWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -207,9 +223,6 @@ export interface Prisma {
   }) => UserPromise;
   deleteUser: (where: UserWhereUniqueInput) => UserPromise;
   deleteManyUsers: (where?: UserWhereInput) => BatchPayloadPromise;
-  createUser_Group: (data: User_GroupCreateInput) => User_GroupPromise;
-  deleteUser_Group: (where: User_GroupWhereUniqueInput) => User_GroupPromise;
-  deleteManyUser_Groups: (where?: User_GroupWhereInput) => BatchPayloadPromise;
 
   /**
    * Subscriptions
@@ -222,18 +235,18 @@ export interface Subscription {
   blacklist: (
     where?: BlacklistSubscriptionWhereInput
   ) => BlacklistSubscriptionPayloadSubscription;
-  greeting: (
-    where?: GreetingSubscriptionWhereInput
-  ) => GreetingSubscriptionPayloadSubscription;
   group: (
     where?: GroupSubscriptionWhereInput
   ) => GroupSubscriptionPayloadSubscription;
+  right: (
+    where?: RightSubscriptionWhereInput
+  ) => RightSubscriptionPayloadSubscription;
+  role: (
+    where?: RoleSubscriptionWhereInput
+  ) => RoleSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
-  userGroup: (
-    where?: User_GroupSubscriptionWhereInput
-  ) => User_GroupSubscriptionPayloadSubscription;
 }
 
 export interface ClientConstructor<T> {
@@ -250,41 +263,27 @@ export type BlacklistOrderByInput =
   | "ip_ASC"
   | "ip_DESC"
   | "end_time_ASC"
-  | "end_time_DESC"
-  | "tries_ASC"
-  | "tries_DESC";
+  | "end_time_DESC";
 
-export type GreetingOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "name_ASC"
-  | "name_DESC";
+export type GroupOrderByInput = "id_ASC" | "id_DESC" | "name_ASC" | "name_DESC";
 
-export type GroupOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "owner_id_ASC"
-  | "owner_id_DESC"
-  | "name_ASC"
-  | "name_DESC"
-  | "create_at_ASC"
-  | "create_at_DESC"
-  | "tchat_jwt_ASC"
-  | "tchat_jwt_DESC";
+export type RoleOrderByInput = "id_ASC" | "id_DESC" | "name_ASC" | "name_DESC";
+
+export type RightOrderByInput = "id_ASC" | "id_DESC" | "name_ASC" | "name_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "email_ASC"
-  | "email_DESC"
-  | "roles_ASC"
-  | "roles_DESC"
-  | "password_ASC"
-  | "password_DESC"
   | "firstname_ASC"
   | "firstname_DESC"
   | "lastname_ASC"
   | "lastname_DESC"
+  | "email_ASC"
+  | "email_DESC"
+  | "password_ASC"
+  | "password_DESC"
+  | "phone_ASC"
+  | "phone_DESC"
   | "is_verified_ASC"
   | "is_verified_DESC"
   | "is_ban_ASC"
@@ -294,23 +293,27 @@ export type UserOrderByInput =
   | "create_at_ASC"
   | "create_at_DESC";
 
-export type User_GroupOrderByInput = "id_ASC" | "id_DESC";
-
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
 export type BlacklistWhereUniqueInput = AtLeastOne<{
-  id: Maybe<Int>;
+  id: Maybe<ID_Input>;
 }>;
 
 export interface BlacklistWhereInput {
-  id?: Maybe<Int>;
-  id_not?: Maybe<Int>;
-  id_in?: Maybe<Int[] | Int>;
-  id_not_in?: Maybe<Int[] | Int>;
-  id_lt?: Maybe<Int>;
-  id_lte?: Maybe<Int>;
-  id_gt?: Maybe<Int>;
-  id_gte?: Maybe<Int>;
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
   ip?: Maybe<String>;
   ip_not?: Maybe<String>;
   ip_in?: Maybe<String[] | String>;
@@ -333,72 +336,31 @@ export interface BlacklistWhereInput {
   end_time_lte?: Maybe<DateTimeInput>;
   end_time_gt?: Maybe<DateTimeInput>;
   end_time_gte?: Maybe<DateTimeInput>;
-  tries?: Maybe<Int>;
-  tries_not?: Maybe<Int>;
-  tries_in?: Maybe<Int[] | Int>;
-  tries_not_in?: Maybe<Int[] | Int>;
-  tries_lt?: Maybe<Int>;
-  tries_lte?: Maybe<Int>;
-  tries_gt?: Maybe<Int>;
-  tries_gte?: Maybe<Int>;
   AND?: Maybe<BlacklistWhereInput[] | BlacklistWhereInput>;
   OR?: Maybe<BlacklistWhereInput[] | BlacklistWhereInput>;
   NOT?: Maybe<BlacklistWhereInput[] | BlacklistWhereInput>;
 }
 
-export type GreetingWhereUniqueInput = AtLeastOne<{
-  id: Maybe<Int>;
-}>;
-
-export interface GreetingWhereInput {
-  id?: Maybe<Int>;
-  id_not?: Maybe<Int>;
-  id_in?: Maybe<Int[] | Int>;
-  id_not_in?: Maybe<Int[] | Int>;
-  id_lt?: Maybe<Int>;
-  id_lte?: Maybe<Int>;
-  id_gt?: Maybe<Int>;
-  id_gte?: Maybe<Int>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  AND?: Maybe<GreetingWhereInput[] | GreetingWhereInput>;
-  OR?: Maybe<GreetingWhereInput[] | GreetingWhereInput>;
-  NOT?: Maybe<GreetingWhereInput[] | GreetingWhereInput>;
-}
-
 export type GroupWhereUniqueInput = AtLeastOne<{
-  id: Maybe<Int>;
+  id: Maybe<ID_Input>;
 }>;
 
 export interface GroupWhereInput {
-  id?: Maybe<Int>;
-  id_not?: Maybe<Int>;
-  id_in?: Maybe<Int[] | Int>;
-  id_not_in?: Maybe<Int[] | Int>;
-  id_lt?: Maybe<Int>;
-  id_lte?: Maybe<Int>;
-  id_gt?: Maybe<Int>;
-  id_gte?: Maybe<Int>;
-  owner_id?: Maybe<Int>;
-  owner_id_not?: Maybe<Int>;
-  owner_id_in?: Maybe<Int[] | Int>;
-  owner_id_not_in?: Maybe<Int[] | Int>;
-  owner_id_lt?: Maybe<Int>;
-  owner_id_lte?: Maybe<Int>;
-  owner_id_gt?: Maybe<Int>;
-  owner_id_gte?: Maybe<Int>;
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  owner?: Maybe<UserWhereInput>;
   name?: Maybe<String>;
   name_not?: Maybe<String>;
   name_in?: Maybe<String[] | String>;
@@ -413,75 +375,29 @@ export interface GroupWhereInput {
   name_not_starts_with?: Maybe<String>;
   name_ends_with?: Maybe<String>;
   name_not_ends_with?: Maybe<String>;
-  create_at?: Maybe<DateTimeInput>;
-  create_at_not?: Maybe<DateTimeInput>;
-  create_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  create_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  create_at_lt?: Maybe<DateTimeInput>;
-  create_at_lte?: Maybe<DateTimeInput>;
-  create_at_gt?: Maybe<DateTimeInput>;
-  create_at_gte?: Maybe<DateTimeInput>;
-  tchat_jwt?: Maybe<String>;
-  tchat_jwt_not?: Maybe<String>;
-  tchat_jwt_in?: Maybe<String[] | String>;
-  tchat_jwt_not_in?: Maybe<String[] | String>;
-  tchat_jwt_lt?: Maybe<String>;
-  tchat_jwt_lte?: Maybe<String>;
-  tchat_jwt_gt?: Maybe<String>;
-  tchat_jwt_gte?: Maybe<String>;
-  tchat_jwt_contains?: Maybe<String>;
-  tchat_jwt_not_contains?: Maybe<String>;
-  tchat_jwt_starts_with?: Maybe<String>;
-  tchat_jwt_not_starts_with?: Maybe<String>;
-  tchat_jwt_ends_with?: Maybe<String>;
-  tchat_jwt_not_ends_with?: Maybe<String>;
+  users_every?: Maybe<UserWhereInput>;
+  users_some?: Maybe<UserWhereInput>;
+  users_none?: Maybe<UserWhereInput>;
   AND?: Maybe<GroupWhereInput[] | GroupWhereInput>;
   OR?: Maybe<GroupWhereInput[] | GroupWhereInput>;
   NOT?: Maybe<GroupWhereInput[] | GroupWhereInput>;
 }
 
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: Maybe<Int>;
-  email?: Maybe<String>;
-}>;
-
 export interface UserWhereInput {
-  id?: Maybe<Int>;
-  id_not?: Maybe<Int>;
-  id_in?: Maybe<Int[] | Int>;
-  id_not_in?: Maybe<Int[] | Int>;
-  id_lt?: Maybe<Int>;
-  id_lte?: Maybe<Int>;
-  id_gt?: Maybe<Int>;
-  id_gte?: Maybe<Int>;
-  email?: Maybe<String>;
-  email_not?: Maybe<String>;
-  email_in?: Maybe<String[] | String>;
-  email_not_in?: Maybe<String[] | String>;
-  email_lt?: Maybe<String>;
-  email_lte?: Maybe<String>;
-  email_gt?: Maybe<String>;
-  email_gte?: Maybe<String>;
-  email_contains?: Maybe<String>;
-  email_not_contains?: Maybe<String>;
-  email_starts_with?: Maybe<String>;
-  email_not_starts_with?: Maybe<String>;
-  email_ends_with?: Maybe<String>;
-  email_not_ends_with?: Maybe<String>;
-  password?: Maybe<String>;
-  password_not?: Maybe<String>;
-  password_in?: Maybe<String[] | String>;
-  password_not_in?: Maybe<String[] | String>;
-  password_lt?: Maybe<String>;
-  password_lte?: Maybe<String>;
-  password_gt?: Maybe<String>;
-  password_gte?: Maybe<String>;
-  password_contains?: Maybe<String>;
-  password_not_contains?: Maybe<String>;
-  password_starts_with?: Maybe<String>;
-  password_not_starts_with?: Maybe<String>;
-  password_ends_with?: Maybe<String>;
-  password_not_ends_with?: Maybe<String>;
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
   firstname?: Maybe<String>;
   firstname_not?: Maybe<String>;
   firstname_in?: Maybe<String[] | String>;
@@ -510,6 +426,48 @@ export interface UserWhereInput {
   lastname_not_starts_with?: Maybe<String>;
   lastname_ends_with?: Maybe<String>;
   lastname_not_ends_with?: Maybe<String>;
+  email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
+  password?: Maybe<String>;
+  password_not?: Maybe<String>;
+  password_in?: Maybe<String[] | String>;
+  password_not_in?: Maybe<String[] | String>;
+  password_lt?: Maybe<String>;
+  password_lte?: Maybe<String>;
+  password_gt?: Maybe<String>;
+  password_gte?: Maybe<String>;
+  password_contains?: Maybe<String>;
+  password_not_contains?: Maybe<String>;
+  password_starts_with?: Maybe<String>;
+  password_not_starts_with?: Maybe<String>;
+  password_ends_with?: Maybe<String>;
+  password_not_ends_with?: Maybe<String>;
+  phone?: Maybe<String>;
+  phone_not?: Maybe<String>;
+  phone_in?: Maybe<String[] | String>;
+  phone_not_in?: Maybe<String[] | String>;
+  phone_lt?: Maybe<String>;
+  phone_lte?: Maybe<String>;
+  phone_gt?: Maybe<String>;
+  phone_gte?: Maybe<String>;
+  phone_contains?: Maybe<String>;
+  phone_not_contains?: Maybe<String>;
+  phone_starts_with?: Maybe<String>;
+  phone_not_starts_with?: Maybe<String>;
+  phone_ends_with?: Maybe<String>;
+  phone_not_ends_with?: Maybe<String>;
   is_verified?: Maybe<Boolean>;
   is_verified_not?: Maybe<Boolean>;
   is_ban?: Maybe<Boolean>;
@@ -536,122 +494,775 @@ export interface UserWhereInput {
   create_at_lte?: Maybe<DateTimeInput>;
   create_at_gt?: Maybe<DateTimeInput>;
   create_at_gte?: Maybe<DateTimeInput>;
+  groups_every?: Maybe<GroupWhereInput>;
+  groups_some?: Maybe<GroupWhereInput>;
+  groups_none?: Maybe<GroupWhereInput>;
+  groupsOwner_every?: Maybe<GroupWhereInput>;
+  groupsOwner_some?: Maybe<GroupWhereInput>;
+  groupsOwner_none?: Maybe<GroupWhereInput>;
+  roles_every?: Maybe<RoleWhereInput>;
+  roles_some?: Maybe<RoleWhereInput>;
+  roles_none?: Maybe<RoleWhereInput>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
-export type User_GroupWhereUniqueInput = AtLeastOne<{
-  id: Maybe<Int>;
-}>;
-
-export interface User_GroupWhereInput {
-  id?: Maybe<Int>;
-  id_not?: Maybe<Int>;
-  id_in?: Maybe<Int[] | Int>;
-  id_not_in?: Maybe<Int[] | Int>;
-  id_lt?: Maybe<Int>;
-  id_lte?: Maybe<Int>;
-  id_gt?: Maybe<Int>;
-  id_gte?: Maybe<Int>;
-  AND?: Maybe<User_GroupWhereInput[] | User_GroupWhereInput>;
-  OR?: Maybe<User_GroupWhereInput[] | User_GroupWhereInput>;
-  NOT?: Maybe<User_GroupWhereInput[] | User_GroupWhereInput>;
+export interface RoleWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  rights_every?: Maybe<RightWhereInput>;
+  rights_some?: Maybe<RightWhereInput>;
+  rights_none?: Maybe<RightWhereInput>;
+  group?: Maybe<GroupWhereInput>;
+  AND?: Maybe<RoleWhereInput[] | RoleWhereInput>;
+  OR?: Maybe<RoleWhereInput[] | RoleWhereInput>;
+  NOT?: Maybe<RoleWhereInput[] | RoleWhereInput>;
 }
 
+export interface RightWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  AND?: Maybe<RightWhereInput[] | RightWhereInput>;
+  OR?: Maybe<RightWhereInput[] | RightWhereInput>;
+  NOT?: Maybe<RightWhereInput[] | RightWhereInput>;
+}
+
+export type RightWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export type RoleWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  email?: Maybe<String>;
+}>;
+
 export interface BlacklistCreateInput {
-  id?: Maybe<Int>;
+  id?: Maybe<ID_Input>;
   ip?: Maybe<String>;
   end_time?: Maybe<DateTimeInput>;
-  tries?: Maybe<Int>;
 }
 
 export interface BlacklistUpdateInput {
   ip?: Maybe<String>;
   end_time?: Maybe<DateTimeInput>;
-  tries?: Maybe<Int>;
 }
 
 export interface BlacklistUpdateManyMutationInput {
   ip?: Maybe<String>;
   end_time?: Maybe<DateTimeInput>;
-  tries?: Maybe<Int>;
-}
-
-export interface GreetingCreateInput {
-  id?: Maybe<Int>;
-  name?: Maybe<String>;
-}
-
-export interface GreetingUpdateInput {
-  name?: Maybe<String>;
-}
-
-export interface GreetingUpdateManyMutationInput {
-  name?: Maybe<String>;
 }
 
 export interface GroupCreateInput {
-  id?: Maybe<Int>;
-  owner_id?: Maybe<Int>;
-  name?: Maybe<String>;
-  create_at?: Maybe<DateTimeInput>;
-  tchat_jwt?: Maybe<String>;
+  id?: Maybe<ID_Input>;
+  owner: UserCreateOneWithoutGroupsOwnerInput;
+  name: String;
+  users?: Maybe<UserCreateManyWithoutGroupsInput>;
+}
+
+export interface UserCreateOneWithoutGroupsOwnerInput {
+  create?: Maybe<UserCreateWithoutGroupsOwnerInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutGroupsOwnerInput {
+  id?: Maybe<ID_Input>;
+  firstname?: Maybe<String>;
+  lastname?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  phone?: Maybe<String>;
+  is_verified?: Maybe<Boolean>;
+  is_ban?: Maybe<Boolean>;
+  token?: Maybe<String>;
+  groups?: Maybe<GroupCreateManyWithoutUsersInput>;
+  roles?: Maybe<RoleCreateManyInput>;
+}
+
+export interface GroupCreateManyWithoutUsersInput {
+  create?: Maybe<GroupCreateWithoutUsersInput[] | GroupCreateWithoutUsersInput>;
+  connect?: Maybe<GroupWhereUniqueInput[] | GroupWhereUniqueInput>;
+}
+
+export interface GroupCreateWithoutUsersInput {
+  id?: Maybe<ID_Input>;
+  owner: UserCreateOneWithoutGroupsOwnerInput;
+  name: String;
+}
+
+export interface RoleCreateManyInput {
+  create?: Maybe<RoleCreateInput[] | RoleCreateInput>;
+  connect?: Maybe<RoleWhereUniqueInput[] | RoleWhereUniqueInput>;
+}
+
+export interface RoleCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  rights?: Maybe<RightCreateManyInput>;
+  group?: Maybe<GroupCreateOneInput>;
+}
+
+export interface RightCreateManyInput {
+  create?: Maybe<RightCreateInput[] | RightCreateInput>;
+  connect?: Maybe<RightWhereUniqueInput[] | RightWhereUniqueInput>;
+}
+
+export interface RightCreateInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+}
+
+export interface GroupCreateOneInput {
+  create?: Maybe<GroupCreateInput>;
+  connect?: Maybe<GroupWhereUniqueInput>;
+}
+
+export interface UserCreateManyWithoutGroupsInput {
+  create?: Maybe<UserCreateWithoutGroupsInput[] | UserCreateWithoutGroupsInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutGroupsInput {
+  id?: Maybe<ID_Input>;
+  firstname?: Maybe<String>;
+  lastname?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  phone?: Maybe<String>;
+  is_verified?: Maybe<Boolean>;
+  is_ban?: Maybe<Boolean>;
+  token?: Maybe<String>;
+  groupsOwner?: Maybe<GroupCreateManyWithoutOwnerInput>;
+  roles?: Maybe<RoleCreateManyInput>;
+}
+
+export interface GroupCreateManyWithoutOwnerInput {
+  create?: Maybe<GroupCreateWithoutOwnerInput[] | GroupCreateWithoutOwnerInput>;
+  connect?: Maybe<GroupWhereUniqueInput[] | GroupWhereUniqueInput>;
+}
+
+export interface GroupCreateWithoutOwnerInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  users?: Maybe<UserCreateManyWithoutGroupsInput>;
 }
 
 export interface GroupUpdateInput {
-  owner_id?: Maybe<Int>;
+  owner?: Maybe<UserUpdateOneRequiredWithoutGroupsOwnerInput>;
   name?: Maybe<String>;
+  users?: Maybe<UserUpdateManyWithoutGroupsInput>;
+}
+
+export interface UserUpdateOneRequiredWithoutGroupsOwnerInput {
+  create?: Maybe<UserCreateWithoutGroupsOwnerInput>;
+  update?: Maybe<UserUpdateWithoutGroupsOwnerDataInput>;
+  upsert?: Maybe<UserUpsertWithoutGroupsOwnerInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutGroupsOwnerDataInput {
+  firstname?: Maybe<String>;
+  lastname?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  phone?: Maybe<String>;
+  is_verified?: Maybe<Boolean>;
+  is_ban?: Maybe<Boolean>;
+  token?: Maybe<String>;
+  groups?: Maybe<GroupUpdateManyWithoutUsersInput>;
+  roles?: Maybe<RoleUpdateManyInput>;
+}
+
+export interface GroupUpdateManyWithoutUsersInput {
+  create?: Maybe<GroupCreateWithoutUsersInput[] | GroupCreateWithoutUsersInput>;
+  delete?: Maybe<GroupWhereUniqueInput[] | GroupWhereUniqueInput>;
+  connect?: Maybe<GroupWhereUniqueInput[] | GroupWhereUniqueInput>;
+  set?: Maybe<GroupWhereUniqueInput[] | GroupWhereUniqueInput>;
+  disconnect?: Maybe<GroupWhereUniqueInput[] | GroupWhereUniqueInput>;
+  update?: Maybe<
+    | GroupUpdateWithWhereUniqueWithoutUsersInput[]
+    | GroupUpdateWithWhereUniqueWithoutUsersInput
+  >;
+  upsert?: Maybe<
+    | GroupUpsertWithWhereUniqueWithoutUsersInput[]
+    | GroupUpsertWithWhereUniqueWithoutUsersInput
+  >;
+  deleteMany?: Maybe<GroupScalarWhereInput[] | GroupScalarWhereInput>;
+  updateMany?: Maybe<
+    GroupUpdateManyWithWhereNestedInput[] | GroupUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface GroupUpdateWithWhereUniqueWithoutUsersInput {
+  where: GroupWhereUniqueInput;
+  data: GroupUpdateWithoutUsersDataInput;
+}
+
+export interface GroupUpdateWithoutUsersDataInput {
+  owner?: Maybe<UserUpdateOneRequiredWithoutGroupsOwnerInput>;
+  name?: Maybe<String>;
+}
+
+export interface GroupUpsertWithWhereUniqueWithoutUsersInput {
+  where: GroupWhereUniqueInput;
+  update: GroupUpdateWithoutUsersDataInput;
+  create: GroupCreateWithoutUsersInput;
+}
+
+export interface GroupScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  AND?: Maybe<GroupScalarWhereInput[] | GroupScalarWhereInput>;
+  OR?: Maybe<GroupScalarWhereInput[] | GroupScalarWhereInput>;
+  NOT?: Maybe<GroupScalarWhereInput[] | GroupScalarWhereInput>;
+}
+
+export interface GroupUpdateManyWithWhereNestedInput {
+  where: GroupScalarWhereInput;
+  data: GroupUpdateManyDataInput;
+}
+
+export interface GroupUpdateManyDataInput {
+  name?: Maybe<String>;
+}
+
+export interface RoleUpdateManyInput {
+  create?: Maybe<RoleCreateInput[] | RoleCreateInput>;
+  update?: Maybe<
+    | RoleUpdateWithWhereUniqueNestedInput[]
+    | RoleUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    | RoleUpsertWithWhereUniqueNestedInput[]
+    | RoleUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<RoleWhereUniqueInput[] | RoleWhereUniqueInput>;
+  connect?: Maybe<RoleWhereUniqueInput[] | RoleWhereUniqueInput>;
+  set?: Maybe<RoleWhereUniqueInput[] | RoleWhereUniqueInput>;
+  disconnect?: Maybe<RoleWhereUniqueInput[] | RoleWhereUniqueInput>;
+  deleteMany?: Maybe<RoleScalarWhereInput[] | RoleScalarWhereInput>;
+  updateMany?: Maybe<
+    RoleUpdateManyWithWhereNestedInput[] | RoleUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface RoleUpdateWithWhereUniqueNestedInput {
+  where: RoleWhereUniqueInput;
+  data: RoleUpdateDataInput;
+}
+
+export interface RoleUpdateDataInput {
+  name?: Maybe<String>;
+  rights?: Maybe<RightUpdateManyInput>;
+  group?: Maybe<GroupUpdateOneInput>;
+}
+
+export interface RightUpdateManyInput {
+  create?: Maybe<RightCreateInput[] | RightCreateInput>;
+  update?: Maybe<
+    | RightUpdateWithWhereUniqueNestedInput[]
+    | RightUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    | RightUpsertWithWhereUniqueNestedInput[]
+    | RightUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<RightWhereUniqueInput[] | RightWhereUniqueInput>;
+  connect?: Maybe<RightWhereUniqueInput[] | RightWhereUniqueInput>;
+  set?: Maybe<RightWhereUniqueInput[] | RightWhereUniqueInput>;
+  disconnect?: Maybe<RightWhereUniqueInput[] | RightWhereUniqueInput>;
+  deleteMany?: Maybe<RightScalarWhereInput[] | RightScalarWhereInput>;
+  updateMany?: Maybe<
+    RightUpdateManyWithWhereNestedInput[] | RightUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface RightUpdateWithWhereUniqueNestedInput {
+  where: RightWhereUniqueInput;
+  data: RightUpdateDataInput;
+}
+
+export interface RightUpdateDataInput {
+  name?: Maybe<String>;
+}
+
+export interface RightUpsertWithWhereUniqueNestedInput {
+  where: RightWhereUniqueInput;
+  update: RightUpdateDataInput;
+  create: RightCreateInput;
+}
+
+export interface RightScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  AND?: Maybe<RightScalarWhereInput[] | RightScalarWhereInput>;
+  OR?: Maybe<RightScalarWhereInput[] | RightScalarWhereInput>;
+  NOT?: Maybe<RightScalarWhereInput[] | RightScalarWhereInput>;
+}
+
+export interface RightUpdateManyWithWhereNestedInput {
+  where: RightScalarWhereInput;
+  data: RightUpdateManyDataInput;
+}
+
+export interface RightUpdateManyDataInput {
+  name?: Maybe<String>;
+}
+
+export interface GroupUpdateOneInput {
+  create?: Maybe<GroupCreateInput>;
+  update?: Maybe<GroupUpdateDataInput>;
+  upsert?: Maybe<GroupUpsertNestedInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<GroupWhereUniqueInput>;
+}
+
+export interface GroupUpdateDataInput {
+  owner?: Maybe<UserUpdateOneRequiredWithoutGroupsOwnerInput>;
+  name?: Maybe<String>;
+  users?: Maybe<UserUpdateManyWithoutGroupsInput>;
+}
+
+export interface UserUpdateManyWithoutGroupsInput {
+  create?: Maybe<UserCreateWithoutGroupsInput[] | UserCreateWithoutGroupsInput>;
+  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  update?: Maybe<
+    | UserUpdateWithWhereUniqueWithoutGroupsInput[]
+    | UserUpdateWithWhereUniqueWithoutGroupsInput
+  >;
+  upsert?: Maybe<
+    | UserUpsertWithWhereUniqueWithoutGroupsInput[]
+    | UserUpsertWithWhereUniqueWithoutGroupsInput
+  >;
+  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  updateMany?: Maybe<
+    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface UserUpdateWithWhereUniqueWithoutGroupsInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateWithoutGroupsDataInput;
+}
+
+export interface UserUpdateWithoutGroupsDataInput {
+  firstname?: Maybe<String>;
+  lastname?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  phone?: Maybe<String>;
+  is_verified?: Maybe<Boolean>;
+  is_ban?: Maybe<Boolean>;
+  token?: Maybe<String>;
+  groupsOwner?: Maybe<GroupUpdateManyWithoutOwnerInput>;
+  roles?: Maybe<RoleUpdateManyInput>;
+}
+
+export interface GroupUpdateManyWithoutOwnerInput {
+  create?: Maybe<GroupCreateWithoutOwnerInput[] | GroupCreateWithoutOwnerInput>;
+  delete?: Maybe<GroupWhereUniqueInput[] | GroupWhereUniqueInput>;
+  connect?: Maybe<GroupWhereUniqueInput[] | GroupWhereUniqueInput>;
+  set?: Maybe<GroupWhereUniqueInput[] | GroupWhereUniqueInput>;
+  disconnect?: Maybe<GroupWhereUniqueInput[] | GroupWhereUniqueInput>;
+  update?: Maybe<
+    | GroupUpdateWithWhereUniqueWithoutOwnerInput[]
+    | GroupUpdateWithWhereUniqueWithoutOwnerInput
+  >;
+  upsert?: Maybe<
+    | GroupUpsertWithWhereUniqueWithoutOwnerInput[]
+    | GroupUpsertWithWhereUniqueWithoutOwnerInput
+  >;
+  deleteMany?: Maybe<GroupScalarWhereInput[] | GroupScalarWhereInput>;
+  updateMany?: Maybe<
+    GroupUpdateManyWithWhereNestedInput[] | GroupUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface GroupUpdateWithWhereUniqueWithoutOwnerInput {
+  where: GroupWhereUniqueInput;
+  data: GroupUpdateWithoutOwnerDataInput;
+}
+
+export interface GroupUpdateWithoutOwnerDataInput {
+  name?: Maybe<String>;
+  users?: Maybe<UserUpdateManyWithoutGroupsInput>;
+}
+
+export interface GroupUpsertWithWhereUniqueWithoutOwnerInput {
+  where: GroupWhereUniqueInput;
+  update: GroupUpdateWithoutOwnerDataInput;
+  create: GroupCreateWithoutOwnerInput;
+}
+
+export interface UserUpsertWithWhereUniqueWithoutGroupsInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateWithoutGroupsDataInput;
+  create: UserCreateWithoutGroupsInput;
+}
+
+export interface UserScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  firstname?: Maybe<String>;
+  firstname_not?: Maybe<String>;
+  firstname_in?: Maybe<String[] | String>;
+  firstname_not_in?: Maybe<String[] | String>;
+  firstname_lt?: Maybe<String>;
+  firstname_lte?: Maybe<String>;
+  firstname_gt?: Maybe<String>;
+  firstname_gte?: Maybe<String>;
+  firstname_contains?: Maybe<String>;
+  firstname_not_contains?: Maybe<String>;
+  firstname_starts_with?: Maybe<String>;
+  firstname_not_starts_with?: Maybe<String>;
+  firstname_ends_with?: Maybe<String>;
+  firstname_not_ends_with?: Maybe<String>;
+  lastname?: Maybe<String>;
+  lastname_not?: Maybe<String>;
+  lastname_in?: Maybe<String[] | String>;
+  lastname_not_in?: Maybe<String[] | String>;
+  lastname_lt?: Maybe<String>;
+  lastname_lte?: Maybe<String>;
+  lastname_gt?: Maybe<String>;
+  lastname_gte?: Maybe<String>;
+  lastname_contains?: Maybe<String>;
+  lastname_not_contains?: Maybe<String>;
+  lastname_starts_with?: Maybe<String>;
+  lastname_not_starts_with?: Maybe<String>;
+  lastname_ends_with?: Maybe<String>;
+  lastname_not_ends_with?: Maybe<String>;
+  email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
+  password?: Maybe<String>;
+  password_not?: Maybe<String>;
+  password_in?: Maybe<String[] | String>;
+  password_not_in?: Maybe<String[] | String>;
+  password_lt?: Maybe<String>;
+  password_lte?: Maybe<String>;
+  password_gt?: Maybe<String>;
+  password_gte?: Maybe<String>;
+  password_contains?: Maybe<String>;
+  password_not_contains?: Maybe<String>;
+  password_starts_with?: Maybe<String>;
+  password_not_starts_with?: Maybe<String>;
+  password_ends_with?: Maybe<String>;
+  password_not_ends_with?: Maybe<String>;
+  phone?: Maybe<String>;
+  phone_not?: Maybe<String>;
+  phone_in?: Maybe<String[] | String>;
+  phone_not_in?: Maybe<String[] | String>;
+  phone_lt?: Maybe<String>;
+  phone_lte?: Maybe<String>;
+  phone_gt?: Maybe<String>;
+  phone_gte?: Maybe<String>;
+  phone_contains?: Maybe<String>;
+  phone_not_contains?: Maybe<String>;
+  phone_starts_with?: Maybe<String>;
+  phone_not_starts_with?: Maybe<String>;
+  phone_ends_with?: Maybe<String>;
+  phone_not_ends_with?: Maybe<String>;
+  is_verified?: Maybe<Boolean>;
+  is_verified_not?: Maybe<Boolean>;
+  is_ban?: Maybe<Boolean>;
+  is_ban_not?: Maybe<Boolean>;
+  token?: Maybe<String>;
+  token_not?: Maybe<String>;
+  token_in?: Maybe<String[] | String>;
+  token_not_in?: Maybe<String[] | String>;
+  token_lt?: Maybe<String>;
+  token_lte?: Maybe<String>;
+  token_gt?: Maybe<String>;
+  token_gte?: Maybe<String>;
+  token_contains?: Maybe<String>;
+  token_not_contains?: Maybe<String>;
+  token_starts_with?: Maybe<String>;
+  token_not_starts_with?: Maybe<String>;
+  token_ends_with?: Maybe<String>;
+  token_not_ends_with?: Maybe<String>;
   create_at?: Maybe<DateTimeInput>;
-  tchat_jwt?: Maybe<String>;
+  create_at_not?: Maybe<DateTimeInput>;
+  create_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  create_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  create_at_lt?: Maybe<DateTimeInput>;
+  create_at_lte?: Maybe<DateTimeInput>;
+  create_at_gt?: Maybe<DateTimeInput>;
+  create_at_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  OR?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+}
+
+export interface UserUpdateManyWithWhereNestedInput {
+  where: UserScalarWhereInput;
+  data: UserUpdateManyDataInput;
+}
+
+export interface UserUpdateManyDataInput {
+  firstname?: Maybe<String>;
+  lastname?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  phone?: Maybe<String>;
+  is_verified?: Maybe<Boolean>;
+  is_ban?: Maybe<Boolean>;
+  token?: Maybe<String>;
+}
+
+export interface GroupUpsertNestedInput {
+  update: GroupUpdateDataInput;
+  create: GroupCreateInput;
+}
+
+export interface RoleUpsertWithWhereUniqueNestedInput {
+  where: RoleWhereUniqueInput;
+  update: RoleUpdateDataInput;
+  create: RoleCreateInput;
+}
+
+export interface RoleScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  AND?: Maybe<RoleScalarWhereInput[] | RoleScalarWhereInput>;
+  OR?: Maybe<RoleScalarWhereInput[] | RoleScalarWhereInput>;
+  NOT?: Maybe<RoleScalarWhereInput[] | RoleScalarWhereInput>;
+}
+
+export interface RoleUpdateManyWithWhereNestedInput {
+  where: RoleScalarWhereInput;
+  data: RoleUpdateManyDataInput;
+}
+
+export interface RoleUpdateManyDataInput {
+  name?: Maybe<String>;
+}
+
+export interface UserUpsertWithoutGroupsOwnerInput {
+  update: UserUpdateWithoutGroupsOwnerDataInput;
+  create: UserCreateWithoutGroupsOwnerInput;
 }
 
 export interface GroupUpdateManyMutationInput {
-  owner_id?: Maybe<Int>;
   name?: Maybe<String>;
-  create_at?: Maybe<DateTimeInput>;
-  tchat_jwt?: Maybe<String>;
+}
+
+export interface RightUpdateInput {
+  name?: Maybe<String>;
+}
+
+export interface RightUpdateManyMutationInput {
+  name?: Maybe<String>;
+}
+
+export interface RoleUpdateInput {
+  name?: Maybe<String>;
+  rights?: Maybe<RightUpdateManyInput>;
+  group?: Maybe<GroupUpdateOneInput>;
+}
+
+export interface RoleUpdateManyMutationInput {
+  name?: Maybe<String>;
 }
 
 export interface UserCreateInput {
-  id?: Maybe<Int>;
-  email?: Maybe<String>;
-  roles?: Maybe<Json>;
-  password?: Maybe<String>;
+  id?: Maybe<ID_Input>;
   firstname?: Maybe<String>;
   lastname?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  phone?: Maybe<String>;
   is_verified?: Maybe<Boolean>;
   is_ban?: Maybe<Boolean>;
   token?: Maybe<String>;
-  create_at?: Maybe<DateTimeInput>;
+  groups?: Maybe<GroupCreateManyWithoutUsersInput>;
+  groupsOwner?: Maybe<GroupCreateManyWithoutOwnerInput>;
+  roles?: Maybe<RoleCreateManyInput>;
 }
 
 export interface UserUpdateInput {
-  email?: Maybe<String>;
-  roles?: Maybe<Json>;
-  password?: Maybe<String>;
   firstname?: Maybe<String>;
   lastname?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  phone?: Maybe<String>;
   is_verified?: Maybe<Boolean>;
   is_ban?: Maybe<Boolean>;
   token?: Maybe<String>;
-  create_at?: Maybe<DateTimeInput>;
+  groups?: Maybe<GroupUpdateManyWithoutUsersInput>;
+  groupsOwner?: Maybe<GroupUpdateManyWithoutOwnerInput>;
+  roles?: Maybe<RoleUpdateManyInput>;
 }
 
 export interface UserUpdateManyMutationInput {
-  email?: Maybe<String>;
-  roles?: Maybe<Json>;
-  password?: Maybe<String>;
   firstname?: Maybe<String>;
   lastname?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  phone?: Maybe<String>;
   is_verified?: Maybe<Boolean>;
   is_ban?: Maybe<Boolean>;
   token?: Maybe<String>;
-  create_at?: Maybe<DateTimeInput>;
-}
-
-export interface User_GroupCreateInput {
-  id?: Maybe<Int>;
 }
 
 export interface BlacklistSubscriptionWhereInput {
@@ -671,21 +1282,6 @@ export interface BlacklistSubscriptionWhereInput {
   >;
 }
 
-export interface GreetingSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<GreetingWhereInput>;
-  AND?: Maybe<
-    GreetingSubscriptionWhereInput[] | GreetingSubscriptionWhereInput
-  >;
-  OR?: Maybe<GreetingSubscriptionWhereInput[] | GreetingSubscriptionWhereInput>;
-  NOT?: Maybe<
-    GreetingSubscriptionWhereInput[] | GreetingSubscriptionWhereInput
-  >;
-}
-
 export interface GroupSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
@@ -695,6 +1291,28 @@ export interface GroupSubscriptionWhereInput {
   AND?: Maybe<GroupSubscriptionWhereInput[] | GroupSubscriptionWhereInput>;
   OR?: Maybe<GroupSubscriptionWhereInput[] | GroupSubscriptionWhereInput>;
   NOT?: Maybe<GroupSubscriptionWhereInput[] | GroupSubscriptionWhereInput>;
+}
+
+export interface RightSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<RightWhereInput>;
+  AND?: Maybe<RightSubscriptionWhereInput[] | RightSubscriptionWhereInput>;
+  OR?: Maybe<RightSubscriptionWhereInput[] | RightSubscriptionWhereInput>;
+  NOT?: Maybe<RightSubscriptionWhereInput[] | RightSubscriptionWhereInput>;
+}
+
+export interface RoleSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<RoleWhereInput>;
+  AND?: Maybe<RoleSubscriptionWhereInput[] | RoleSubscriptionWhereInput>;
+  OR?: Maybe<RoleSubscriptionWhereInput[] | RoleSubscriptionWhereInput>;
+  NOT?: Maybe<RoleSubscriptionWhereInput[] | RoleSubscriptionWhereInput>;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -708,57 +1326,36 @@ export interface UserSubscriptionWhereInput {
   NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
 }
 
-export interface User_GroupSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<User_GroupWhereInput>;
-  AND?: Maybe<
-    User_GroupSubscriptionWhereInput[] | User_GroupSubscriptionWhereInput
-  >;
-  OR?: Maybe<
-    User_GroupSubscriptionWhereInput[] | User_GroupSubscriptionWhereInput
-  >;
-  NOT?: Maybe<
-    User_GroupSubscriptionWhereInput[] | User_GroupSubscriptionWhereInput
-  >;
-}
-
 export interface NodeNode {
   id: ID_Output;
 }
 
 export interface Blacklist {
-  id: Int;
+  id: ID_Output;
   ip?: String;
   end_time?: DateTimeOutput;
-  tries?: Int;
 }
 
 export interface BlacklistPromise extends Promise<Blacklist>, Fragmentable {
-  id: () => Promise<Int>;
+  id: () => Promise<ID_Output>;
   ip: () => Promise<String>;
   end_time: () => Promise<DateTimeOutput>;
-  tries: () => Promise<Int>;
 }
 
 export interface BlacklistSubscription
   extends Promise<AsyncIterator<Blacklist>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<Int>>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
   ip: () => Promise<AsyncIterator<String>>;
   end_time: () => Promise<AsyncIterator<DateTimeOutput>>;
-  tries: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface BlacklistNullablePromise
   extends Promise<Blacklist | null>,
     Fragmentable {
-  id: () => Promise<Int>;
+  id: () => Promise<ID_Output>;
   ip: () => Promise<String>;
   end_time: () => Promise<DateTimeOutput>;
-  tries: () => Promise<Int>;
 }
 
 export interface BlacklistConnection {
@@ -840,120 +1437,273 @@ export interface AggregateBlacklistSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface Greeting {
-  id: Int;
-  name?: String;
-}
-
-export interface GreetingPromise extends Promise<Greeting>, Fragmentable {
-  id: () => Promise<Int>;
-  name: () => Promise<String>;
-}
-
-export interface GreetingSubscription
-  extends Promise<AsyncIterator<Greeting>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<Int>>;
-  name: () => Promise<AsyncIterator<String>>;
-}
-
-export interface GreetingNullablePromise
-  extends Promise<Greeting | null>,
-    Fragmentable {
-  id: () => Promise<Int>;
-  name: () => Promise<String>;
-}
-
-export interface GreetingConnection {
-  pageInfo: PageInfo;
-  edges: GreetingEdge[];
-}
-
-export interface GreetingConnectionPromise
-  extends Promise<GreetingConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<GreetingEdge>>() => T;
-  aggregate: <T = AggregateGreetingPromise>() => T;
-}
-
-export interface GreetingConnectionSubscription
-  extends Promise<AsyncIterator<GreetingConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<GreetingEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateGreetingSubscription>() => T;
-}
-
-export interface GreetingEdge {
-  node: Greeting;
-  cursor: String;
-}
-
-export interface GreetingEdgePromise
-  extends Promise<GreetingEdge>,
-    Fragmentable {
-  node: <T = GreetingPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface GreetingEdgeSubscription
-  extends Promise<AsyncIterator<GreetingEdge>>,
-    Fragmentable {
-  node: <T = GreetingSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateGreeting {
-  count: Int;
-}
-
-export interface AggregateGreetingPromise
-  extends Promise<AggregateGreeting>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateGreetingSubscription
-  extends Promise<AsyncIterator<AggregateGreeting>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
 export interface Group {
-  id: Int;
-  owner_id?: Int;
-  name?: String;
-  create_at?: DateTimeOutput;
-  tchat_jwt?: String;
+  id: ID_Output;
+  name: String;
 }
 
 export interface GroupPromise extends Promise<Group>, Fragmentable {
-  id: () => Promise<Int>;
-  owner_id: () => Promise<Int>;
+  id: () => Promise<ID_Output>;
+  owner: <T = UserPromise>() => T;
   name: () => Promise<String>;
-  create_at: () => Promise<DateTimeOutput>;
-  tchat_jwt: () => Promise<String>;
+  users: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface GroupSubscription
   extends Promise<AsyncIterator<Group>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<Int>>;
-  owner_id: () => Promise<AsyncIterator<Int>>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  owner: <T = UserSubscription>() => T;
   name: () => Promise<AsyncIterator<String>>;
-  create_at: () => Promise<AsyncIterator<DateTimeOutput>>;
-  tchat_jwt: () => Promise<AsyncIterator<String>>;
+  users: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface GroupNullablePromise
   extends Promise<Group | null>,
     Fragmentable {
-  id: () => Promise<Int>;
-  owner_id: () => Promise<Int>;
+  id: () => Promise<ID_Output>;
+  owner: <T = UserPromise>() => T;
   name: () => Promise<String>;
+  users: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface User {
+  id: ID_Output;
+  firstname?: String;
+  lastname?: String;
+  email?: String;
+  password?: String;
+  phone?: String;
+  is_verified?: Boolean;
+  is_ban?: Boolean;
+  token?: String;
+  create_at?: DateTimeOutput;
+}
+
+export interface UserPromise extends Promise<User>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  firstname: () => Promise<String>;
+  lastname: () => Promise<String>;
+  email: () => Promise<String>;
+  password: () => Promise<String>;
+  phone: () => Promise<String>;
+  is_verified: () => Promise<Boolean>;
+  is_ban: () => Promise<Boolean>;
+  token: () => Promise<String>;
   create_at: () => Promise<DateTimeOutput>;
-  tchat_jwt: () => Promise<String>;
+  groups: <T = FragmentableArray<Group>>(args?: {
+    where?: GroupWhereInput;
+    orderBy?: GroupOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  groupsOwner: <T = FragmentableArray<Group>>(args?: {
+    where?: GroupWhereInput;
+    orderBy?: GroupOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  roles: <T = FragmentableArray<Role>>(args?: {
+    where?: RoleWhereInput;
+    orderBy?: RoleOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  firstname: () => Promise<AsyncIterator<String>>;
+  lastname: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+  phone: () => Promise<AsyncIterator<String>>;
+  is_verified: () => Promise<AsyncIterator<Boolean>>;
+  is_ban: () => Promise<AsyncIterator<Boolean>>;
+  token: () => Promise<AsyncIterator<String>>;
+  create_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+  groups: <T = Promise<AsyncIterator<GroupSubscription>>>(args?: {
+    where?: GroupWhereInput;
+    orderBy?: GroupOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  groupsOwner: <T = Promise<AsyncIterator<GroupSubscription>>>(args?: {
+    where?: GroupWhereInput;
+    orderBy?: GroupOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  roles: <T = Promise<AsyncIterator<RoleSubscription>>>(args?: {
+    where?: RoleWhereInput;
+    orderBy?: RoleOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface UserNullablePromise
+  extends Promise<User | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  firstname: () => Promise<String>;
+  lastname: () => Promise<String>;
+  email: () => Promise<String>;
+  password: () => Promise<String>;
+  phone: () => Promise<String>;
+  is_verified: () => Promise<Boolean>;
+  is_ban: () => Promise<Boolean>;
+  token: () => Promise<String>;
+  create_at: () => Promise<DateTimeOutput>;
+  groups: <T = FragmentableArray<Group>>(args?: {
+    where?: GroupWhereInput;
+    orderBy?: GroupOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  groupsOwner: <T = FragmentableArray<Group>>(args?: {
+    where?: GroupWhereInput;
+    orderBy?: GroupOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  roles: <T = FragmentableArray<Role>>(args?: {
+    where?: RoleWhereInput;
+    orderBy?: RoleOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface Role {
+  id: ID_Output;
+  name: String;
+}
+
+export interface RolePromise extends Promise<Role>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  rights: <T = FragmentableArray<Right>>(args?: {
+    where?: RightWhereInput;
+    orderBy?: RightOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  group: <T = GroupPromise>() => T;
+}
+
+export interface RoleSubscription
+  extends Promise<AsyncIterator<Role>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  rights: <T = Promise<AsyncIterator<RightSubscription>>>(args?: {
+    where?: RightWhereInput;
+    orderBy?: RightOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  group: <T = GroupSubscription>() => T;
+}
+
+export interface RoleNullablePromise
+  extends Promise<Role | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  rights: <T = FragmentableArray<Right>>(args?: {
+    where?: RightWhereInput;
+    orderBy?: RightOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  group: <T = GroupPromise>() => T;
+}
+
+export interface Right {
+  id: ID_Output;
+  name: String;
+}
+
+export interface RightPromise extends Promise<Right>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+}
+
+export interface RightSubscription
+  extends Promise<AsyncIterator<Right>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+}
+
+export interface RightNullablePromise
+  extends Promise<Right | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
 }
 
 export interface GroupConnection {
@@ -1010,60 +1760,112 @@ export interface AggregateGroupSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface User {
-  id: Int;
-  email?: String;
-  roles?: Json;
-  password?: String;
-  firstname?: String;
-  lastname?: String;
-  is_verified?: Boolean;
-  is_ban?: Boolean;
-  token?: String;
-  create_at?: DateTimeOutput;
+export interface RightConnection {
+  pageInfo: PageInfo;
+  edges: RightEdge[];
 }
 
-export interface UserPromise extends Promise<User>, Fragmentable {
-  id: () => Promise<Int>;
-  email: () => Promise<String>;
-  roles: () => Promise<Json>;
-  password: () => Promise<String>;
-  firstname: () => Promise<String>;
-  lastname: () => Promise<String>;
-  is_verified: () => Promise<Boolean>;
-  is_ban: () => Promise<Boolean>;
-  token: () => Promise<String>;
-  create_at: () => Promise<DateTimeOutput>;
-}
-
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
+export interface RightConnectionPromise
+  extends Promise<RightConnection>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<Int>>;
-  email: () => Promise<AsyncIterator<String>>;
-  roles: () => Promise<AsyncIterator<Json>>;
-  password: () => Promise<AsyncIterator<String>>;
-  firstname: () => Promise<AsyncIterator<String>>;
-  lastname: () => Promise<AsyncIterator<String>>;
-  is_verified: () => Promise<AsyncIterator<Boolean>>;
-  is_ban: () => Promise<AsyncIterator<Boolean>>;
-  token: () => Promise<AsyncIterator<String>>;
-  create_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<RightEdge>>() => T;
+  aggregate: <T = AggregateRightPromise>() => T;
 }
 
-export interface UserNullablePromise
-  extends Promise<User | null>,
+export interface RightConnectionSubscription
+  extends Promise<AsyncIterator<RightConnection>>,
     Fragmentable {
-  id: () => Promise<Int>;
-  email: () => Promise<String>;
-  roles: () => Promise<Json>;
-  password: () => Promise<String>;
-  firstname: () => Promise<String>;
-  lastname: () => Promise<String>;
-  is_verified: () => Promise<Boolean>;
-  is_ban: () => Promise<Boolean>;
-  token: () => Promise<String>;
-  create_at: () => Promise<DateTimeOutput>;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<RightEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateRightSubscription>() => T;
+}
+
+export interface RightEdge {
+  node: Right;
+  cursor: String;
+}
+
+export interface RightEdgePromise extends Promise<RightEdge>, Fragmentable {
+  node: <T = RightPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface RightEdgeSubscription
+  extends Promise<AsyncIterator<RightEdge>>,
+    Fragmentable {
+  node: <T = RightSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateRight {
+  count: Int;
+}
+
+export interface AggregateRightPromise
+  extends Promise<AggregateRight>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateRightSubscription
+  extends Promise<AsyncIterator<AggregateRight>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface RoleConnection {
+  pageInfo: PageInfo;
+  edges: RoleEdge[];
+}
+
+export interface RoleConnectionPromise
+  extends Promise<RoleConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<RoleEdge>>() => T;
+  aggregate: <T = AggregateRolePromise>() => T;
+}
+
+export interface RoleConnectionSubscription
+  extends Promise<AsyncIterator<RoleConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<RoleEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateRoleSubscription>() => T;
+}
+
+export interface RoleEdge {
+  node: Role;
+  cursor: String;
+}
+
+export interface RoleEdgePromise extends Promise<RoleEdge>, Fragmentable {
+  node: <T = RolePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface RoleEdgeSubscription
+  extends Promise<AsyncIterator<RoleEdge>>,
+    Fragmentable {
+  node: <T = RoleSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateRole {
+  count: Int;
+}
+
+export interface AggregateRolePromise
+  extends Promise<AggregateRole>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateRoleSubscription
+  extends Promise<AsyncIterator<AggregateRole>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface UserConnection {
@@ -1120,82 +1922,6 @@ export interface AggregateUserSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface User_Group {
-  id: Int;
-}
-
-export interface User_GroupPromise extends Promise<User_Group>, Fragmentable {
-  id: () => Promise<Int>;
-}
-
-export interface User_GroupSubscription
-  extends Promise<AsyncIterator<User_Group>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface User_GroupNullablePromise
-  extends Promise<User_Group | null>,
-    Fragmentable {
-  id: () => Promise<Int>;
-}
-
-export interface User_GroupConnection {
-  pageInfo: PageInfo;
-  edges: User_GroupEdge[];
-}
-
-export interface User_GroupConnectionPromise
-  extends Promise<User_GroupConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<User_GroupEdge>>() => T;
-  aggregate: <T = AggregateUser_GroupPromise>() => T;
-}
-
-export interface User_GroupConnectionSubscription
-  extends Promise<AsyncIterator<User_GroupConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<User_GroupEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUser_GroupSubscription>() => T;
-}
-
-export interface User_GroupEdge {
-  node: User_Group;
-  cursor: String;
-}
-
-export interface User_GroupEdgePromise
-  extends Promise<User_GroupEdge>,
-    Fragmentable {
-  node: <T = User_GroupPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface User_GroupEdgeSubscription
-  extends Promise<AsyncIterator<User_GroupEdge>>,
-    Fragmentable {
-  node: <T = User_GroupSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface AggregateUser_Group {
-  count: Int;
-}
-
-export interface AggregateUser_GroupPromise
-  extends Promise<AggregateUser_Group>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateUser_GroupSubscription
-  extends Promise<AsyncIterator<AggregateUser_Group>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
 export interface BatchPayload {
   count: Long;
 }
@@ -1238,72 +1964,25 @@ export interface BlacklistSubscriptionPayloadSubscription
 }
 
 export interface BlacklistPreviousValues {
-  id: Int;
+  id: ID_Output;
   ip?: String;
   end_time?: DateTimeOutput;
-  tries?: Int;
 }
 
 export interface BlacklistPreviousValuesPromise
   extends Promise<BlacklistPreviousValues>,
     Fragmentable {
-  id: () => Promise<Int>;
+  id: () => Promise<ID_Output>;
   ip: () => Promise<String>;
   end_time: () => Promise<DateTimeOutput>;
-  tries: () => Promise<Int>;
 }
 
 export interface BlacklistPreviousValuesSubscription
   extends Promise<AsyncIterator<BlacklistPreviousValues>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<Int>>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
   ip: () => Promise<AsyncIterator<String>>;
   end_time: () => Promise<AsyncIterator<DateTimeOutput>>;
-  tries: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface GreetingSubscriptionPayload {
-  mutation: MutationType;
-  node: Greeting;
-  updatedFields: String[];
-  previousValues: GreetingPreviousValues;
-}
-
-export interface GreetingSubscriptionPayloadPromise
-  extends Promise<GreetingSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = GreetingPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = GreetingPreviousValuesPromise>() => T;
-}
-
-export interface GreetingSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<GreetingSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = GreetingSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = GreetingPreviousValuesSubscription>() => T;
-}
-
-export interface GreetingPreviousValues {
-  id: Int;
-  name?: String;
-}
-
-export interface GreetingPreviousValuesPromise
-  extends Promise<GreetingPreviousValues>,
-    Fragmentable {
-  id: () => Promise<Int>;
-  name: () => Promise<String>;
-}
-
-export interface GreetingPreviousValuesSubscription
-  extends Promise<AsyncIterator<GreetingPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<Int>>;
-  name: () => Promise<AsyncIterator<String>>;
 }
 
 export interface GroupSubscriptionPayload {
@@ -1332,31 +2011,110 @@ export interface GroupSubscriptionPayloadSubscription
 }
 
 export interface GroupPreviousValues {
-  id: Int;
-  owner_id?: Int;
-  name?: String;
-  create_at?: DateTimeOutput;
-  tchat_jwt?: String;
+  id: ID_Output;
+  name: String;
 }
 
 export interface GroupPreviousValuesPromise
   extends Promise<GroupPreviousValues>,
     Fragmentable {
-  id: () => Promise<Int>;
-  owner_id: () => Promise<Int>;
+  id: () => Promise<ID_Output>;
   name: () => Promise<String>;
-  create_at: () => Promise<DateTimeOutput>;
-  tchat_jwt: () => Promise<String>;
 }
 
 export interface GroupPreviousValuesSubscription
   extends Promise<AsyncIterator<GroupPreviousValues>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<Int>>;
-  owner_id: () => Promise<AsyncIterator<Int>>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
-  create_at: () => Promise<AsyncIterator<DateTimeOutput>>;
-  tchat_jwt: () => Promise<AsyncIterator<String>>;
+}
+
+export interface RightSubscriptionPayload {
+  mutation: MutationType;
+  node: Right;
+  updatedFields: String[];
+  previousValues: RightPreviousValues;
+}
+
+export interface RightSubscriptionPayloadPromise
+  extends Promise<RightSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = RightPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = RightPreviousValuesPromise>() => T;
+}
+
+export interface RightSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<RightSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = RightSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = RightPreviousValuesSubscription>() => T;
+}
+
+export interface RightPreviousValues {
+  id: ID_Output;
+  name: String;
+}
+
+export interface RightPreviousValuesPromise
+  extends Promise<RightPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+}
+
+export interface RightPreviousValuesSubscription
+  extends Promise<AsyncIterator<RightPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+}
+
+export interface RoleSubscriptionPayload {
+  mutation: MutationType;
+  node: Role;
+  updatedFields: String[];
+  previousValues: RolePreviousValues;
+}
+
+export interface RoleSubscriptionPayloadPromise
+  extends Promise<RoleSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = RolePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = RolePreviousValuesPromise>() => T;
+}
+
+export interface RoleSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<RoleSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = RoleSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = RolePreviousValuesSubscription>() => T;
+}
+
+export interface RolePreviousValues {
+  id: ID_Output;
+  name: String;
+}
+
+export interface RolePreviousValuesPromise
+  extends Promise<RolePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+}
+
+export interface RolePreviousValuesSubscription
+  extends Promise<AsyncIterator<RolePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserSubscriptionPayload {
@@ -1385,12 +2143,12 @@ export interface UserSubscriptionPayloadSubscription
 }
 
 export interface UserPreviousValues {
-  id: Int;
-  email?: String;
-  roles?: Json;
-  password?: String;
+  id: ID_Output;
   firstname?: String;
   lastname?: String;
+  email?: String;
+  password?: String;
+  phone?: String;
   is_verified?: Boolean;
   is_ban?: Boolean;
   token?: String;
@@ -1400,12 +2158,12 @@ export interface UserPreviousValues {
 export interface UserPreviousValuesPromise
   extends Promise<UserPreviousValues>,
     Fragmentable {
-  id: () => Promise<Int>;
-  email: () => Promise<String>;
-  roles: () => Promise<Json>;
-  password: () => Promise<String>;
+  id: () => Promise<ID_Output>;
   firstname: () => Promise<String>;
   lastname: () => Promise<String>;
+  email: () => Promise<String>;
+  password: () => Promise<String>;
+  phone: () => Promise<String>;
   is_verified: () => Promise<Boolean>;
   is_ban: () => Promise<Boolean>;
   token: () => Promise<String>;
@@ -1415,63 +2173,23 @@ export interface UserPreviousValuesPromise
 export interface UserPreviousValuesSubscription
   extends Promise<AsyncIterator<UserPreviousValues>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<Int>>;
-  email: () => Promise<AsyncIterator<String>>;
-  roles: () => Promise<AsyncIterator<Json>>;
-  password: () => Promise<AsyncIterator<String>>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
   firstname: () => Promise<AsyncIterator<String>>;
   lastname: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+  phone: () => Promise<AsyncIterator<String>>;
   is_verified: () => Promise<AsyncIterator<Boolean>>;
   is_ban: () => Promise<AsyncIterator<Boolean>>;
   token: () => Promise<AsyncIterator<String>>;
   create_at: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface User_GroupSubscriptionPayload {
-  mutation: MutationType;
-  node: User_Group;
-  updatedFields: String[];
-  previousValues: User_GroupPreviousValues;
-}
-
-export interface User_GroupSubscriptionPayloadPromise
-  extends Promise<User_GroupSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = User_GroupPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = User_GroupPreviousValuesPromise>() => T;
-}
-
-export interface User_GroupSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<User_GroupSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = User_GroupSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = User_GroupPreviousValuesSubscription>() => T;
-}
-
-export interface User_GroupPreviousValues {
-  id: Int;
-}
-
-export interface User_GroupPreviousValuesPromise
-  extends Promise<User_GroupPreviousValues>,
-    Fragmentable {
-  id: () => Promise<Int>;
-}
-
-export interface User_GroupPreviousValuesSubscription
-  extends Promise<AsyncIterator<User_GroupPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<Int>>;
-}
-
 /*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
 */
-export type Int = number;
+export type ID_Input = string | number;
+export type ID_Output = string;
 
 /*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
@@ -1489,17 +2207,14 @@ DateTime scalar output type, which is always a string
 export type DateTimeOutput = string;
 
 /*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
+*/
+export type Int = number;
+
+/*
 The `Boolean` scalar type represents `true` or `false`.
 */
 export type Boolean = boolean;
-
-export type Json = any;
-
-/*
-The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
-*/
-export type ID_Input = string | number;
-export type ID_Output = string;
 
 export type Long = string;
 
@@ -1509,11 +2224,15 @@ export type Long = string;
 
 export const models: Model[] = [
   {
-    name: "Blacklist",
+    name: "User",
     embedded: false
   },
   {
-    name: "Greeting",
+    name: "Role",
+    embedded: false
+  },
+  {
+    name: "Right",
     embedded: false
   },
   {
@@ -1521,11 +2240,7 @@ export const models: Model[] = [
     embedded: false
   },
   {
-    name: "User",
-    embedded: false
-  },
-  {
-    name: "User_Group",
+    name: "Blacklist",
     embedded: false
   }
 ];

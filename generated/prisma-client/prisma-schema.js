@@ -7,19 +7,19 @@ module.exports = {
   count: Int!
 }
 
-type AggregateGreeting {
-  count: Int!
-}
-
 type AggregateGroup {
   count: Int!
 }
 
-type AggregateUser {
+type AggregateRight {
   count: Int!
 }
 
-type AggregateUser_Group {
+type AggregateRole {
+  count: Int!
+}
+
+type AggregateUser {
   count: Int!
 }
 
@@ -28,10 +28,9 @@ type BatchPayload {
 }
 
 type Blacklist {
-  id: Int!
+  id: ID!
   ip: String
   end_time: DateTime
-  tries: Int
 }
 
 type BlacklistConnection {
@@ -41,10 +40,9 @@ type BlacklistConnection {
 }
 
 input BlacklistCreateInput {
-  id: Int
+  id: ID
   ip: String
   end_time: DateTime
-  tries: Int
 }
 
 type BlacklistEdge {
@@ -59,15 +57,12 @@ enum BlacklistOrderByInput {
   ip_DESC
   end_time_ASC
   end_time_DESC
-  tries_ASC
-  tries_DESC
 }
 
 type BlacklistPreviousValues {
-  id: Int!
+  id: ID!
   ip: String
   end_time: DateTime
-  tries: Int
 }
 
 type BlacklistSubscriptionPayload {
@@ -91,24 +86,28 @@ input BlacklistSubscriptionWhereInput {
 input BlacklistUpdateInput {
   ip: String
   end_time: DateTime
-  tries: Int
 }
 
 input BlacklistUpdateManyMutationInput {
   ip: String
   end_time: DateTime
-  tries: Int
 }
 
 input BlacklistWhereInput {
-  id: Int
-  id_not: Int
-  id_in: [Int!]
-  id_not_in: [Int!]
-  id_lt: Int
-  id_lte: Int
-  id_gt: Int
-  id_gte: Int
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
   ip: String
   ip_not: String
   ip_in: [String!]
@@ -131,93 +130,96 @@ input BlacklistWhereInput {
   end_time_lte: DateTime
   end_time_gt: DateTime
   end_time_gte: DateTime
-  tries: Int
-  tries_not: Int
-  tries_in: [Int!]
-  tries_not_in: [Int!]
-  tries_lt: Int
-  tries_lte: Int
-  tries_gt: Int
-  tries_gte: Int
   AND: [BlacklistWhereInput!]
   OR: [BlacklistWhereInput!]
   NOT: [BlacklistWhereInput!]
 }
 
 input BlacklistWhereUniqueInput {
-  id: Int
+  id: ID
 }
 
 scalar DateTime
 
-type Greeting {
-  id: Int!
-  name: String
+type Group {
+  id: ID!
+  owner: User!
+  name: String!
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
 }
 
-type GreetingConnection {
+type GroupConnection {
   pageInfo: PageInfo!
-  edges: [GreetingEdge]!
-  aggregate: AggregateGreeting!
+  edges: [GroupEdge]!
+  aggregate: AggregateGroup!
 }
 
-input GreetingCreateInput {
-  id: Int
-  name: String
+input GroupCreateInput {
+  id: ID
+  owner: UserCreateOneWithoutGroupsOwnerInput!
+  name: String!
+  users: UserCreateManyWithoutGroupsInput
 }
 
-type GreetingEdge {
-  node: Greeting!
+input GroupCreateManyWithoutOwnerInput {
+  create: [GroupCreateWithoutOwnerInput!]
+  connect: [GroupWhereUniqueInput!]
+}
+
+input GroupCreateManyWithoutUsersInput {
+  create: [GroupCreateWithoutUsersInput!]
+  connect: [GroupWhereUniqueInput!]
+}
+
+input GroupCreateOneInput {
+  create: GroupCreateInput
+  connect: GroupWhereUniqueInput
+}
+
+input GroupCreateWithoutOwnerInput {
+  id: ID
+  name: String!
+  users: UserCreateManyWithoutGroupsInput
+}
+
+input GroupCreateWithoutUsersInput {
+  id: ID
+  owner: UserCreateOneWithoutGroupsOwnerInput!
+  name: String!
+}
+
+type GroupEdge {
+  node: Group!
   cursor: String!
 }
 
-enum GreetingOrderByInput {
+enum GroupOrderByInput {
   id_ASC
   id_DESC
   name_ASC
   name_DESC
 }
 
-type GreetingPreviousValues {
-  id: Int!
-  name: String
+type GroupPreviousValues {
+  id: ID!
+  name: String!
 }
 
-type GreetingSubscriptionPayload {
-  mutation: MutationType!
-  node: Greeting
-  updatedFields: [String!]
-  previousValues: GreetingPreviousValues
-}
-
-input GreetingSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: GreetingWhereInput
-  AND: [GreetingSubscriptionWhereInput!]
-  OR: [GreetingSubscriptionWhereInput!]
-  NOT: [GreetingSubscriptionWhereInput!]
-}
-
-input GreetingUpdateInput {
-  name: String
-}
-
-input GreetingUpdateManyMutationInput {
-  name: String
-}
-
-input GreetingWhereInput {
-  id: Int
-  id_not: Int
-  id_in: [Int!]
-  id_not_in: [Int!]
-  id_lt: Int
-  id_lte: Int
-  id_gt: Int
-  id_gte: Int
+input GroupScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
   name: String
   name_not: String
   name_in: [String!]
@@ -232,61 +234,9 @@ input GreetingWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
-  AND: [GreetingWhereInput!]
-  OR: [GreetingWhereInput!]
-  NOT: [GreetingWhereInput!]
-}
-
-input GreetingWhereUniqueInput {
-  id: Int
-}
-
-type Group {
-  id: Int!
-  owner_id: Int
-  name: String
-  create_at: DateTime
-  tchat_jwt: String
-}
-
-type GroupConnection {
-  pageInfo: PageInfo!
-  edges: [GroupEdge]!
-  aggregate: AggregateGroup!
-}
-
-input GroupCreateInput {
-  id: Int
-  owner_id: Int
-  name: String
-  create_at: DateTime
-  tchat_jwt: String
-}
-
-type GroupEdge {
-  node: Group!
-  cursor: String!
-}
-
-enum GroupOrderByInput {
-  id_ASC
-  id_DESC
-  owner_id_ASC
-  owner_id_DESC
-  name_ASC
-  name_DESC
-  create_at_ASC
-  create_at_DESC
-  tchat_jwt_ASC
-  tchat_jwt_DESC
-}
-
-type GroupPreviousValues {
-  id: Int!
-  owner_id: Int
-  name: String
-  create_at: DateTime
-  tchat_jwt: String
+  AND: [GroupScalarWhereInput!]
+  OR: [GroupScalarWhereInput!]
+  NOT: [GroupScalarWhereInput!]
 }
 
 type GroupSubscriptionPayload {
@@ -307,37 +257,117 @@ input GroupSubscriptionWhereInput {
   NOT: [GroupSubscriptionWhereInput!]
 }
 
-input GroupUpdateInput {
-  owner_id: Int
+input GroupUpdateDataInput {
+  owner: UserUpdateOneRequiredWithoutGroupsOwnerInput
   name: String
-  create_at: DateTime
-  tchat_jwt: String
+  users: UserUpdateManyWithoutGroupsInput
+}
+
+input GroupUpdateInput {
+  owner: UserUpdateOneRequiredWithoutGroupsOwnerInput
+  name: String
+  users: UserUpdateManyWithoutGroupsInput
+}
+
+input GroupUpdateManyDataInput {
+  name: String
 }
 
 input GroupUpdateManyMutationInput {
-  owner_id: Int
   name: String
-  create_at: DateTime
-  tchat_jwt: String
+}
+
+input GroupUpdateManyWithoutOwnerInput {
+  create: [GroupCreateWithoutOwnerInput!]
+  delete: [GroupWhereUniqueInput!]
+  connect: [GroupWhereUniqueInput!]
+  set: [GroupWhereUniqueInput!]
+  disconnect: [GroupWhereUniqueInput!]
+  update: [GroupUpdateWithWhereUniqueWithoutOwnerInput!]
+  upsert: [GroupUpsertWithWhereUniqueWithoutOwnerInput!]
+  deleteMany: [GroupScalarWhereInput!]
+  updateMany: [GroupUpdateManyWithWhereNestedInput!]
+}
+
+input GroupUpdateManyWithoutUsersInput {
+  create: [GroupCreateWithoutUsersInput!]
+  delete: [GroupWhereUniqueInput!]
+  connect: [GroupWhereUniqueInput!]
+  set: [GroupWhereUniqueInput!]
+  disconnect: [GroupWhereUniqueInput!]
+  update: [GroupUpdateWithWhereUniqueWithoutUsersInput!]
+  upsert: [GroupUpsertWithWhereUniqueWithoutUsersInput!]
+  deleteMany: [GroupScalarWhereInput!]
+  updateMany: [GroupUpdateManyWithWhereNestedInput!]
+}
+
+input GroupUpdateManyWithWhereNestedInput {
+  where: GroupScalarWhereInput!
+  data: GroupUpdateManyDataInput!
+}
+
+input GroupUpdateOneInput {
+  create: GroupCreateInput
+  update: GroupUpdateDataInput
+  upsert: GroupUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: GroupWhereUniqueInput
+}
+
+input GroupUpdateWithoutOwnerDataInput {
+  name: String
+  users: UserUpdateManyWithoutGroupsInput
+}
+
+input GroupUpdateWithoutUsersDataInput {
+  owner: UserUpdateOneRequiredWithoutGroupsOwnerInput
+  name: String
+}
+
+input GroupUpdateWithWhereUniqueWithoutOwnerInput {
+  where: GroupWhereUniqueInput!
+  data: GroupUpdateWithoutOwnerDataInput!
+}
+
+input GroupUpdateWithWhereUniqueWithoutUsersInput {
+  where: GroupWhereUniqueInput!
+  data: GroupUpdateWithoutUsersDataInput!
+}
+
+input GroupUpsertNestedInput {
+  update: GroupUpdateDataInput!
+  create: GroupCreateInput!
+}
+
+input GroupUpsertWithWhereUniqueWithoutOwnerInput {
+  where: GroupWhereUniqueInput!
+  update: GroupUpdateWithoutOwnerDataInput!
+  create: GroupCreateWithoutOwnerInput!
+}
+
+input GroupUpsertWithWhereUniqueWithoutUsersInput {
+  where: GroupWhereUniqueInput!
+  update: GroupUpdateWithoutUsersDataInput!
+  create: GroupCreateWithoutUsersInput!
 }
 
 input GroupWhereInput {
-  id: Int
-  id_not: Int
-  id_in: [Int!]
-  id_not_in: [Int!]
-  id_lt: Int
-  id_lte: Int
-  id_gt: Int
-  id_gte: Int
-  owner_id: Int
-  owner_id_not: Int
-  owner_id_in: [Int!]
-  owner_id_not_in: [Int!]
-  owner_id_lt: Int
-  owner_id_lte: Int
-  owner_id_gt: Int
-  owner_id_gte: Int
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  owner: UserWhereInput
   name: String
   name_not: String
   name_in: [String!]
@@ -352,38 +382,17 @@ input GroupWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
-  create_at: DateTime
-  create_at_not: DateTime
-  create_at_in: [DateTime!]
-  create_at_not_in: [DateTime!]
-  create_at_lt: DateTime
-  create_at_lte: DateTime
-  create_at_gt: DateTime
-  create_at_gte: DateTime
-  tchat_jwt: String
-  tchat_jwt_not: String
-  tchat_jwt_in: [String!]
-  tchat_jwt_not_in: [String!]
-  tchat_jwt_lt: String
-  tchat_jwt_lte: String
-  tchat_jwt_gt: String
-  tchat_jwt_gte: String
-  tchat_jwt_contains: String
-  tchat_jwt_not_contains: String
-  tchat_jwt_starts_with: String
-  tchat_jwt_not_starts_with: String
-  tchat_jwt_ends_with: String
-  tchat_jwt_not_ends_with: String
+  users_every: UserWhereInput
+  users_some: UserWhereInput
+  users_none: UserWhereInput
   AND: [GroupWhereInput!]
   OR: [GroupWhereInput!]
   NOT: [GroupWhereInput!]
 }
 
 input GroupWhereUniqueInput {
-  id: Int
+  id: ID
 }
-
-scalar Json
 
 scalar Long
 
@@ -394,27 +403,30 @@ type Mutation {
   upsertBlacklist(where: BlacklistWhereUniqueInput!, create: BlacklistCreateInput!, update: BlacklistUpdateInput!): Blacklist!
   deleteBlacklist(where: BlacklistWhereUniqueInput!): Blacklist
   deleteManyBlacklists(where: BlacklistWhereInput): BatchPayload!
-  createGreeting(data: GreetingCreateInput!): Greeting!
-  updateGreeting(data: GreetingUpdateInput!, where: GreetingWhereUniqueInput!): Greeting
-  updateManyGreetings(data: GreetingUpdateManyMutationInput!, where: GreetingWhereInput): BatchPayload!
-  upsertGreeting(where: GreetingWhereUniqueInput!, create: GreetingCreateInput!, update: GreetingUpdateInput!): Greeting!
-  deleteGreeting(where: GreetingWhereUniqueInput!): Greeting
-  deleteManyGreetings(where: GreetingWhereInput): BatchPayload!
   createGroup(data: GroupCreateInput!): Group!
   updateGroup(data: GroupUpdateInput!, where: GroupWhereUniqueInput!): Group
   updateManyGroups(data: GroupUpdateManyMutationInput!, where: GroupWhereInput): BatchPayload!
   upsertGroup(where: GroupWhereUniqueInput!, create: GroupCreateInput!, update: GroupUpdateInput!): Group!
   deleteGroup(where: GroupWhereUniqueInput!): Group
   deleteManyGroups(where: GroupWhereInput): BatchPayload!
+  createRight(data: RightCreateInput!): Right!
+  updateRight(data: RightUpdateInput!, where: RightWhereUniqueInput!): Right
+  updateManyRights(data: RightUpdateManyMutationInput!, where: RightWhereInput): BatchPayload!
+  upsertRight(where: RightWhereUniqueInput!, create: RightCreateInput!, update: RightUpdateInput!): Right!
+  deleteRight(where: RightWhereUniqueInput!): Right
+  deleteManyRights(where: RightWhereInput): BatchPayload!
+  createRole(data: RoleCreateInput!): Role!
+  updateRole(data: RoleUpdateInput!, where: RoleWhereUniqueInput!): Role
+  updateManyRoles(data: RoleUpdateManyMutationInput!, where: RoleWhereInput): BatchPayload!
+  upsertRole(where: RoleWhereUniqueInput!, create: RoleCreateInput!, update: RoleUpdateInput!): Role!
+  deleteRole(where: RoleWhereUniqueInput!): Role
+  deleteManyRoles(where: RoleWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   deleteUser(where: UserWhereUniqueInput!): User
   deleteManyUsers(where: UserWhereInput): BatchPayload!
-  createUser_Group(data: User_GroupCreateInput!): User_Group!
-  deleteUser_Group(where: User_GroupWhereUniqueInput!): User_Group
-  deleteManyUser_Groups(where: User_GroupWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -438,104 +450,399 @@ type Query {
   blacklist(where: BlacklistWhereUniqueInput!): Blacklist
   blacklists(where: BlacklistWhereInput, orderBy: BlacklistOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Blacklist]!
   blacklistsConnection(where: BlacklistWhereInput, orderBy: BlacklistOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BlacklistConnection!
-  greeting(where: GreetingWhereUniqueInput!): Greeting
-  greetings(where: GreetingWhereInput, orderBy: GreetingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Greeting]!
-  greetingsConnection(where: GreetingWhereInput, orderBy: GreetingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GreetingConnection!
   group(where: GroupWhereUniqueInput!): Group
   groups(where: GroupWhereInput, orderBy: GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Group]!
   groupsConnection(where: GroupWhereInput, orderBy: GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GroupConnection!
+  right(where: RightWhereUniqueInput!): Right
+  rights(where: RightWhereInput, orderBy: RightOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Right]!
+  rightsConnection(where: RightWhereInput, orderBy: RightOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RightConnection!
+  role(where: RoleWhereUniqueInput!): Role
+  roles(where: RoleWhereInput, orderBy: RoleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Role]!
+  rolesConnection(where: RoleWhereInput, orderBy: RoleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RoleConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
-  userGroup(where: User_GroupWhereUniqueInput!): User_Group
-  userGroups(where: User_GroupWhereInput, orderBy: User_GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User_Group]!
-  userGroupsConnection(where: User_GroupWhereInput, orderBy: User_GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): User_GroupConnection!
   node(id: ID!): Node
 }
 
-type Subscription {
-  blacklist(where: BlacklistSubscriptionWhereInput): BlacklistSubscriptionPayload
-  greeting(where: GreetingSubscriptionWhereInput): GreetingSubscriptionPayload
-  group(where: GroupSubscriptionWhereInput): GroupSubscriptionPayload
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
-  userGroup(where: User_GroupSubscriptionWhereInput): User_GroupSubscriptionPayload
+type Right {
+  id: ID!
+  name: String!
 }
 
-type User {
-  id: Int!
-  email: String
-  roles: Json
-  password: String
-  firstname: String
-  lastname: String
-  is_verified: Boolean
-  is_ban: Boolean
-  token: String
-  create_at: DateTime
-}
-
-type User_Group {
-  id: Int!
-}
-
-type User_GroupConnection {
+type RightConnection {
   pageInfo: PageInfo!
-  edges: [User_GroupEdge]!
-  aggregate: AggregateUser_Group!
+  edges: [RightEdge]!
+  aggregate: AggregateRight!
 }
 
-input User_GroupCreateInput {
-  id: Int
+input RightCreateInput {
+  id: ID
+  name: String!
 }
 
-type User_GroupEdge {
-  node: User_Group!
+input RightCreateManyInput {
+  create: [RightCreateInput!]
+  connect: [RightWhereUniqueInput!]
+}
+
+type RightEdge {
+  node: Right!
   cursor: String!
 }
 
-enum User_GroupOrderByInput {
+enum RightOrderByInput {
   id_ASC
   id_DESC
+  name_ASC
+  name_DESC
 }
 
-type User_GroupPreviousValues {
-  id: Int!
+type RightPreviousValues {
+  id: ID!
+  name: String!
 }
 
-type User_GroupSubscriptionPayload {
+input RightScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [RightScalarWhereInput!]
+  OR: [RightScalarWhereInput!]
+  NOT: [RightScalarWhereInput!]
+}
+
+type RightSubscriptionPayload {
   mutation: MutationType!
-  node: User_Group
+  node: Right
   updatedFields: [String!]
-  previousValues: User_GroupPreviousValues
+  previousValues: RightPreviousValues
 }
 
-input User_GroupSubscriptionWhereInput {
+input RightSubscriptionWhereInput {
   mutation_in: [MutationType!]
   updatedFields_contains: String
   updatedFields_contains_every: [String!]
   updatedFields_contains_some: [String!]
-  node: User_GroupWhereInput
-  AND: [User_GroupSubscriptionWhereInput!]
-  OR: [User_GroupSubscriptionWhereInput!]
-  NOT: [User_GroupSubscriptionWhereInput!]
+  node: RightWhereInput
+  AND: [RightSubscriptionWhereInput!]
+  OR: [RightSubscriptionWhereInput!]
+  NOT: [RightSubscriptionWhereInput!]
 }
 
-input User_GroupWhereInput {
-  id: Int
-  id_not: Int
-  id_in: [Int!]
-  id_not_in: [Int!]
-  id_lt: Int
-  id_lte: Int
-  id_gt: Int
-  id_gte: Int
-  AND: [User_GroupWhereInput!]
-  OR: [User_GroupWhereInput!]
-  NOT: [User_GroupWhereInput!]
+input RightUpdateDataInput {
+  name: String
 }
 
-input User_GroupWhereUniqueInput {
-  id: Int
+input RightUpdateInput {
+  name: String
+}
+
+input RightUpdateManyDataInput {
+  name: String
+}
+
+input RightUpdateManyInput {
+  create: [RightCreateInput!]
+  update: [RightUpdateWithWhereUniqueNestedInput!]
+  upsert: [RightUpsertWithWhereUniqueNestedInput!]
+  delete: [RightWhereUniqueInput!]
+  connect: [RightWhereUniqueInput!]
+  set: [RightWhereUniqueInput!]
+  disconnect: [RightWhereUniqueInput!]
+  deleteMany: [RightScalarWhereInput!]
+  updateMany: [RightUpdateManyWithWhereNestedInput!]
+}
+
+input RightUpdateManyMutationInput {
+  name: String
+}
+
+input RightUpdateManyWithWhereNestedInput {
+  where: RightScalarWhereInput!
+  data: RightUpdateManyDataInput!
+}
+
+input RightUpdateWithWhereUniqueNestedInput {
+  where: RightWhereUniqueInput!
+  data: RightUpdateDataInput!
+}
+
+input RightUpsertWithWhereUniqueNestedInput {
+  where: RightWhereUniqueInput!
+  update: RightUpdateDataInput!
+  create: RightCreateInput!
+}
+
+input RightWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [RightWhereInput!]
+  OR: [RightWhereInput!]
+  NOT: [RightWhereInput!]
+}
+
+input RightWhereUniqueInput {
+  id: ID
+}
+
+type Role {
+  id: ID!
+  name: String!
+  rights(where: RightWhereInput, orderBy: RightOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Right!]
+  group: Group
+}
+
+type RoleConnection {
+  pageInfo: PageInfo!
+  edges: [RoleEdge]!
+  aggregate: AggregateRole!
+}
+
+input RoleCreateInput {
+  id: ID
+  name: String!
+  rights: RightCreateManyInput
+  group: GroupCreateOneInput
+}
+
+input RoleCreateManyInput {
+  create: [RoleCreateInput!]
+  connect: [RoleWhereUniqueInput!]
+}
+
+type RoleEdge {
+  node: Role!
+  cursor: String!
+}
+
+enum RoleOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+}
+
+type RolePreviousValues {
+  id: ID!
+  name: String!
+}
+
+input RoleScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  AND: [RoleScalarWhereInput!]
+  OR: [RoleScalarWhereInput!]
+  NOT: [RoleScalarWhereInput!]
+}
+
+type RoleSubscriptionPayload {
+  mutation: MutationType!
+  node: Role
+  updatedFields: [String!]
+  previousValues: RolePreviousValues
+}
+
+input RoleSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: RoleWhereInput
+  AND: [RoleSubscriptionWhereInput!]
+  OR: [RoleSubscriptionWhereInput!]
+  NOT: [RoleSubscriptionWhereInput!]
+}
+
+input RoleUpdateDataInput {
+  name: String
+  rights: RightUpdateManyInput
+  group: GroupUpdateOneInput
+}
+
+input RoleUpdateInput {
+  name: String
+  rights: RightUpdateManyInput
+  group: GroupUpdateOneInput
+}
+
+input RoleUpdateManyDataInput {
+  name: String
+}
+
+input RoleUpdateManyInput {
+  create: [RoleCreateInput!]
+  update: [RoleUpdateWithWhereUniqueNestedInput!]
+  upsert: [RoleUpsertWithWhereUniqueNestedInput!]
+  delete: [RoleWhereUniqueInput!]
+  connect: [RoleWhereUniqueInput!]
+  set: [RoleWhereUniqueInput!]
+  disconnect: [RoleWhereUniqueInput!]
+  deleteMany: [RoleScalarWhereInput!]
+  updateMany: [RoleUpdateManyWithWhereNestedInput!]
+}
+
+input RoleUpdateManyMutationInput {
+  name: String
+}
+
+input RoleUpdateManyWithWhereNestedInput {
+  where: RoleScalarWhereInput!
+  data: RoleUpdateManyDataInput!
+}
+
+input RoleUpdateWithWhereUniqueNestedInput {
+  where: RoleWhereUniqueInput!
+  data: RoleUpdateDataInput!
+}
+
+input RoleUpsertWithWhereUniqueNestedInput {
+  where: RoleWhereUniqueInput!
+  update: RoleUpdateDataInput!
+  create: RoleCreateInput!
+}
+
+input RoleWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  rights_every: RightWhereInput
+  rights_some: RightWhereInput
+  rights_none: RightWhereInput
+  group: GroupWhereInput
+  AND: [RoleWhereInput!]
+  OR: [RoleWhereInput!]
+  NOT: [RoleWhereInput!]
+}
+
+input RoleWhereUniqueInput {
+  id: ID
+}
+
+type Subscription {
+  blacklist(where: BlacklistSubscriptionWhereInput): BlacklistSubscriptionPayload
+  group(where: GroupSubscriptionWhereInput): GroupSubscriptionPayload
+  right(where: RightSubscriptionWhereInput): RightSubscriptionPayload
+  role(where: RoleSubscriptionWhereInput): RoleSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+}
+
+type User {
+  id: ID!
+  firstname: String
+  lastname: String
+  email: String
+  password: String
+  phone: String
+  is_verified: Boolean
+  is_ban: Boolean
+  token: String
+  create_at: DateTime
+  groups(where: GroupWhereInput, orderBy: GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Group!]
+  groupsOwner(where: GroupWhereInput, orderBy: GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Group!]
+  roles(where: RoleWhereInput, orderBy: RoleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Role!]
 }
 
 type UserConnection {
@@ -545,16 +852,56 @@ type UserConnection {
 }
 
 input UserCreateInput {
-  id: Int
-  email: String
-  roles: Json
-  password: String
+  id: ID
   firstname: String
   lastname: String
+  email: String
+  password: String
+  phone: String
   is_verified: Boolean
   is_ban: Boolean
   token: String
-  create_at: DateTime
+  groups: GroupCreateManyWithoutUsersInput
+  groupsOwner: GroupCreateManyWithoutOwnerInput
+  roles: RoleCreateManyInput
+}
+
+input UserCreateManyWithoutGroupsInput {
+  create: [UserCreateWithoutGroupsInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateOneWithoutGroupsOwnerInput {
+  create: UserCreateWithoutGroupsOwnerInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutGroupsInput {
+  id: ID
+  firstname: String
+  lastname: String
+  email: String
+  password: String
+  phone: String
+  is_verified: Boolean
+  is_ban: Boolean
+  token: String
+  groupsOwner: GroupCreateManyWithoutOwnerInput
+  roles: RoleCreateManyInput
+}
+
+input UserCreateWithoutGroupsOwnerInput {
+  id: ID
+  firstname: String
+  lastname: String
+  email: String
+  password: String
+  phone: String
+  is_verified: Boolean
+  is_ban: Boolean
+  token: String
+  groups: GroupCreateManyWithoutUsersInput
+  roles: RoleCreateManyInput
 }
 
 type UserEdge {
@@ -565,16 +912,16 @@ type UserEdge {
 enum UserOrderByInput {
   id_ASC
   id_DESC
-  email_ASC
-  email_DESC
-  roles_ASC
-  roles_DESC
-  password_ASC
-  password_DESC
   firstname_ASC
   firstname_DESC
   lastname_ASC
   lastname_DESC
+  email_ASC
+  email_DESC
+  password_ASC
+  password_DESC
+  phone_ASC
+  phone_DESC
   is_verified_ASC
   is_verified_DESC
   is_ban_ASC
@@ -586,97 +933,33 @@ enum UserOrderByInput {
 }
 
 type UserPreviousValues {
-  id: Int!
-  email: String
-  roles: Json
-  password: String
+  id: ID!
   firstname: String
   lastname: String
+  email: String
+  password: String
+  phone: String
   is_verified: Boolean
   is_ban: Boolean
   token: String
   create_at: DateTime
 }
 
-type UserSubscriptionPayload {
-  mutation: MutationType!
-  node: User
-  updatedFields: [String!]
-  previousValues: UserPreviousValues
-}
-
-input UserSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: UserWhereInput
-  AND: [UserSubscriptionWhereInput!]
-  OR: [UserSubscriptionWhereInput!]
-  NOT: [UserSubscriptionWhereInput!]
-}
-
-input UserUpdateInput {
-  email: String
-  roles: Json
-  password: String
-  firstname: String
-  lastname: String
-  is_verified: Boolean
-  is_ban: Boolean
-  token: String
-  create_at: DateTime
-}
-
-input UserUpdateManyMutationInput {
-  email: String
-  roles: Json
-  password: String
-  firstname: String
-  lastname: String
-  is_verified: Boolean
-  is_ban: Boolean
-  token: String
-  create_at: DateTime
-}
-
-input UserWhereInput {
-  id: Int
-  id_not: Int
-  id_in: [Int!]
-  id_not_in: [Int!]
-  id_lt: Int
-  id_lte: Int
-  id_gt: Int
-  id_gte: Int
-  email: String
-  email_not: String
-  email_in: [String!]
-  email_not_in: [String!]
-  email_lt: String
-  email_lte: String
-  email_gt: String
-  email_gte: String
-  email_contains: String
-  email_not_contains: String
-  email_starts_with: String
-  email_not_starts_with: String
-  email_ends_with: String
-  email_not_ends_with: String
-  password: String
-  password_not: String
-  password_in: [String!]
-  password_not_in: [String!]
-  password_lt: String
-  password_lte: String
-  password_gt: String
-  password_gte: String
-  password_contains: String
-  password_not_contains: String
-  password_starts_with: String
-  password_not_starts_with: String
-  password_ends_with: String
-  password_not_ends_with: String
+input UserScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
   firstname: String
   firstname_not: String
   firstname_in: [String!]
@@ -705,6 +988,48 @@ input UserWhereInput {
   lastname_not_starts_with: String
   lastname_ends_with: String
   lastname_not_ends_with: String
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  password: String
+  password_not: String
+  password_in: [String!]
+  password_not_in: [String!]
+  password_lt: String
+  password_lte: String
+  password_gt: String
+  password_gte: String
+  password_contains: String
+  password_not_contains: String
+  password_starts_with: String
+  password_not_starts_with: String
+  password_ends_with: String
+  password_not_ends_with: String
+  phone: String
+  phone_not: String
+  phone_in: [String!]
+  phone_not_in: [String!]
+  phone_lt: String
+  phone_lte: String
+  phone_gt: String
+  phone_gte: String
+  phone_contains: String
+  phone_not_contains: String
+  phone_starts_with: String
+  phone_not_starts_with: String
+  phone_ends_with: String
+  phone_not_ends_with: String
   is_verified: Boolean
   is_verified_not: Boolean
   is_ban: Boolean
@@ -731,13 +1056,258 @@ input UserWhereInput {
   create_at_lte: DateTime
   create_at_gt: DateTime
   create_at_gte: DateTime
+  AND: [UserScalarWhereInput!]
+  OR: [UserScalarWhereInput!]
+  NOT: [UserScalarWhereInput!]
+}
+
+type UserSubscriptionPayload {
+  mutation: MutationType!
+  node: User
+  updatedFields: [String!]
+  previousValues: UserPreviousValues
+}
+
+input UserSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: UserWhereInput
+  AND: [UserSubscriptionWhereInput!]
+  OR: [UserSubscriptionWhereInput!]
+  NOT: [UserSubscriptionWhereInput!]
+}
+
+input UserUpdateInput {
+  firstname: String
+  lastname: String
+  email: String
+  password: String
+  phone: String
+  is_verified: Boolean
+  is_ban: Boolean
+  token: String
+  groups: GroupUpdateManyWithoutUsersInput
+  groupsOwner: GroupUpdateManyWithoutOwnerInput
+  roles: RoleUpdateManyInput
+}
+
+input UserUpdateManyDataInput {
+  firstname: String
+  lastname: String
+  email: String
+  password: String
+  phone: String
+  is_verified: Boolean
+  is_ban: Boolean
+  token: String
+}
+
+input UserUpdateManyMutationInput {
+  firstname: String
+  lastname: String
+  email: String
+  password: String
+  phone: String
+  is_verified: Boolean
+  is_ban: Boolean
+  token: String
+}
+
+input UserUpdateManyWithoutGroupsInput {
+  create: [UserCreateWithoutGroupsInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutGroupsInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutGroupsInput!]
+  deleteMany: [UserScalarWhereInput!]
+  updateMany: [UserUpdateManyWithWhereNestedInput!]
+}
+
+input UserUpdateManyWithWhereNestedInput {
+  where: UserScalarWhereInput!
+  data: UserUpdateManyDataInput!
+}
+
+input UserUpdateOneRequiredWithoutGroupsOwnerInput {
+  create: UserCreateWithoutGroupsOwnerInput
+  update: UserUpdateWithoutGroupsOwnerDataInput
+  upsert: UserUpsertWithoutGroupsOwnerInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateWithoutGroupsDataInput {
+  firstname: String
+  lastname: String
+  email: String
+  password: String
+  phone: String
+  is_verified: Boolean
+  is_ban: Boolean
+  token: String
+  groupsOwner: GroupUpdateManyWithoutOwnerInput
+  roles: RoleUpdateManyInput
+}
+
+input UserUpdateWithoutGroupsOwnerDataInput {
+  firstname: String
+  lastname: String
+  email: String
+  password: String
+  phone: String
+  is_verified: Boolean
+  is_ban: Boolean
+  token: String
+  groups: GroupUpdateManyWithoutUsersInput
+  roles: RoleUpdateManyInput
+}
+
+input UserUpdateWithWhereUniqueWithoutGroupsInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateWithoutGroupsDataInput!
+}
+
+input UserUpsertWithoutGroupsOwnerInput {
+  update: UserUpdateWithoutGroupsOwnerDataInput!
+  create: UserCreateWithoutGroupsOwnerInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutGroupsInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutGroupsDataInput!
+  create: UserCreateWithoutGroupsInput!
+}
+
+input UserWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  firstname: String
+  firstname_not: String
+  firstname_in: [String!]
+  firstname_not_in: [String!]
+  firstname_lt: String
+  firstname_lte: String
+  firstname_gt: String
+  firstname_gte: String
+  firstname_contains: String
+  firstname_not_contains: String
+  firstname_starts_with: String
+  firstname_not_starts_with: String
+  firstname_ends_with: String
+  firstname_not_ends_with: String
+  lastname: String
+  lastname_not: String
+  lastname_in: [String!]
+  lastname_not_in: [String!]
+  lastname_lt: String
+  lastname_lte: String
+  lastname_gt: String
+  lastname_gte: String
+  lastname_contains: String
+  lastname_not_contains: String
+  lastname_starts_with: String
+  lastname_not_starts_with: String
+  lastname_ends_with: String
+  lastname_not_ends_with: String
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  password: String
+  password_not: String
+  password_in: [String!]
+  password_not_in: [String!]
+  password_lt: String
+  password_lte: String
+  password_gt: String
+  password_gte: String
+  password_contains: String
+  password_not_contains: String
+  password_starts_with: String
+  password_not_starts_with: String
+  password_ends_with: String
+  password_not_ends_with: String
+  phone: String
+  phone_not: String
+  phone_in: [String!]
+  phone_not_in: [String!]
+  phone_lt: String
+  phone_lte: String
+  phone_gt: String
+  phone_gte: String
+  phone_contains: String
+  phone_not_contains: String
+  phone_starts_with: String
+  phone_not_starts_with: String
+  phone_ends_with: String
+  phone_not_ends_with: String
+  is_verified: Boolean
+  is_verified_not: Boolean
+  is_ban: Boolean
+  is_ban_not: Boolean
+  token: String
+  token_not: String
+  token_in: [String!]
+  token_not_in: [String!]
+  token_lt: String
+  token_lte: String
+  token_gt: String
+  token_gte: String
+  token_contains: String
+  token_not_contains: String
+  token_starts_with: String
+  token_not_starts_with: String
+  token_ends_with: String
+  token_not_ends_with: String
+  create_at: DateTime
+  create_at_not: DateTime
+  create_at_in: [DateTime!]
+  create_at_not_in: [DateTime!]
+  create_at_lt: DateTime
+  create_at_lte: DateTime
+  create_at_gt: DateTime
+  create_at_gte: DateTime
+  groups_every: GroupWhereInput
+  groups_some: GroupWhereInput
+  groups_none: GroupWhereInput
+  groupsOwner_every: GroupWhereInput
+  groupsOwner_some: GroupWhereInput
+  groupsOwner_none: GroupWhereInput
+  roles_every: RoleWhereInput
+  roles_some: RoleWhereInput
+  roles_none: RoleWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
 }
 
 input UserWhereUniqueInput {
-  id: Int
+  id: ID
   email: String
 }
 `
