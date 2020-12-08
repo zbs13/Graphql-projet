@@ -4,7 +4,7 @@
   "description": "graphql projet",
   "main": "index.js",
   "scripts": {
-    "build": "prisma generate --schema './datamodel.prisma'",
+    "build": "prisma1 generate --schema './datamodel.prisma'",
     "start": "nodemon -e js,graphql src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
