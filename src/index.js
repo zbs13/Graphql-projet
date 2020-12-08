@@ -10,8 +10,7 @@ const server = new GraphQLServer({
     req,
     prisma: new Prisma({
       typeDefs: 'src/generated/prisma.graphql',
-      endpoint:
-        process.env.URL_DB_PRISMA,
+      endpoint: 'https://graphql-projet-36f0fae215.herokuapp.com/Graphql-projet/dev',
     }),
   }),
 })
