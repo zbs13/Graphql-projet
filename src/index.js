@@ -10,11 +10,11 @@ const server = new GraphQLServer({
     req,
     prisma: new Prisma({
       typeDefs: 'src/generated/prisma.graphql',
-      endpoint: 'https://graphql-projet-36f0fae215.herokuapp.com/Graphql-projet/dev',
+      endpoint: process.env.URL_DB_PRISMA,
     }),
   }),
 })
 
 server.start(
-    () => console.log("GraphQL server is running on " + "https://graphql-projet-36f0fae215.herokuapp.com/Graphql-projet/dev")
+    () => console.log("GraphQL server is running on " + process.env.URL_DB_PRISMA)
 )
