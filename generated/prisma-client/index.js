@@ -5,11 +5,15 @@ var typeDefs = require("./prisma-schema").typeDefs;
 
 var models = [
   {
-    name: "Blacklist",
+    name: "User",
     embedded: false
   },
   {
-    name: "Greeting",
+    name: "Role",
+    embedded: false
+  },
+  {
+    name: "Right",
     embedded: false
   },
   {
@@ -17,17 +21,13 @@ var models = [
     embedded: false
   },
   {
-    name: "User",
-    embedded: false
-  },
-  {
-    name: "User_Group",
+    name: "Blacklist",
     embedded: false
   }
 ];
 exports.Prisma = prisma_lib_1.makePrismaClientClass({
   typeDefs,
   models,
-  endpoint: `http://localhost:4466`
+  endpoint: `${process.env["URL_DB_PRISMA"]}`
 });
 exports.prisma = new exports.Prisma();

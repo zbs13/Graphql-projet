@@ -34,9 +34,20 @@ async function login (parent, {email, password}, ctx, info) {
       throw new Error('Invalid password')
     }
 
+    const updateUser = await ctx.prisma.mutation.updateUser(
+      {
+        where: {
+          id: user.id
+        },
+        data: {
+          token: jwt.sign({ userId: user.id }, APP_SECRET)
+        },
+      }
+  )
+
     return {
-      token: jwt.sign({ userId: user.id }, APP_SECRET),
-      user  
+      token: updateUser.token,
+      user
     }
   }
 
