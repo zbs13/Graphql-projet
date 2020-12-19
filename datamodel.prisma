@@ -28,7 +28,7 @@ type Right{
 
 type Group {
   id: ID! @id
-  owner: User! @relation(name: "RelationGroupOwner")
+  owner: User @relation(name: "RelationGroupOwner")
   name: String!
   users: [User] @relation(name: "RelationGroupUser")
 }
