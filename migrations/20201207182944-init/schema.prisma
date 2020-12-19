@@ -1,0 +1,63 @@
+datasource db {
+  provider = "postgresql"
+  url = "***"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model blacklist {
+  id       Int      @id
+  ip       String
+  end_time DateTime
+  tries    Int
+}
+
+model greeting {
+  id   Int    @id
+  name String
+}
+
+model group {
+  id         Int          @id
+  owner_id   Int
+  name       String
+  create_at  DateTime
+  tchat_jwt  String?
+  user       user         @relation(fields: [owner_id], references: [id])
+  user_group user_group[]
+
+  @@index([owner_id], name: "idx_6dc044c57e3c61f9")
+}
+
+model user {
+  id          Int          @id
+  email       String       @unique
+  roles       Role  
+  password    String
+  firstname   String
+  lastname    String
+  is_verified Boolean
+  is_ban      Boolean
+  token       String?
+  create_at   DateTime
+  group       group[]
+  user_group  user_group[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model user_group {
+  user_id  Int
+  group_id Int
+  group    group @relation(fields: [group_id], references: [id])
+  user     user  @relation(fields: [user_id], references: [id])
+
+  @@id([user_id, group_id])
+  @@index([user_id], name: "idx_8f02bf9da76ed395")
+  @@index([group_id], name: "idx_8f02bf9dfe54d947")
+}

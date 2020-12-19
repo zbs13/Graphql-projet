@@ -38,3 +38,4 @@ type Blacklist{
   ip: String
   end_time: DateTime
 }
+
