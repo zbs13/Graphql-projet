@@ -143,7 +143,7 @@ scalar DateTime
 
 type Group {
   id: ID!
-  owner: User!
+  owner: User
   name: String!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
 }
@@ -156,7 +156,7 @@ type GroupConnection {
 
 input GroupCreateInput {
   id: ID
-  owner: UserCreateOneWithoutGroupsOwnerInput!
+  owner: UserCreateOneWithoutGroupsOwnerInput
   name: String!
   users: UserCreateManyWithoutGroupsInput
 }
@@ -184,7 +184,7 @@ input GroupCreateWithoutOwnerInput {
 
 input GroupCreateWithoutUsersInput {
   id: ID
-  owner: UserCreateOneWithoutGroupsOwnerInput!
+  owner: UserCreateOneWithoutGroupsOwnerInput
   name: String!
 }
 
@@ -258,13 +258,13 @@ input GroupSubscriptionWhereInput {
 }
 
 input GroupUpdateDataInput {
-  owner: UserUpdateOneRequiredWithoutGroupsOwnerInput
+  owner: UserUpdateOneWithoutGroupsOwnerInput
   name: String
   users: UserUpdateManyWithoutGroupsInput
 }
 
 input GroupUpdateInput {
-  owner: UserUpdateOneRequiredWithoutGroupsOwnerInput
+  owner: UserUpdateOneWithoutGroupsOwnerInput
   name: String
   users: UserUpdateManyWithoutGroupsInput
 }
@@ -321,7 +321,7 @@ input GroupUpdateWithoutOwnerDataInput {
 }
 
 input GroupUpdateWithoutUsersDataInput {
-  owner: UserUpdateOneRequiredWithoutGroupsOwnerInput
+  owner: UserUpdateOneWithoutGroupsOwnerInput
   name: String
 }
 
@@ -1132,10 +1132,12 @@ input UserUpdateManyWithWhereNestedInput {
   data: UserUpdateManyDataInput!
 }
 
-input UserUpdateOneRequiredWithoutGroupsOwnerInput {
+input UserUpdateOneWithoutGroupsOwnerInput {
   create: UserCreateWithoutGroupsOwnerInput
   update: UserUpdateWithoutGroupsOwnerDataInput
   upsert: UserUpsertWithoutGroupsOwnerInput
+  delete: Boolean
+  disconnect: Boolean
   connect: UserWhereUniqueInput
 }
 

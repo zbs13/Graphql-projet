@@ -611,7 +611,7 @@ export interface BlacklistUpdateManyMutationInput {
 
 export interface GroupCreateInput {
   id?: Maybe<ID_Input>;
-  owner: UserCreateOneWithoutGroupsOwnerInput;
+  owner?: Maybe<UserCreateOneWithoutGroupsOwnerInput>;
   name: String;
   users?: Maybe<UserCreateManyWithoutGroupsInput>;
 }
@@ -642,7 +642,7 @@ export interface GroupCreateManyWithoutUsersInput {
 
 export interface GroupCreateWithoutUsersInput {
   id?: Maybe<ID_Input>;
-  owner: UserCreateOneWithoutGroupsOwnerInput;
+  owner?: Maybe<UserCreateOneWithoutGroupsOwnerInput>;
   name: String;
 }
 
@@ -704,15 +704,17 @@ export interface GroupCreateWithoutOwnerInput {
 }
 
 export interface GroupUpdateInput {
-  owner?: Maybe<UserUpdateOneRequiredWithoutGroupsOwnerInput>;
+  owner?: Maybe<UserUpdateOneWithoutGroupsOwnerInput>;
   name?: Maybe<String>;
   users?: Maybe<UserUpdateManyWithoutGroupsInput>;
 }
 
-export interface UserUpdateOneRequiredWithoutGroupsOwnerInput {
+export interface UserUpdateOneWithoutGroupsOwnerInput {
   create?: Maybe<UserCreateWithoutGroupsOwnerInput>;
   update?: Maybe<UserUpdateWithoutGroupsOwnerDataInput>;
   upsert?: Maybe<UserUpsertWithoutGroupsOwnerInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
   connect?: Maybe<UserWhereUniqueInput>;
 }
 
@@ -755,7 +757,7 @@ export interface GroupUpdateWithWhereUniqueWithoutUsersInput {
 }
 
 export interface GroupUpdateWithoutUsersDataInput {
-  owner?: Maybe<UserUpdateOneRequiredWithoutGroupsOwnerInput>;
+  owner?: Maybe<UserUpdateOneWithoutGroupsOwnerInput>;
   name?: Maybe<String>;
 }
 
@@ -927,7 +929,7 @@ export interface GroupUpdateOneInput {
 }
 
 export interface GroupUpdateDataInput {
-  owner?: Maybe<UserUpdateOneRequiredWithoutGroupsOwnerInput>;
+  owner?: Maybe<UserUpdateOneWithoutGroupsOwnerInput>;
   name?: Maybe<String>;
   users?: Maybe<UserUpdateManyWithoutGroupsInput>;
 }
