@@ -4,11 +4,16 @@
 type Mutation {
     signup(firstname: String!, lastname: String!, email: String!, password: String!): AuthPayload!
     login(email: String!, password: String!): AuthPayload!
+    verifToken(token: String!): ResultToken!
 
     addUsersToGroup(idGroup: ID!,users: [UserInput!]!): Group!
     removeUsersToGroup(idGroup: ID!,users: [UserInput!]!): Group!
 
     
+}
+
+type ResultToken {
+    isConnected: Boolean!
 }
 
 input UserInput {
