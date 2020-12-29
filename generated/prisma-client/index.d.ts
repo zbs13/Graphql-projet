@@ -18,6 +18,7 @@ export type Maybe<T> = T | undefined | null;
 export interface Exists {
   blacklist: (where?: BlacklistWhereInput) => Promise<boolean>;
   group: (where?: GroupWhereInput) => Promise<boolean>;
+  message: (where?: MessageWhereInput) => Promise<boolean>;
   right: (where?: RightWhereInput) => Promise<boolean>;
   role: (where?: RoleWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
@@ -80,6 +81,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => GroupConnectionPromise;
+  message: (where: MessageWhereUniqueInput) => MessageNullablePromise;
+  messages: (args?: {
+    where?: MessageWhereInput;
+    orderBy?: MessageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Message>;
+  messagesConnection: (args?: {
+    where?: MessageWhereInput;
+    orderBy?: MessageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => MessageConnectionPromise;
   right: (where: RightWhereUniqueInput) => RightNullablePromise;
   rights: (args?: {
     where?: RightWhereInput;
@@ -175,6 +195,22 @@ export interface Prisma {
   }) => GroupPromise;
   deleteGroup: (where: GroupWhereUniqueInput) => GroupPromise;
   deleteManyGroups: (where?: GroupWhereInput) => BatchPayloadPromise;
+  createMessage: (data: MessageCreateInput) => MessagePromise;
+  updateMessage: (args: {
+    data: MessageUpdateInput;
+    where: MessageWhereUniqueInput;
+  }) => MessagePromise;
+  updateManyMessages: (args: {
+    data: MessageUpdateManyMutationInput;
+    where?: MessageWhereInput;
+  }) => BatchPayloadPromise;
+  upsertMessage: (args: {
+    where: MessageWhereUniqueInput;
+    create: MessageCreateInput;
+    update: MessageUpdateInput;
+  }) => MessagePromise;
+  deleteMessage: (where: MessageWhereUniqueInput) => MessagePromise;
+  deleteManyMessages: (where?: MessageWhereInput) => BatchPayloadPromise;
   createRight: (data: RightCreateInput) => RightPromise;
   updateRight: (args: {
     data: RightUpdateInput;
@@ -238,6 +274,9 @@ export interface Subscription {
   group: (
     where?: GroupSubscriptionWhereInput
   ) => GroupSubscriptionPayloadSubscription;
+  message: (
+    where?: MessageSubscriptionWhereInput
+  ) => MessageSubscriptionPayloadSubscription;
   right: (
     where?: RightSubscriptionWhereInput
   ) => RightSubscriptionPayloadSubscription;
@@ -270,6 +309,16 @@ export type GroupOrderByInput = "id_ASC" | "id_DESC" | "name_ASC" | "name_DESC";
 export type RoleOrderByInput = "id_ASC" | "id_DESC" | "name_ASC" | "name_DESC";
 
 export type RightOrderByInput = "id_ASC" | "id_DESC" | "name_ASC" | "name_DESC";
+
+export type MessageOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "create_at_ASC"
+  | "create_at_DESC"
+  | "updated_at_ASC"
+  | "updated_at_DESC"
+  | "text_ASC"
+  | "text_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -378,6 +427,9 @@ export interface GroupWhereInput {
   users_every?: Maybe<UserWhereInput>;
   users_some?: Maybe<UserWhereInput>;
   users_none?: Maybe<UserWhereInput>;
+  messages_every?: Maybe<MessageWhereInput>;
+  messages_some?: Maybe<MessageWhereInput>;
+  messages_none?: Maybe<MessageWhereInput>;
   AND?: Maybe<GroupWhereInput[] | GroupWhereInput>;
   OR?: Maybe<GroupWhereInput[] | GroupWhereInput>;
   NOT?: Maybe<GroupWhereInput[] | GroupWhereInput>;
@@ -503,6 +555,9 @@ export interface UserWhereInput {
   roles_every?: Maybe<RoleWhereInput>;
   roles_some?: Maybe<RoleWhereInput>;
   roles_none?: Maybe<RoleWhereInput>;
+  messages_every?: Maybe<MessageWhereInput>;
+  messages_some?: Maybe<MessageWhereInput>;
+  messages_none?: Maybe<MessageWhereInput>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
@@ -580,6 +635,62 @@ export interface RightWhereInput {
   NOT?: Maybe<RightWhereInput[] | RightWhereInput>;
 }
 
+export interface MessageWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  create_at?: Maybe<DateTimeInput>;
+  create_at_not?: Maybe<DateTimeInput>;
+  create_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  create_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  create_at_lt?: Maybe<DateTimeInput>;
+  create_at_lte?: Maybe<DateTimeInput>;
+  create_at_gt?: Maybe<DateTimeInput>;
+  create_at_gte?: Maybe<DateTimeInput>;
+  updated_at?: Maybe<DateTimeInput>;
+  updated_at_not?: Maybe<DateTimeInput>;
+  updated_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updated_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updated_at_lt?: Maybe<DateTimeInput>;
+  updated_at_lte?: Maybe<DateTimeInput>;
+  updated_at_gt?: Maybe<DateTimeInput>;
+  updated_at_gte?: Maybe<DateTimeInput>;
+  text?: Maybe<String>;
+  text_not?: Maybe<String>;
+  text_in?: Maybe<String[] | String>;
+  text_not_in?: Maybe<String[] | String>;
+  text_lt?: Maybe<String>;
+  text_lte?: Maybe<String>;
+  text_gt?: Maybe<String>;
+  text_gte?: Maybe<String>;
+  text_contains?: Maybe<String>;
+  text_not_contains?: Maybe<String>;
+  text_starts_with?: Maybe<String>;
+  text_not_starts_with?: Maybe<String>;
+  text_ends_with?: Maybe<String>;
+  text_not_ends_with?: Maybe<String>;
+  sentBy?: Maybe<UserWhereInput>;
+  toGroup?: Maybe<GroupWhereInput>;
+  AND?: Maybe<MessageWhereInput[] | MessageWhereInput>;
+  OR?: Maybe<MessageWhereInput[] | MessageWhereInput>;
+  NOT?: Maybe<MessageWhereInput[] | MessageWhereInput>;
+}
+
+export type MessageWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
 export type RightWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
@@ -614,6 +725,7 @@ export interface GroupCreateInput {
   owner?: Maybe<UserCreateOneWithoutGroupsOwnerInput>;
   name: String;
   users?: Maybe<UserCreateManyWithoutGroupsInput>;
+  messages?: Maybe<MessageCreateManyWithoutToGroupInput>;
 }
 
 export interface UserCreateOneWithoutGroupsOwnerInput {
@@ -633,6 +745,7 @@ export interface UserCreateWithoutGroupsOwnerInput {
   token?: Maybe<String>;
   groups?: Maybe<GroupCreateManyWithoutUsersInput>;
   roles?: Maybe<RoleCreateManyInput>;
+  messages?: Maybe<MessageCreateManyWithoutSentByInput>;
 }
 
 export interface GroupCreateManyWithoutUsersInput {
@@ -644,6 +757,72 @@ export interface GroupCreateWithoutUsersInput {
   id?: Maybe<ID_Input>;
   owner?: Maybe<UserCreateOneWithoutGroupsOwnerInput>;
   name: String;
+  messages?: Maybe<MessageCreateManyWithoutToGroupInput>;
+}
+
+export interface MessageCreateManyWithoutToGroupInput {
+  create?: Maybe<
+    MessageCreateWithoutToGroupInput[] | MessageCreateWithoutToGroupInput
+  >;
+  connect?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+}
+
+export interface MessageCreateWithoutToGroupInput {
+  id?: Maybe<ID_Input>;
+  text: String;
+  sentBy?: Maybe<UserCreateOneWithoutMessagesInput>;
+}
+
+export interface UserCreateOneWithoutMessagesInput {
+  create?: Maybe<UserCreateWithoutMessagesInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutMessagesInput {
+  id?: Maybe<ID_Input>;
+  firstname?: Maybe<String>;
+  lastname?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  phone?: Maybe<String>;
+  is_verified?: Maybe<Boolean>;
+  is_ban?: Maybe<Boolean>;
+  token?: Maybe<String>;
+  groups?: Maybe<GroupCreateManyWithoutUsersInput>;
+  groupsOwner?: Maybe<GroupCreateManyWithoutOwnerInput>;
+  roles?: Maybe<RoleCreateManyInput>;
+}
+
+export interface GroupCreateManyWithoutOwnerInput {
+  create?: Maybe<GroupCreateWithoutOwnerInput[] | GroupCreateWithoutOwnerInput>;
+  connect?: Maybe<GroupWhereUniqueInput[] | GroupWhereUniqueInput>;
+}
+
+export interface GroupCreateWithoutOwnerInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  users?: Maybe<UserCreateManyWithoutGroupsInput>;
+  messages?: Maybe<MessageCreateManyWithoutToGroupInput>;
+}
+
+export interface UserCreateManyWithoutGroupsInput {
+  create?: Maybe<UserCreateWithoutGroupsInput[] | UserCreateWithoutGroupsInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutGroupsInput {
+  id?: Maybe<ID_Input>;
+  firstname?: Maybe<String>;
+  lastname?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  phone?: Maybe<String>;
+  is_verified?: Maybe<Boolean>;
+  is_ban?: Maybe<Boolean>;
+  token?: Maybe<String>;
+  groupsOwner?: Maybe<GroupCreateManyWithoutOwnerInput>;
+  roles?: Maybe<RoleCreateManyInput>;
+  messages?: Maybe<MessageCreateManyWithoutSentByInput>;
 }
 
 export interface RoleCreateManyInput {
@@ -673,32 +852,27 @@ export interface GroupCreateOneInput {
   connect?: Maybe<GroupWhereUniqueInput>;
 }
 
-export interface UserCreateManyWithoutGroupsInput {
-  create?: Maybe<UserCreateWithoutGroupsInput[] | UserCreateWithoutGroupsInput>;
-  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+export interface MessageCreateManyWithoutSentByInput {
+  create?: Maybe<
+    MessageCreateWithoutSentByInput[] | MessageCreateWithoutSentByInput
+  >;
+  connect?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
 }
 
-export interface UserCreateWithoutGroupsInput {
+export interface MessageCreateWithoutSentByInput {
   id?: Maybe<ID_Input>;
-  firstname?: Maybe<String>;
-  lastname?: Maybe<String>;
-  email?: Maybe<String>;
-  password?: Maybe<String>;
-  phone?: Maybe<String>;
-  is_verified?: Maybe<Boolean>;
-  is_ban?: Maybe<Boolean>;
-  token?: Maybe<String>;
-  groupsOwner?: Maybe<GroupCreateManyWithoutOwnerInput>;
-  roles?: Maybe<RoleCreateManyInput>;
+  text: String;
+  toGroup: GroupCreateOneWithoutMessagesInput;
 }
 
-export interface GroupCreateManyWithoutOwnerInput {
-  create?: Maybe<GroupCreateWithoutOwnerInput[] | GroupCreateWithoutOwnerInput>;
-  connect?: Maybe<GroupWhereUniqueInput[] | GroupWhereUniqueInput>;
+export interface GroupCreateOneWithoutMessagesInput {
+  create?: Maybe<GroupCreateWithoutMessagesInput>;
+  connect?: Maybe<GroupWhereUniqueInput>;
 }
 
-export interface GroupCreateWithoutOwnerInput {
+export interface GroupCreateWithoutMessagesInput {
   id?: Maybe<ID_Input>;
+  owner?: Maybe<UserCreateOneWithoutGroupsOwnerInput>;
   name: String;
   users?: Maybe<UserCreateManyWithoutGroupsInput>;
 }
@@ -707,6 +881,7 @@ export interface GroupUpdateInput {
   owner?: Maybe<UserUpdateOneWithoutGroupsOwnerInput>;
   name?: Maybe<String>;
   users?: Maybe<UserUpdateManyWithoutGroupsInput>;
+  messages?: Maybe<MessageUpdateManyWithoutToGroupInput>;
 }
 
 export interface UserUpdateOneWithoutGroupsOwnerInput {
@@ -729,6 +904,7 @@ export interface UserUpdateWithoutGroupsOwnerDataInput {
   token?: Maybe<String>;
   groups?: Maybe<GroupUpdateManyWithoutUsersInput>;
   roles?: Maybe<RoleUpdateManyInput>;
+  messages?: Maybe<MessageUpdateManyWithoutSentByInput>;
 }
 
 export interface GroupUpdateManyWithoutUsersInput {
@@ -759,55 +935,133 @@ export interface GroupUpdateWithWhereUniqueWithoutUsersInput {
 export interface GroupUpdateWithoutUsersDataInput {
   owner?: Maybe<UserUpdateOneWithoutGroupsOwnerInput>;
   name?: Maybe<String>;
+  messages?: Maybe<MessageUpdateManyWithoutToGroupInput>;
 }
 
-export interface GroupUpsertWithWhereUniqueWithoutUsersInput {
+export interface MessageUpdateManyWithoutToGroupInput {
+  create?: Maybe<
+    MessageCreateWithoutToGroupInput[] | MessageCreateWithoutToGroupInput
+  >;
+  delete?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  connect?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  set?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  disconnect?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  update?: Maybe<
+    | MessageUpdateWithWhereUniqueWithoutToGroupInput[]
+    | MessageUpdateWithWhereUniqueWithoutToGroupInput
+  >;
+  upsert?: Maybe<
+    | MessageUpsertWithWhereUniqueWithoutToGroupInput[]
+    | MessageUpsertWithWhereUniqueWithoutToGroupInput
+  >;
+  deleteMany?: Maybe<MessageScalarWhereInput[] | MessageScalarWhereInput>;
+  updateMany?: Maybe<
+    | MessageUpdateManyWithWhereNestedInput[]
+    | MessageUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface MessageUpdateWithWhereUniqueWithoutToGroupInput {
+  where: MessageWhereUniqueInput;
+  data: MessageUpdateWithoutToGroupDataInput;
+}
+
+export interface MessageUpdateWithoutToGroupDataInput {
+  text?: Maybe<String>;
+  sentBy?: Maybe<UserUpdateOneWithoutMessagesInput>;
+}
+
+export interface UserUpdateOneWithoutMessagesInput {
+  create?: Maybe<UserCreateWithoutMessagesInput>;
+  update?: Maybe<UserUpdateWithoutMessagesDataInput>;
+  upsert?: Maybe<UserUpsertWithoutMessagesInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutMessagesDataInput {
+  firstname?: Maybe<String>;
+  lastname?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  phone?: Maybe<String>;
+  is_verified?: Maybe<Boolean>;
+  is_ban?: Maybe<Boolean>;
+  token?: Maybe<String>;
+  groups?: Maybe<GroupUpdateManyWithoutUsersInput>;
+  groupsOwner?: Maybe<GroupUpdateManyWithoutOwnerInput>;
+  roles?: Maybe<RoleUpdateManyInput>;
+}
+
+export interface GroupUpdateManyWithoutOwnerInput {
+  create?: Maybe<GroupCreateWithoutOwnerInput[] | GroupCreateWithoutOwnerInput>;
+  delete?: Maybe<GroupWhereUniqueInput[] | GroupWhereUniqueInput>;
+  connect?: Maybe<GroupWhereUniqueInput[] | GroupWhereUniqueInput>;
+  set?: Maybe<GroupWhereUniqueInput[] | GroupWhereUniqueInput>;
+  disconnect?: Maybe<GroupWhereUniqueInput[] | GroupWhereUniqueInput>;
+  update?: Maybe<
+    | GroupUpdateWithWhereUniqueWithoutOwnerInput[]
+    | GroupUpdateWithWhereUniqueWithoutOwnerInput
+  >;
+  upsert?: Maybe<
+    | GroupUpsertWithWhereUniqueWithoutOwnerInput[]
+    | GroupUpsertWithWhereUniqueWithoutOwnerInput
+  >;
+  deleteMany?: Maybe<GroupScalarWhereInput[] | GroupScalarWhereInput>;
+  updateMany?: Maybe<
+    GroupUpdateManyWithWhereNestedInput[] | GroupUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface GroupUpdateWithWhereUniqueWithoutOwnerInput {
   where: GroupWhereUniqueInput;
-  update: GroupUpdateWithoutUsersDataInput;
-  create: GroupCreateWithoutUsersInput;
+  data: GroupUpdateWithoutOwnerDataInput;
 }
 
-export interface GroupScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
+export interface GroupUpdateWithoutOwnerDataInput {
   name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
-  AND?: Maybe<GroupScalarWhereInput[] | GroupScalarWhereInput>;
-  OR?: Maybe<GroupScalarWhereInput[] | GroupScalarWhereInput>;
-  NOT?: Maybe<GroupScalarWhereInput[] | GroupScalarWhereInput>;
+  users?: Maybe<UserUpdateManyWithoutGroupsInput>;
+  messages?: Maybe<MessageUpdateManyWithoutToGroupInput>;
 }
 
-export interface GroupUpdateManyWithWhereNestedInput {
-  where: GroupScalarWhereInput;
-  data: GroupUpdateManyDataInput;
+export interface UserUpdateManyWithoutGroupsInput {
+  create?: Maybe<UserCreateWithoutGroupsInput[] | UserCreateWithoutGroupsInput>;
+  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  update?: Maybe<
+    | UserUpdateWithWhereUniqueWithoutGroupsInput[]
+    | UserUpdateWithWhereUniqueWithoutGroupsInput
+  >;
+  upsert?: Maybe<
+    | UserUpsertWithWhereUniqueWithoutGroupsInput[]
+    | UserUpsertWithWhereUniqueWithoutGroupsInput
+  >;
+  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  updateMany?: Maybe<
+    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
+  >;
 }
 
-export interface GroupUpdateManyDataInput {
-  name?: Maybe<String>;
+export interface UserUpdateWithWhereUniqueWithoutGroupsInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateWithoutGroupsDataInput;
+}
+
+export interface UserUpdateWithoutGroupsDataInput {
+  firstname?: Maybe<String>;
+  lastname?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  phone?: Maybe<String>;
+  is_verified?: Maybe<Boolean>;
+  is_ban?: Maybe<Boolean>;
+  token?: Maybe<String>;
+  groupsOwner?: Maybe<GroupUpdateManyWithoutOwnerInput>;
+  roles?: Maybe<RoleUpdateManyInput>;
+  messages?: Maybe<MessageUpdateManyWithoutSentByInput>;
 }
 
 export interface RoleUpdateManyInput {
@@ -932,80 +1186,177 @@ export interface GroupUpdateDataInput {
   owner?: Maybe<UserUpdateOneWithoutGroupsOwnerInput>;
   name?: Maybe<String>;
   users?: Maybe<UserUpdateManyWithoutGroupsInput>;
+  messages?: Maybe<MessageUpdateManyWithoutToGroupInput>;
 }
 
-export interface UserUpdateManyWithoutGroupsInput {
-  create?: Maybe<UserCreateWithoutGroupsInput[] | UserCreateWithoutGroupsInput>;
-  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
-  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+export interface GroupUpsertNestedInput {
+  update: GroupUpdateDataInput;
+  create: GroupCreateInput;
+}
+
+export interface RoleUpsertWithWhereUniqueNestedInput {
+  where: RoleWhereUniqueInput;
+  update: RoleUpdateDataInput;
+  create: RoleCreateInput;
+}
+
+export interface RoleScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  AND?: Maybe<RoleScalarWhereInput[] | RoleScalarWhereInput>;
+  OR?: Maybe<RoleScalarWhereInput[] | RoleScalarWhereInput>;
+  NOT?: Maybe<RoleScalarWhereInput[] | RoleScalarWhereInput>;
+}
+
+export interface RoleUpdateManyWithWhereNestedInput {
+  where: RoleScalarWhereInput;
+  data: RoleUpdateManyDataInput;
+}
+
+export interface RoleUpdateManyDataInput {
+  name?: Maybe<String>;
+}
+
+export interface MessageUpdateManyWithoutSentByInput {
+  create?: Maybe<
+    MessageCreateWithoutSentByInput[] | MessageCreateWithoutSentByInput
+  >;
+  delete?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  connect?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  set?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  disconnect?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
   update?: Maybe<
-    | UserUpdateWithWhereUniqueWithoutGroupsInput[]
-    | UserUpdateWithWhereUniqueWithoutGroupsInput
+    | MessageUpdateWithWhereUniqueWithoutSentByInput[]
+    | MessageUpdateWithWhereUniqueWithoutSentByInput
   >;
   upsert?: Maybe<
-    | UserUpsertWithWhereUniqueWithoutGroupsInput[]
-    | UserUpsertWithWhereUniqueWithoutGroupsInput
+    | MessageUpsertWithWhereUniqueWithoutSentByInput[]
+    | MessageUpsertWithWhereUniqueWithoutSentByInput
   >;
-  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  deleteMany?: Maybe<MessageScalarWhereInput[] | MessageScalarWhereInput>;
   updateMany?: Maybe<
-    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
+    | MessageUpdateManyWithWhereNestedInput[]
+    | MessageUpdateManyWithWhereNestedInput
   >;
 }
 
-export interface UserUpdateWithWhereUniqueWithoutGroupsInput {
-  where: UserWhereUniqueInput;
-  data: UserUpdateWithoutGroupsDataInput;
+export interface MessageUpdateWithWhereUniqueWithoutSentByInput {
+  where: MessageWhereUniqueInput;
+  data: MessageUpdateWithoutSentByDataInput;
 }
 
-export interface UserUpdateWithoutGroupsDataInput {
-  firstname?: Maybe<String>;
-  lastname?: Maybe<String>;
-  email?: Maybe<String>;
-  password?: Maybe<String>;
-  phone?: Maybe<String>;
-  is_verified?: Maybe<Boolean>;
-  is_ban?: Maybe<Boolean>;
-  token?: Maybe<String>;
-  groupsOwner?: Maybe<GroupUpdateManyWithoutOwnerInput>;
-  roles?: Maybe<RoleUpdateManyInput>;
+export interface MessageUpdateWithoutSentByDataInput {
+  text?: Maybe<String>;
+  toGroup?: Maybe<GroupUpdateOneRequiredWithoutMessagesInput>;
 }
 
-export interface GroupUpdateManyWithoutOwnerInput {
-  create?: Maybe<GroupCreateWithoutOwnerInput[] | GroupCreateWithoutOwnerInput>;
-  delete?: Maybe<GroupWhereUniqueInput[] | GroupWhereUniqueInput>;
-  connect?: Maybe<GroupWhereUniqueInput[] | GroupWhereUniqueInput>;
-  set?: Maybe<GroupWhereUniqueInput[] | GroupWhereUniqueInput>;
-  disconnect?: Maybe<GroupWhereUniqueInput[] | GroupWhereUniqueInput>;
-  update?: Maybe<
-    | GroupUpdateWithWhereUniqueWithoutOwnerInput[]
-    | GroupUpdateWithWhereUniqueWithoutOwnerInput
-  >;
-  upsert?: Maybe<
-    | GroupUpsertWithWhereUniqueWithoutOwnerInput[]
-    | GroupUpsertWithWhereUniqueWithoutOwnerInput
-  >;
-  deleteMany?: Maybe<GroupScalarWhereInput[] | GroupScalarWhereInput>;
-  updateMany?: Maybe<
-    GroupUpdateManyWithWhereNestedInput[] | GroupUpdateManyWithWhereNestedInput
-  >;
+export interface GroupUpdateOneRequiredWithoutMessagesInput {
+  create?: Maybe<GroupCreateWithoutMessagesInput>;
+  update?: Maybe<GroupUpdateWithoutMessagesDataInput>;
+  upsert?: Maybe<GroupUpsertWithoutMessagesInput>;
+  connect?: Maybe<GroupWhereUniqueInput>;
 }
 
-export interface GroupUpdateWithWhereUniqueWithoutOwnerInput {
-  where: GroupWhereUniqueInput;
-  data: GroupUpdateWithoutOwnerDataInput;
-}
-
-export interface GroupUpdateWithoutOwnerDataInput {
+export interface GroupUpdateWithoutMessagesDataInput {
+  owner?: Maybe<UserUpdateOneWithoutGroupsOwnerInput>;
   name?: Maybe<String>;
   users?: Maybe<UserUpdateManyWithoutGroupsInput>;
 }
 
-export interface GroupUpsertWithWhereUniqueWithoutOwnerInput {
-  where: GroupWhereUniqueInput;
-  update: GroupUpdateWithoutOwnerDataInput;
-  create: GroupCreateWithoutOwnerInput;
+export interface GroupUpsertWithoutMessagesInput {
+  update: GroupUpdateWithoutMessagesDataInput;
+  create: GroupCreateWithoutMessagesInput;
+}
+
+export interface MessageUpsertWithWhereUniqueWithoutSentByInput {
+  where: MessageWhereUniqueInput;
+  update: MessageUpdateWithoutSentByDataInput;
+  create: MessageCreateWithoutSentByInput;
+}
+
+export interface MessageScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  create_at?: Maybe<DateTimeInput>;
+  create_at_not?: Maybe<DateTimeInput>;
+  create_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  create_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  create_at_lt?: Maybe<DateTimeInput>;
+  create_at_lte?: Maybe<DateTimeInput>;
+  create_at_gt?: Maybe<DateTimeInput>;
+  create_at_gte?: Maybe<DateTimeInput>;
+  updated_at?: Maybe<DateTimeInput>;
+  updated_at_not?: Maybe<DateTimeInput>;
+  updated_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updated_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updated_at_lt?: Maybe<DateTimeInput>;
+  updated_at_lte?: Maybe<DateTimeInput>;
+  updated_at_gt?: Maybe<DateTimeInput>;
+  updated_at_gte?: Maybe<DateTimeInput>;
+  text?: Maybe<String>;
+  text_not?: Maybe<String>;
+  text_in?: Maybe<String[] | String>;
+  text_not_in?: Maybe<String[] | String>;
+  text_lt?: Maybe<String>;
+  text_lte?: Maybe<String>;
+  text_gt?: Maybe<String>;
+  text_gte?: Maybe<String>;
+  text_contains?: Maybe<String>;
+  text_not_contains?: Maybe<String>;
+  text_starts_with?: Maybe<String>;
+  text_not_starts_with?: Maybe<String>;
+  text_ends_with?: Maybe<String>;
+  text_not_ends_with?: Maybe<String>;
+  AND?: Maybe<MessageScalarWhereInput[] | MessageScalarWhereInput>;
+  OR?: Maybe<MessageScalarWhereInput[] | MessageScalarWhereInput>;
+  NOT?: Maybe<MessageScalarWhereInput[] | MessageScalarWhereInput>;
+}
+
+export interface MessageUpdateManyWithWhereNestedInput {
+  where: MessageScalarWhereInput;
+  data: MessageUpdateManyDataInput;
+}
+
+export interface MessageUpdateManyDataInput {
+  text?: Maybe<String>;
 }
 
 export interface UserUpsertWithWhereUniqueWithoutGroupsInput {
@@ -1146,18 +1497,13 @@ export interface UserUpdateManyDataInput {
   token?: Maybe<String>;
 }
 
-export interface GroupUpsertNestedInput {
-  update: GroupUpdateDataInput;
-  create: GroupCreateInput;
+export interface GroupUpsertWithWhereUniqueWithoutOwnerInput {
+  where: GroupWhereUniqueInput;
+  update: GroupUpdateWithoutOwnerDataInput;
+  create: GroupCreateWithoutOwnerInput;
 }
 
-export interface RoleUpsertWithWhereUniqueNestedInput {
-  where: RoleWhereUniqueInput;
-  update: RoleUpdateDataInput;
-  create: RoleCreateInput;
-}
-
-export interface RoleScalarWhereInput {
+export interface GroupScalarWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -1186,18 +1532,35 @@ export interface RoleScalarWhereInput {
   name_not_starts_with?: Maybe<String>;
   name_ends_with?: Maybe<String>;
   name_not_ends_with?: Maybe<String>;
-  AND?: Maybe<RoleScalarWhereInput[] | RoleScalarWhereInput>;
-  OR?: Maybe<RoleScalarWhereInput[] | RoleScalarWhereInput>;
-  NOT?: Maybe<RoleScalarWhereInput[] | RoleScalarWhereInput>;
+  AND?: Maybe<GroupScalarWhereInput[] | GroupScalarWhereInput>;
+  OR?: Maybe<GroupScalarWhereInput[] | GroupScalarWhereInput>;
+  NOT?: Maybe<GroupScalarWhereInput[] | GroupScalarWhereInput>;
 }
 
-export interface RoleUpdateManyWithWhereNestedInput {
-  where: RoleScalarWhereInput;
-  data: RoleUpdateManyDataInput;
+export interface GroupUpdateManyWithWhereNestedInput {
+  where: GroupScalarWhereInput;
+  data: GroupUpdateManyDataInput;
 }
 
-export interface RoleUpdateManyDataInput {
+export interface GroupUpdateManyDataInput {
   name?: Maybe<String>;
+}
+
+export interface UserUpsertWithoutMessagesInput {
+  update: UserUpdateWithoutMessagesDataInput;
+  create: UserCreateWithoutMessagesInput;
+}
+
+export interface MessageUpsertWithWhereUniqueWithoutToGroupInput {
+  where: MessageWhereUniqueInput;
+  update: MessageUpdateWithoutToGroupDataInput;
+  create: MessageCreateWithoutToGroupInput;
+}
+
+export interface GroupUpsertWithWhereUniqueWithoutUsersInput {
+  where: GroupWhereUniqueInput;
+  update: GroupUpdateWithoutUsersDataInput;
+  create: GroupCreateWithoutUsersInput;
 }
 
 export interface UserUpsertWithoutGroupsOwnerInput {
@@ -1207,6 +1570,23 @@ export interface UserUpsertWithoutGroupsOwnerInput {
 
 export interface GroupUpdateManyMutationInput {
   name?: Maybe<String>;
+}
+
+export interface MessageCreateInput {
+  id?: Maybe<ID_Input>;
+  text: String;
+  sentBy?: Maybe<UserCreateOneWithoutMessagesInput>;
+  toGroup: GroupCreateOneWithoutMessagesInput;
+}
+
+export interface MessageUpdateInput {
+  text?: Maybe<String>;
+  sentBy?: Maybe<UserUpdateOneWithoutMessagesInput>;
+  toGroup?: Maybe<GroupUpdateOneRequiredWithoutMessagesInput>;
+}
+
+export interface MessageUpdateManyMutationInput {
+  text?: Maybe<String>;
 }
 
 export interface RightUpdateInput {
@@ -1240,6 +1620,7 @@ export interface UserCreateInput {
   groups?: Maybe<GroupCreateManyWithoutUsersInput>;
   groupsOwner?: Maybe<GroupCreateManyWithoutOwnerInput>;
   roles?: Maybe<RoleCreateManyInput>;
+  messages?: Maybe<MessageCreateManyWithoutSentByInput>;
 }
 
 export interface UserUpdateInput {
@@ -1254,6 +1635,7 @@ export interface UserUpdateInput {
   groups?: Maybe<GroupUpdateManyWithoutUsersInput>;
   groupsOwner?: Maybe<GroupUpdateManyWithoutOwnerInput>;
   roles?: Maybe<RoleUpdateManyInput>;
+  messages?: Maybe<MessageUpdateManyWithoutSentByInput>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -1293,6 +1675,17 @@ export interface GroupSubscriptionWhereInput {
   AND?: Maybe<GroupSubscriptionWhereInput[] | GroupSubscriptionWhereInput>;
   OR?: Maybe<GroupSubscriptionWhereInput[] | GroupSubscriptionWhereInput>;
   NOT?: Maybe<GroupSubscriptionWhereInput[] | GroupSubscriptionWhereInput>;
+}
+
+export interface MessageSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<MessageWhereInput>;
+  AND?: Maybe<MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput>;
+  OR?: Maybe<MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput>;
+  NOT?: Maybe<MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput>;
 }
 
 export interface RightSubscriptionWhereInput {
@@ -1457,6 +1850,15 @@ export interface GroupPromise extends Promise<Group>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  messages: <T = FragmentableArray<Message>>(args?: {
+    where?: MessageWhereInput;
+    orderBy?: MessageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface GroupSubscription
@@ -1474,6 +1876,15 @@ export interface GroupSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  messages: <T = Promise<AsyncIterator<MessageSubscription>>>(args?: {
+    where?: MessageWhereInput;
+    orderBy?: MessageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface GroupNullablePromise
@@ -1485,6 +1896,15 @@ export interface GroupNullablePromise
   users: <T = FragmentableArray<User>>(args?: {
     where?: UserWhereInput;
     orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  messages: <T = FragmentableArray<Message>>(args?: {
+    where?: MessageWhereInput;
+    orderBy?: MessageOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -1544,6 +1964,15 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  messages: <T = FragmentableArray<Message>>(args?: {
+    where?: MessageWhereInput;
+    orderBy?: MessageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface UserSubscription
@@ -1586,6 +2015,15 @@ export interface UserSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  messages: <T = Promise<AsyncIterator<MessageSubscription>>>(args?: {
+    where?: MessageWhereInput;
+    orderBy?: MessageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface UserNullablePromise
@@ -1622,6 +2060,15 @@ export interface UserNullablePromise
   roles: <T = FragmentableArray<Role>>(args?: {
     where?: RoleWhereInput;
     orderBy?: RoleOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  messages: <T = FragmentableArray<Message>>(args?: {
+    where?: MessageWhereInput;
+    orderBy?: MessageOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -1708,6 +2155,44 @@ export interface RightNullablePromise
   name: () => Promise<String>;
 }
 
+export interface Message {
+  id: ID_Output;
+  create_at: DateTimeOutput;
+  updated_at: DateTimeOutput;
+  text: String;
+}
+
+export interface MessagePromise extends Promise<Message>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  create_at: () => Promise<DateTimeOutput>;
+  updated_at: () => Promise<DateTimeOutput>;
+  text: () => Promise<String>;
+  sentBy: <T = UserPromise>() => T;
+  toGroup: <T = GroupPromise>() => T;
+}
+
+export interface MessageSubscription
+  extends Promise<AsyncIterator<Message>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  create_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updated_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+  text: () => Promise<AsyncIterator<String>>;
+  sentBy: <T = UserSubscription>() => T;
+  toGroup: <T = GroupSubscription>() => T;
+}
+
+export interface MessageNullablePromise
+  extends Promise<Message | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  create_at: () => Promise<DateTimeOutput>;
+  updated_at: () => Promise<DateTimeOutput>;
+  text: () => Promise<String>;
+  sentBy: <T = UserPromise>() => T;
+  toGroup: <T = GroupPromise>() => T;
+}
+
 export interface GroupConnection {
   pageInfo: PageInfo;
   edges: GroupEdge[];
@@ -1758,6 +2243,60 @@ export interface AggregateGroupPromise
 
 export interface AggregateGroupSubscription
   extends Promise<AsyncIterator<AggregateGroup>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface MessageConnection {
+  pageInfo: PageInfo;
+  edges: MessageEdge[];
+}
+
+export interface MessageConnectionPromise
+  extends Promise<MessageConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<MessageEdge>>() => T;
+  aggregate: <T = AggregateMessagePromise>() => T;
+}
+
+export interface MessageConnectionSubscription
+  extends Promise<AsyncIterator<MessageConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<MessageEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateMessageSubscription>() => T;
+}
+
+export interface MessageEdge {
+  node: Message;
+  cursor: String;
+}
+
+export interface MessageEdgePromise extends Promise<MessageEdge>, Fragmentable {
+  node: <T = MessagePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface MessageEdgeSubscription
+  extends Promise<AsyncIterator<MessageEdge>>,
+    Fragmentable {
+  node: <T = MessageSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateMessage {
+  count: Int;
+}
+
+export interface AggregateMessagePromise
+  extends Promise<AggregateMessage>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateMessageSubscription
+  extends Promise<AsyncIterator<AggregateMessage>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -2031,6 +2570,56 @@ export interface GroupPreviousValuesSubscription
   name: () => Promise<AsyncIterator<String>>;
 }
 
+export interface MessageSubscriptionPayload {
+  mutation: MutationType;
+  node: Message;
+  updatedFields: String[];
+  previousValues: MessagePreviousValues;
+}
+
+export interface MessageSubscriptionPayloadPromise
+  extends Promise<MessageSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = MessagePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = MessagePreviousValuesPromise>() => T;
+}
+
+export interface MessageSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<MessageSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = MessageSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = MessagePreviousValuesSubscription>() => T;
+}
+
+export interface MessagePreviousValues {
+  id: ID_Output;
+  create_at: DateTimeOutput;
+  updated_at: DateTimeOutput;
+  text: String;
+}
+
+export interface MessagePreviousValuesPromise
+  extends Promise<MessagePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  create_at: () => Promise<DateTimeOutput>;
+  updated_at: () => Promise<DateTimeOutput>;
+  text: () => Promise<String>;
+}
+
+export interface MessagePreviousValuesSubscription
+  extends Promise<AsyncIterator<MessagePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  create_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updated_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+  text: () => Promise<AsyncIterator<String>>;
+}
+
 export interface RightSubscriptionPayload {
   mutation: MutationType;
   node: Right;
@@ -2227,6 +2816,10 @@ export type Long = string;
 export const models: Model[] = [
   {
     name: "User",
+    embedded: false
+  },
+  {
+    name: "Message",
     embedded: false
   },
   {
