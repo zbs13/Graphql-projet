@@ -12,6 +12,16 @@ type User {
   groups: [Group] @relation(name: "RelationGroupUser")
   groupsOwner: [Group] @relation(name: "RelationGroupOwner")
   roles: [Role]
+  messages: [Message] @relation(name: "MessagesFromUser")
+}
+
+type Message {
+  id: ID! @id
+  create_at: DateTime! @createdAt
+  updated_at: DateTime! @updatedAt
+  text: String!
+  sentBy: User  @relation(name: "MessagesFromUser")
+  toGroup: Group! @relation(name: "MessagesToGroup")
 }
 
 type Role {
@@ -31,6 +41,7 @@ type Group {
   owner: User @relation(name: "RelationGroupOwner")
   name: String!
   users: [User] @relation(name: "RelationGroupUser")
+  messages: [Message] @relation(name: "MessagesToGroup")
 }
 
 type Blacklist{

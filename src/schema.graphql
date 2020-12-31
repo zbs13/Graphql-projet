@@ -1,5 +1,6 @@
 # import User, Query.user, Query.users, Mutation.updateUser, Mutation.createUser, Mutation.deleteUser, from "./generated/prisma.graphql"
 # import Group, Query.group, Query.groups, Mutation.updateGroup, Mutation.createGroup, Mutation.deleteGroup, from "./generated/prisma.graphql"
+# import Message, Query.message, Query.messages, Mutation.updateMessage, Mutation.createMessage, Mutation.deleteMessage, MessageSubscriptionPayload, from "./generated/prisma.graphql"
 
 type Mutation {
     signup(firstname: String!, lastname: String!, email: String!, password: String!): AuthPayload!
@@ -7,9 +8,15 @@ type Mutation {
     verifToken(token: String!): ResultToken!
 
     addUsersToGroup(idGroup: ID!,users: [UserInput!]!): Group!
-    removeUsersToGroup(idGroup: ID!,users: [UserInput!]!): Group!
+    removeUsersToGroup(idGroup: ID!,users: [UserInput!]!): Group!    
+}
 
-    
+type Subscription {
+  newMessage(token: String!): MessageSubscriptionPayload
+}
+
+type ResultToken {
+    isConnected: Boolean!
 }
 
 type ResultToken {
