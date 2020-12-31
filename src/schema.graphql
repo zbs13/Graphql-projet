@@ -19,6 +19,10 @@ type ResultToken {
     isConnected: Boolean!
 }
 
+type ResultToken {
+    isConnected: Boolean!
+}
+
 input UserInput {
     id: ID!
 }
