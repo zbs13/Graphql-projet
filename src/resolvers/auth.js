@@ -51,6 +51,20 @@ async function login (parent, {email, password}, ctx, info) {
     }
   }
 
+async function verifToken (parent, {token}, ctx, info) {
+  const { userId } = jwt.verify(token, APP_SECRET);
+  const user = await ctx.prisma.query.user({ where: { id: userId } }, '{ id firstname lastname email }');
+  if(user === null){
+    return {
+      isConnected: false
+    }
+  }else{
+    return {
+      isConnected: true
+    }
+  }
+}
+
 // Q currently user
 async function me (parent, args, ctx, info) {
     const user = await getUser(ctx)
@@ -60,5 +74,6 @@ async function me (parent, args, ctx, info) {
   module.exports = {
     me,
     signup,
-    login
+    login,
+    verifToken
   }
