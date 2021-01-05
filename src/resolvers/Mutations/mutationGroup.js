@@ -11,7 +11,8 @@ async function createGroup (parent, args, ctx, info) {
                 id: requesterUser.id
               } 
             },
-            name: args.data.name
+            name: args.data.name,
+            users: args.data.users
 
           }
       }
