@@ -30,6 +30,7 @@ type Blacklist {
   id: ID!
   ip: String
   end_time: DateTime
+  tries: Int
 }
 
 type BlacklistConnection {
@@ -42,6 +43,7 @@ input BlacklistCreateInput {
   id: ID
   ip: String
   end_time: DateTime
+  tries: Int
 }
 
 type BlacklistEdge {
@@ -56,12 +58,15 @@ enum BlacklistOrderByInput {
   ip_DESC
   end_time_ASC
   end_time_DESC
+  tries_ASC
+  tries_DESC
 }
 
 type BlacklistPreviousValues {
   id: ID!
   ip: String
   end_time: DateTime
+  tries: Int
 }
 
 type BlacklistSubscriptionPayload {
@@ -85,11 +90,13 @@ input BlacklistSubscriptionWhereInput {
 input BlacklistUpdateInput {
   ip: String
   end_time: DateTime
+  tries: Int
 }
 
 input BlacklistUpdateManyMutationInput {
   ip: String
   end_time: DateTime
+  tries: Int
 }
 
 input BlacklistWhereInput {
@@ -129,6 +136,14 @@ input BlacklistWhereInput {
   end_time_lte: DateTime
   end_time_gt: DateTime
   end_time_gte: DateTime
+  tries: Int
+  tries_not: Int
+  tries_in: [Int!]
+  tries_not_in: [Int!]
+  tries_lt: Int
+  tries_lte: Int
+  tries_gt: Int
+  tries_gte: Int
   AND: [BlacklistWhereInput!]
   OR: [BlacklistWhereInput!]
   NOT: [BlacklistWhereInput!]
