@@ -48,5 +48,6 @@ type Blacklist{
   id: ID! @id
   ip: String
   end_time: DateTime
+  tries: Int
 }
 
