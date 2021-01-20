@@ -127,26 +127,25 @@ async function addRoleToUser(_, args, ctx, info){
 
   // 6 = right able to add a role to an user
   if(rights.includes("6") || rights.includes("owner")){
-    const groupToUpdate = await ctx.prisma.query.group({where:{id: args.groupId}}, info)
+    const groupToUpdate = await ctx.prisma.query.group({where:{id: args.groupId}}, '{ id users{id} }')
 
     if(groupToUpdate === null){
       throw new notFoundError
     }
 
     let userToAddRoleId = args.userToAddRoleId;
-    let roleToAdd = await ctx.prisma.query.role({where:{ id: args.roleId }}, info);
+    let roleToAdd = await ctx.prisma.query.role({where:{ id: args.roleId }}, "{ group{id} }");
 
     if(roleToAdd === null){
       throw new notFoundError
     }
 
-    if(roleToAdd.group !== groupToUpdate.id){
+    if(roleToAdd.group.id !== groupToUpdate.id){
       throw new Error("This role does not exist in this group");
     }
 
-    for(let user of groupToUpdate.users){
-      if(user.id === userToAddRoleId){
-        console.log("aa");
+    for(let groupUser of groupToUpdate.users){
+      if(groupUser.id === userToAddRoleId){
         await ctx.prisma.mutation.updateGroup(
           {
               data:{

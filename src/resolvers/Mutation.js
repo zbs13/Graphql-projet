@@ -1,6 +1,6 @@
 const { createUser, updateUser, deleteUser } = require('./Mutations/mutationUser')
 const { login, signup, verifToken } = require('./auth')
-const { createGroup, addUsersToGroup, removeUsersToGroup, updateGroup, deleteGroup } = require('./Mutations/mutationGroup')
+const { createGroup, addUsersToGroup, removeUsersToGroup, updateGroup, deleteGroup, addRoleToUser } = require('./Mutations/mutationGroup')
 const { createMessage, updateMessage, deleteMessage } = require('./Mutations/mutationMessage')
 const { createRight } = require('./Mutations/mutationRight')
 const { createRole, updateRole, deleteRole } = require('./Mutations/mutationRole')
@@ -20,6 +20,7 @@ const Mutation = {
     removeUsersToGroup,
     updateGroup,
     deleteGroup,
+    addRoleToUser,
 
     createMessage,
     updateMessage,
