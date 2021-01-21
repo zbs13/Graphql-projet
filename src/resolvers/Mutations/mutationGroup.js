@@ -1,5 +1,5 @@
 const { forwardTo } = require('prisma-binding')
-const { getUser } = require('../../utils')
+const { getUser, getUserRightsInGroup } = require('../../utils');
 
 async function createGroup (parent, args, ctx, info) {
   const requesterUser = await getUser(ctx);
@@ -25,15 +25,13 @@ async function createGroup (parent, args, ctx, info) {
 
 async function addUsersToGroup (parent, args, ctx, info) {
   //TODO : forwardTo if user === author || user.role === ADMIN
-  const requesterUser = await getUser(ctx);
-  const groupToUpdate = await ctx.prisma.query.group({ where: { id: args.idGroup } }, '{ id,owner{id,firstname,lastname,email},name }')
+  const user = await getUser(ctx);
+  let userId = user.id;
+  let rights = await getUserRightsInGroup(ctx, userId, args.idGroup);
 
-  if(groupToUpdate === null){
-    throw new notFoundError
-  }
-  if(requesterUser.id === groupToUpdate.owner.id){
+  if(rights.includes("1") || rights.includes("owner")){
     args.users.forEach(async function(item){
-      const group = await ctx.prisma.mutation.updateGroup(
+      await ctx.prisma.mutation.updateGroup(
         {
             data:{
               users:{
@@ -52,24 +50,23 @@ async function addUsersToGroup (parent, args, ctx, info) {
     
     
     return {
-      id:groupToUpdate.id
+      id: args.idGroup
     }
   }
-  throw new Error("Tu n'est pas celui qui a crée ce group")
+  throw new Error("You are not able to add an user in this group")
   
 }
 
 async function removeUsersToGroup (parent, args, ctx, info) {
   //TODO : forwardTo if user === author || user.role === ADMIN
-  const requesterUser = await getUser(ctx);
-  const groupToUpdate = await ctx.prisma.query.group({ where: { id: args.idGroup } }, '{ id,owner{id,firstname,lastname,email},name }')
+  const user = await getUser(ctx);
+  let userId = user.id;
+  let rights = await getUserRightsInGroup(ctx, userId, args.idGroup);
 
-  if(groupToUpdate === null){
-    throw new notFoundError
-  }
-  if(requesterUser.id === groupToUpdate.owner.id){
+  // 2 = right able to delete a user from group
+  if(rights.includes("2") || rights.includes("owner")){
     args.users.forEach(async function(item){
-      const group = await ctx.prisma.mutation.updateGroup(
+      await ctx.prisma.mutation.updateGroup(
         {
             data:{
               users:{
@@ -88,7 +85,7 @@ async function removeUsersToGroup (parent, args, ctx, info) {
     
     
     return {
-      id:groupToUpdate.id
+      id: args.idGroup
     }
   }
   throw new Error("Tu n'est pas celui qui a crée ce group")
@@ -98,7 +95,7 @@ async function removeUsersToGroup (parent, args, ctx, info) {
 async function updateGroup (parent, args, ctx, info) {
   //TODO : forwardTo if user === author || user.role === ADMIN
   const requesterUser = await getUser(ctx);
-  const groupToUpdate = await ctx.prisma.query.group({where:{...args.where}},info)
+  const groupToUpdate = await ctx.prisma.query.group({where:{...args.where}}, "{ id owner{id} }")
 
   if(groupToUpdate === null){
     throw new notFoundError
@@ -112,21 +109,82 @@ async function updateGroup (parent, args, ctx, info) {
 
 async function deleteGroup (parent, args, ctx, info) {
   const requesterUser = await getUser(ctx);
-  const groupToUpdate = await ctx.prisma.query.group({where:{...args.where}},info)
-
+  const groupToUpdate = await ctx.prisma.query.group({where:{...args.where}}, "{ id owner{id} }")
   if(groupToUpdate === null){
     throw new notFoundError
   }
   if(requesterUser.id === groupToUpdate.owner.id){
-    return forwardTo('prisma')(parent, args, ctx, info)
+    return forwardTo('prisma')(parent, args, ctx, info);
   }
   throw new Error("Tu n'est pas celui qui a crée ce group")
+}
+
+async function addRoleToUser(_, args, ctx, info){
+  let user = await getUser(ctx);
+  let userId = user.id;
+  let rights = await getUserRightsInGroup(ctx, userId, args.groupId);
+
+  // 6 = right able to add a role to an user
+  if(rights.includes("6") || rights.includes("owner")){
+    const groupToUpdate = await ctx.prisma.query.group({where:{id: args.groupId}}, '{ id users{id} }')
+
+    if(groupToUpdate === null){
+      throw new notFoundError
+    }
+
+    let userToAddRoleId = args.userToAddRoleId;
+    let roleToAdd = await ctx.prisma.query.role({where:{ id: args.roleId }}, "{ group{id} }");
+
+    if(roleToAdd === null){
+      throw new notFoundError
+    }
+
+    if(roleToAdd.group.id !== groupToUpdate.id){
+      throw new Error("This role does not exist in this group");
+    }
+
+    for(let groupUser of groupToUpdate.users){
+      if(groupUser.id === userToAddRoleId){
+        await ctx.prisma.mutation.updateGroup(
+          {
+              data:{
+                users:{
+                  update:{
+                    data: {
+                      roles: {
+                        set: {
+                          id: args.roleId
+                        }
+                      }
+                    },
+                    where: {
+                      id: userToAddRoleId 
+                    }
+                  } 
+                }
+    
+              },
+              where:{
+                id: args.groupId
+              }
+          }
+        )
+      }
+    }
+
+    return {
+      id: args.roleId
+    }
+  }
+
+  throw new Error("You are not able to add a role to an user")
 }
 
 module.exports = {
   createGroup,
   addUsersToGroup,
   removeUsersToGroup,
+  addRoleToUser,
   updateGroup,
   deleteGroup
 }
