@@ -40,7 +40,7 @@ async function createMessage (parent, args, ctx, info) {
 async function updateMessage (parent, args, ctx, info) {
   //TODO : forwardTo if user === author || user.role === ADMIN
   const requesterUser = await getUser(ctx);
-  const messageToUpdate = await ctx.prisma.query.message({where:{...args.where}},info)
+  const messageToUpdate = await ctx.prisma.query.message({where:{...args.where}}, "{ sentBy{id} }")
 
   if(messageToUpdate === null){
     throw new notFoundError
@@ -54,7 +54,7 @@ async function updateMessage (parent, args, ctx, info) {
 
 async function deleteMessage (parent, args, ctx, info) {
   const user = await getUser(ctx);
-  const messageToDelete = await ctx.prisma.query.message({where:{...args.where}},info)
+  const messageToDelete = await ctx.prisma.query.message({where:{...args.where}}, "{ owner{id} }")
   let userId = user.id;
   let rights = await getUserRightsInGroup(ctx, userId, args.groupId);
 
