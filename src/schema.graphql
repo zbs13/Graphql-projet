@@ -2,7 +2,7 @@
 # import Group, Query.group, Query.groups, Mutation.updateGroup, Mutation.createGroup, Mutation.deleteGroup, from "./generated/prisma.graphql"
 # import Message, Query.message, Query.messages, Mutation.updateMessage, Mutation.createMessage, Mutation.deleteMessage, MessageSubscriptionPayload, from "./generated/prisma.graphql"
 # import Right, Query.right, Query.rights, Mutation.createRight, from "./generated/prisma.graphql"
-# import Role, Query.role, Query.roles, Mutation.createRole, Mutation.updateRole, Mutation.deleteRole, from "./generated/prisma.graphql"
+# import Role, Query.role, Query.roles, Mutation.createRole, Mutation.updateRole, from "./generated/prisma.graphql"
 
 type Mutation {
     signup(firstname: String!, lastname: String!, email: String!, password: String!): AuthPayload!
@@ -12,6 +12,8 @@ type Mutation {
     addUsersToGroup(idGroup: ID!,users: [UserInput!]!): Group!
     removeUsersToGroup(idGroup: ID!,users: [UserInput!]!): Group! 
     addRoleToUser(userToAddRoleId: ID!, roleId: ID!, groupId: ID!): Role!
+
+    deleteRole(where: RoleWhereUniqueInput!, groupId: ID!): Role
 }
 
 type Subscription {

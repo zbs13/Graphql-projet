@@ -35,18 +35,15 @@ async function createRole (parent, args, ctx, info) {
     throw new Error("You are not able to create a role in this group");
 }
 
-async function updateRole (parent, args, ctx, info) {
-  
-}
 
 async function deleteRole (parent, args, ctx, info) {
     let user = await getUser(ctx);
     let userId = user.id;
-    let rights = await getUserRightsInGroup(ctx, userId, args.data.group.connect.id);
+    let rights = await getUserRightsInGroup(ctx, userId, args.groupId);
 
     // 4 = right able to delete a role
     if(rights.includes("4") || rights.includes("owner")){
-        const roleToDelete = await ctx.prisma.query.role({where:{...args.where}}, info)
+        const roleToDelete = await ctx.prisma.query.role({where:{id: args.where.id}, group: { id: args.groupId }}, info)
 
         if(roleToDelete === null){
             throw new notFoundError
@@ -60,6 +57,5 @@ async function deleteRole (parent, args, ctx, info) {
 
 module.exports = {
     createRole,
-    updateRole,
     deleteRole
 }

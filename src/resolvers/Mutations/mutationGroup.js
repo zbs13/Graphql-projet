@@ -1,5 +1,6 @@
 const { forwardTo } = require('prisma-binding')
-const { getUser, getUserRightsInGroup } = require('../../utils')
+const { getUser, getUserRightsInGroup } = require('../../utils');
+const { deleteAllRolesOfGroup } = require('./mutationRole');
 
 async function createGroup (parent, args, ctx, info) {
   const requesterUser = await getUser(ctx);
@@ -95,7 +96,7 @@ async function removeUsersToGroup (parent, args, ctx, info) {
 async function updateGroup (parent, args, ctx, info) {
   //TODO : forwardTo if user === author || user.role === ADMIN
   const requesterUser = await getUser(ctx);
-  const groupToUpdate = await ctx.prisma.query.group({where:{...args.where}},info)
+  const groupToUpdate = await ctx.prisma.query.group({where:{...args.where}}, "{ id owner{id} }")
 
   if(groupToUpdate === null){
     throw new notFoundError
@@ -109,13 +110,12 @@ async function updateGroup (parent, args, ctx, info) {
 
 async function deleteGroup (parent, args, ctx, info) {
   const requesterUser = await getUser(ctx);
-  const groupToUpdate = await ctx.prisma.query.group({where:{...args.where}},info)
-
+  const groupToUpdate = await ctx.prisma.query.group({where:{...args.where}}, "{ id owner{id} }")
   if(groupToUpdate === null){
     throw new notFoundError
   }
   if(requesterUser.id === groupToUpdate.owner.id){
-    return forwardTo('prisma')(parent, args, ctx, info)
+    return forwardTo('prisma')(parent, args, ctx, info);
   }
   throw new Error("Tu n'est pas celui qui a crée ce group")
 }
