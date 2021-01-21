@@ -1,6 +1,5 @@
 const { forwardTo } = require('prisma-binding')
 const { getUser, getUserRightsInGroup } = require('../../utils');
-const { deleteAllRolesOfGroup } = require('./mutationRole');
 
 async function createGroup (parent, args, ctx, info) {
   const requesterUser = await getUser(ctx);

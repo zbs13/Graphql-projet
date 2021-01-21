@@ -1,5 +1,5 @@
 const { forwardTo } = require('prisma-binding')
-const { getUser } = require('../../utils')
+const { getUser, getUserRightsInGroup } = require('../../utils')
 
 async function createMessage (parent, args, ctx, info) {
   const requesterUser = await getUser(ctx);
@@ -53,16 +53,22 @@ async function updateMessage (parent, args, ctx, info) {
 }
 
 async function deleteMessage (parent, args, ctx, info) {
-  const requesterUser = await getUser(ctx);
+  const user = await getUser(ctx);
   const messageToDelete = await ctx.prisma.query.message({where:{...args.where}},info)
+  let userId = user.id;
+  let rights = await getUserRightsInGroup(ctx, userId, args.groupId);
 
   if(messageToDelete === null){
     throw new notFoundError
   }
-  if(requesterUser.id === messageToDelete.owner.id){
-    return forwardTo('prisma')(parent, args, ctx, info)
+
+  // 5 = right able to delete a message in the group
+  if(rights.includes("5") || rights.includes("owner") || userId == messageToDelete.owner.id){
+      return forwardTo('prisma')(parent, args, ctx, info)
   }
-  throw new Error("Tu n'est pas celui qui a crée ce message")
+
+  throw new Error("You are not able to delete this message")
+    
 }
 
 module.exports = {
