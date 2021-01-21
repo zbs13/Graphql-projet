@@ -1,4 +1,5 @@
-endpoint: ${env:URL_DB_PRISMA}
+#endpoint: ${env:URL_DB_PRISMA}endpoint: /graphql/dev
+
 datamodel: datamodel.prisma
 
 generate:
