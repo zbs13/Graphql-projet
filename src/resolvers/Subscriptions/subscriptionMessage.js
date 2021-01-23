@@ -14,7 +14,7 @@ async function subscribeToNewMessage(parent, {token}, ctx, info) {
   return ctx.prisma.subscription.message(
     {
       where: {
-        mutation_in: ['CREATED'],
+        mutation_in: ['CREATED','DELETED'],
         node:{
           toGroup:{
             users_some:{
