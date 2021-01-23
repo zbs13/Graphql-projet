@@ -11,7 +11,7 @@ type User {
   create_at: DateTime @createdAt
   groups: [Group] @relation(name: "RelationGroupUser")
   groupsOwner: [Group] @relation(name: "RelationGroupOwner")
-  roles: [Role]
+  roles: [Role] @relation(name: "RelationRoleUser")
   messages: [Message] @relation(name: "MessagesFromUser")
 }
 
@@ -29,6 +29,7 @@ type Role {
   name: String!
   rights: [Right]
   group: Group
+  users: [User] @relation(name: "RelationRoleUser")
 }
 
 type Right{

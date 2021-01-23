@@ -119,6 +119,7 @@ async function deleteGroup (parent, args, ctx, info) {
   throw new Error("Tu n'est pas celui qui a crée ce group")
 }
 
+/*
 async function addRoleToUser(_, args, ctx, info){
   let user = await getUser(ctx);
   let userId = user.id;
@@ -180,11 +181,12 @@ async function addRoleToUser(_, args, ctx, info){
   throw new Error("You are not able to add a role to an user")
 }
 
+*/
+
 module.exports = {
   createGroup,
   addUsersToGroup,
   removeUsersToGroup,
-  addRoleToUser,
   updateGroup,
   deleteGroup
 }
