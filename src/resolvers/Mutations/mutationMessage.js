@@ -54,16 +54,19 @@ async function updateMessage (parent, args, ctx, info) {
 
 async function deleteMessage (parent, args, ctx, info) {
   const user = await getUser(ctx);
-  const messageToDelete = await ctx.prisma.query.message({where:{...args.where}}, "{ owner{id} }")
+  const messageToDelete = await ctx.prisma.query.message({where:{...args.where}}, "{ sentBy{id},toGroup{id} }")
   let userId = user.id;
-  let rights = await getUserRightsInGroup(ctx, userId, args.groupId);
+
+
+
+  let rights = await getUserRightsInGroup(ctx, userId, messageToDelete.toGroup.id);
 
   if(messageToDelete === null){
     throw new notFoundError
   }
 
   // 5 = right able to delete a message in the group
-  if(rights.includes("5") || rights.includes("owner") || userId == messageToDelete.owner.id){
+  if(rights.includes("5") || rights.includes("owner") || userId == messageToDelete.sentBy.id){
       return forwardTo('prisma')(parent, args, ctx, info)
   }
 
