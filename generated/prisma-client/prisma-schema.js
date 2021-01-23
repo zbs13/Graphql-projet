@@ -977,6 +977,7 @@ type Role {
   name: String!
   rights(where: RightWhereInput, orderBy: RightOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Right!]
   group: Group
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
 }
 
 type RoleConnection {
@@ -990,11 +991,19 @@ input RoleCreateInput {
   name: String!
   rights: RightCreateManyInput
   group: GroupCreateOneInput
+  users: UserCreateManyWithoutRolesInput
 }
 
-input RoleCreateManyInput {
-  create: [RoleCreateInput!]
+input RoleCreateManyWithoutUsersInput {
+  create: [RoleCreateWithoutUsersInput!]
   connect: [RoleWhereUniqueInput!]
+}
+
+input RoleCreateWithoutUsersInput {
+  id: ID
+  name: String!
+  rights: RightCreateManyInput
+  group: GroupCreateOneInput
 }
 
 type RoleEdge {
@@ -1066,36 +1075,31 @@ input RoleSubscriptionWhereInput {
   NOT: [RoleSubscriptionWhereInput!]
 }
 
-input RoleUpdateDataInput {
-  name: String
-  rights: RightUpdateManyInput
-  group: GroupUpdateOneInput
-}
-
 input RoleUpdateInput {
   name: String
   rights: RightUpdateManyInput
   group: GroupUpdateOneInput
+  users: UserUpdateManyWithoutRolesInput
 }
 
 input RoleUpdateManyDataInput {
   name: String
 }
 
-input RoleUpdateManyInput {
-  create: [RoleCreateInput!]
-  update: [RoleUpdateWithWhereUniqueNestedInput!]
-  upsert: [RoleUpsertWithWhereUniqueNestedInput!]
+input RoleUpdateManyMutationInput {
+  name: String
+}
+
+input RoleUpdateManyWithoutUsersInput {
+  create: [RoleCreateWithoutUsersInput!]
   delete: [RoleWhereUniqueInput!]
   connect: [RoleWhereUniqueInput!]
   set: [RoleWhereUniqueInput!]
   disconnect: [RoleWhereUniqueInput!]
+  update: [RoleUpdateWithWhereUniqueWithoutUsersInput!]
+  upsert: [RoleUpsertWithWhereUniqueWithoutUsersInput!]
   deleteMany: [RoleScalarWhereInput!]
   updateMany: [RoleUpdateManyWithWhereNestedInput!]
-}
-
-input RoleUpdateManyMutationInput {
-  name: String
 }
 
 input RoleUpdateManyWithWhereNestedInput {
@@ -1103,15 +1107,21 @@ input RoleUpdateManyWithWhereNestedInput {
   data: RoleUpdateManyDataInput!
 }
 
-input RoleUpdateWithWhereUniqueNestedInput {
-  where: RoleWhereUniqueInput!
-  data: RoleUpdateDataInput!
+input RoleUpdateWithoutUsersDataInput {
+  name: String
+  rights: RightUpdateManyInput
+  group: GroupUpdateOneInput
 }
 
-input RoleUpsertWithWhereUniqueNestedInput {
+input RoleUpdateWithWhereUniqueWithoutUsersInput {
   where: RoleWhereUniqueInput!
-  update: RoleUpdateDataInput!
-  create: RoleCreateInput!
+  data: RoleUpdateWithoutUsersDataInput!
+}
+
+input RoleUpsertWithWhereUniqueWithoutUsersInput {
+  where: RoleWhereUniqueInput!
+  update: RoleUpdateWithoutUsersDataInput!
+  create: RoleCreateWithoutUsersInput!
 }
 
 input RoleWhereInput {
@@ -1147,6 +1157,9 @@ input RoleWhereInput {
   rights_some: RightWhereInput
   rights_none: RightWhereInput
   group: GroupWhereInput
+  users_every: UserWhereInput
+  users_some: UserWhereInput
+  users_none: UserWhereInput
   AND: [RoleWhereInput!]
   OR: [RoleWhereInput!]
   NOT: [RoleWhereInput!]
@@ -1200,12 +1213,17 @@ input UserCreateInput {
   token: String
   groups: GroupCreateManyWithoutUsersInput
   groupsOwner: GroupCreateManyWithoutOwnerInput
-  roles: RoleCreateManyInput
+  roles: RoleCreateManyWithoutUsersInput
   messages: MessageCreateManyWithoutSentByInput
 }
 
 input UserCreateManyWithoutGroupsInput {
   create: [UserCreateWithoutGroupsInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateManyWithoutRolesInput {
+  create: [UserCreateWithoutRolesInput!]
   connect: [UserWhereUniqueInput!]
 }
 
@@ -1230,7 +1248,7 @@ input UserCreateWithoutGroupsInput {
   is_ban: Boolean
   token: String
   groupsOwner: GroupCreateManyWithoutOwnerInput
-  roles: RoleCreateManyInput
+  roles: RoleCreateManyWithoutUsersInput
   messages: MessageCreateManyWithoutSentByInput
 }
 
@@ -1245,7 +1263,7 @@ input UserCreateWithoutGroupsOwnerInput {
   is_ban: Boolean
   token: String
   groups: GroupCreateManyWithoutUsersInput
-  roles: RoleCreateManyInput
+  roles: RoleCreateManyWithoutUsersInput
   messages: MessageCreateManyWithoutSentByInput
 }
 
@@ -1261,7 +1279,22 @@ input UserCreateWithoutMessagesInput {
   token: String
   groups: GroupCreateManyWithoutUsersInput
   groupsOwner: GroupCreateManyWithoutOwnerInput
-  roles: RoleCreateManyInput
+  roles: RoleCreateManyWithoutUsersInput
+}
+
+input UserCreateWithoutRolesInput {
+  id: ID
+  firstname: String
+  lastname: String
+  email: String
+  password: String
+  phone: String
+  is_verified: Boolean
+  is_ban: Boolean
+  token: String
+  groups: GroupCreateManyWithoutUsersInput
+  groupsOwner: GroupCreateManyWithoutOwnerInput
+  messages: MessageCreateManyWithoutSentByInput
 }
 
 type UserEdge {
@@ -1450,7 +1483,7 @@ input UserUpdateInput {
   token: String
   groups: GroupUpdateManyWithoutUsersInput
   groupsOwner: GroupUpdateManyWithoutOwnerInput
-  roles: RoleUpdateManyInput
+  roles: RoleUpdateManyWithoutUsersInput
   messages: MessageUpdateManyWithoutSentByInput
 }
 
@@ -1488,6 +1521,18 @@ input UserUpdateManyWithoutGroupsInput {
   updateMany: [UserUpdateManyWithWhereNestedInput!]
 }
 
+input UserUpdateManyWithoutRolesInput {
+  create: [UserCreateWithoutRolesInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutRolesInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutRolesInput!]
+  deleteMany: [UserScalarWhereInput!]
+  updateMany: [UserUpdateManyWithWhereNestedInput!]
+}
+
 input UserUpdateManyWithWhereNestedInput {
   where: UserScalarWhereInput!
   data: UserUpdateManyDataInput!
@@ -1521,7 +1566,7 @@ input UserUpdateWithoutGroupsDataInput {
   is_ban: Boolean
   token: String
   groupsOwner: GroupUpdateManyWithoutOwnerInput
-  roles: RoleUpdateManyInput
+  roles: RoleUpdateManyWithoutUsersInput
   messages: MessageUpdateManyWithoutSentByInput
 }
 
@@ -1535,7 +1580,7 @@ input UserUpdateWithoutGroupsOwnerDataInput {
   is_ban: Boolean
   token: String
   groups: GroupUpdateManyWithoutUsersInput
-  roles: RoleUpdateManyInput
+  roles: RoleUpdateManyWithoutUsersInput
   messages: MessageUpdateManyWithoutSentByInput
 }
 
@@ -1550,12 +1595,31 @@ input UserUpdateWithoutMessagesDataInput {
   token: String
   groups: GroupUpdateManyWithoutUsersInput
   groupsOwner: GroupUpdateManyWithoutOwnerInput
-  roles: RoleUpdateManyInput
+  roles: RoleUpdateManyWithoutUsersInput
+}
+
+input UserUpdateWithoutRolesDataInput {
+  firstname: String
+  lastname: String
+  email: String
+  password: String
+  phone: String
+  is_verified: Boolean
+  is_ban: Boolean
+  token: String
+  groups: GroupUpdateManyWithoutUsersInput
+  groupsOwner: GroupUpdateManyWithoutOwnerInput
+  messages: MessageUpdateManyWithoutSentByInput
 }
 
 input UserUpdateWithWhereUniqueWithoutGroupsInput {
   where: UserWhereUniqueInput!
   data: UserUpdateWithoutGroupsDataInput!
+}
+
+input UserUpdateWithWhereUniqueWithoutRolesInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateWithoutRolesDataInput!
 }
 
 input UserUpsertWithoutGroupsOwnerInput {
@@ -1572,6 +1636,12 @@ input UserUpsertWithWhereUniqueWithoutGroupsInput {
   where: UserWhereUniqueInput!
   update: UserUpdateWithoutGroupsDataInput!
   create: UserCreateWithoutGroupsInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutRolesInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutRolesDataInput!
+  create: UserCreateWithoutRolesInput!
 }
 
 input UserWhereInput {
