@@ -26,31 +26,35 @@ async function getUser(ctx) {
  */ 
 
  async function getUserRightsInGroup(ctx, userId, groupId){
-  let group = await ctx.prisma.query.group({
-    where: {
-      id: groupId
-    }
-  }, '{ owner{id} users{id, roles{id}} }')
   
-  if(group === null){
-    throw new notFoundError;
-  }
 
+  const group = await ctx.prisma.query.group({
+    where: {
+      id:groupId
+    }
+  }, '{owner{id}}')
+  
   if(group.owner.id === userId){
     return ["owner"];
   }else{
-    let userRights = [];
-    for(let userInGroup of group.users){
-      if(userInGroup.id == user.id){
-        if((userInGroup.roles).length !== 0){
-          for(let userRoles of userInGroup.roles){
-            for(let userRolesRights of userRoles){
-              userRights.push(userRolesRights.id);
-            }
+    const roles = await ctx.prisma.query.roles({
+      where: {
+        AND:{
+          group:{
+            id: groupId
+          },
+          users_some:{
+            id: userId
           }
-        }else{
-          return [];
         }
+        
+      }
+    }, '{ id, name, group{id, owner{id}} }')
+
+    let userRights = [];
+    for(let userRole of roles){
+      for(let userRight of userRole.rights){
+        userRights.push(userRight.id);
       }
     }
   }
