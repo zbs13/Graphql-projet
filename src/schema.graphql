@@ -11,7 +11,10 @@ type Mutation {
 
     addUsersToGroup(idGroup: ID!,users: [UserInput!]!): Group!
     removeUsersToGroup(idGroup: ID!,users: [UserInput!]!): Group! 
-    addRoleToUser(userToAddRoleId: ID!, roleId: ID!, groupId: ID!): Role!
+
+    addUsersToRole(idRole: ID!, users: [UserInput!]!): Role!
+    removeUsersToRole(idRole: ID!, users: [UserInput!]!): Role!
+    
 
     deleteRole(where: RoleWhereUniqueInput!, groupId: ID!): Role
 }
