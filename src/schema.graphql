@@ -3,6 +3,7 @@
 # import Message, Query.message, Query.messages, Mutation.updateMessage, Mutation.createMessage, Mutation.deleteMessage, MessageSubscriptionPayload, from "./generated/prisma.graphql"
 # import Right, Query.right, Query.rights, Mutation.createRight, from "./generated/prisma.graphql"
 # import Role, Query.role, Query.roles, Mutation.createRole, Mutation.updateRole, from "./generated/prisma.graphql"
+# import Blacklist, Query.blacklist, Query.blacklists, Mutation.updateBlacklist, Mutation.createBlacklist, from "./generated/prisma.graphql"
 
 type Mutation {
     signup(firstname: String!, lastname: String!, email: String!, password: String!): AuthPayload!
@@ -35,3 +36,5 @@ type AuthPayload {
     token: String!
     user: User!
 }
+
+
