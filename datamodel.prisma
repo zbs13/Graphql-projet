@@ -47,7 +47,7 @@ type Group {
 
 type Blacklist{
   id: ID! @id
-  ip: String
+  email: String
   end_time: DateTime
   tries: Int
 }

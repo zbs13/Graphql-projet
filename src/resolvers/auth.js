@@ -23,12 +23,14 @@ async function signup (_, args, context, info) {
 }
 
 async function login (parent, {email, password}, ctx, info) {
-  // TODO mettre en prod
-  const ip = ctx.headers["x-forwarded-for"];
   // query vérification de l'ip
-  const blacklist = await ctx.prisma.query.blacklists({ where: { ip } }, '{ id ip end_time tries }')
+  const blacklist = await ctx.prisma.query.blacklists({ where: { email } }, '{ id end_time tries email }')
   const curentDate = new Date();
-  const banDate = new Date(blacklist[0].end_time);
+  let banDate;
+  if(blacklist[0]) {
+    banDate = new Date(blacklist[0].end_time);
+  }
+  
   const user = await ctx.prisma.query.user({ where: { email } }, '{ id firstname lastname email password }')
 
   if (!user) {
@@ -38,7 +40,7 @@ async function login (parent, {email, password}, ctx, info) {
   const valid = await bcrypt.compare(password, user.password)
 
   if (!valid) {
-    // update de l'ip et des tries update 
+    // update de l'email et des tries update 
     if(blacklist[0]) {
       if(curentDate < banDate) {
           throw new Error(`Try later`)
@@ -72,7 +74,7 @@ async function login (parent, {email, password}, ctx, info) {
       //createBlacklist
       await ctx.prisma.mutation.createBlacklist({
         data: {
-          ip: ip,
+          email: email,
           tries: 1
         }
       })
@@ -82,9 +84,10 @@ async function login (parent, {email, password}, ctx, info) {
     await ctx.prisma.mutation.updateBlacklist(
       {
         where: {
-          ip: ip
+          id: blacklist[0].id,
         },
         data: {
+          end_time: null,
           tries: 0
         }
       })

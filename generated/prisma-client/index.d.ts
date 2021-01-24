@@ -301,8 +301,8 @@ export type GroupOrderByInput = "id_ASC" | "id_DESC" | "name_ASC" | "name_DESC";
 export type BlacklistOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "ip_ASC"
-  | "ip_DESC"
+  | "email_ASC"
+  | "email_DESC"
   | "end_time_ASC"
   | "end_time_DESC"
   | "tries_ASC"
@@ -613,20 +613,20 @@ export interface BlacklistWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  ip?: Maybe<String>;
-  ip_not?: Maybe<String>;
-  ip_in?: Maybe<String[] | String>;
-  ip_not_in?: Maybe<String[] | String>;
-  ip_lt?: Maybe<String>;
-  ip_lte?: Maybe<String>;
-  ip_gt?: Maybe<String>;
-  ip_gte?: Maybe<String>;
-  ip_contains?: Maybe<String>;
-  ip_not_contains?: Maybe<String>;
-  ip_starts_with?: Maybe<String>;
-  ip_not_starts_with?: Maybe<String>;
-  ip_ends_with?: Maybe<String>;
-  ip_not_ends_with?: Maybe<String>;
+  email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
   end_time?: Maybe<DateTimeInput>;
   end_time_not?: Maybe<DateTimeInput>;
   end_time_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -875,7 +875,7 @@ export interface GroupUpdateWithWhereUniqueWithoutOwnerInput {
 }
 
 export interface BlacklistUpdateInput {
-  ip?: Maybe<String>;
+  email?: Maybe<String>;
   end_time?: Maybe<DateTimeInput>;
   tries?: Maybe<Int>;
 }
@@ -1293,7 +1293,7 @@ export interface RoleScalarWhereInput {
 }
 
 export interface BlacklistUpdateManyMutationInput {
-  ip?: Maybe<String>;
+  email?: Maybe<String>;
   end_time?: Maybe<DateTimeInput>;
   tries?: Maybe<Int>;
 }
@@ -1542,7 +1542,7 @@ export interface MessageUpsertWithWhereUniqueWithoutSentByInput {
 
 export interface BlacklistCreateInput {
   id?: Maybe<ID_Input>;
-  ip?: Maybe<String>;
+  email?: Maybe<String>;
   end_time?: Maybe<DateTimeInput>;
   tries?: Maybe<Int>;
 }
@@ -2175,14 +2175,14 @@ export interface RoleConnectionSubscription
 
 export interface Blacklist {
   id: ID_Output;
-  ip?: String;
+  email?: String;
   end_time?: DateTimeOutput;
   tries?: Int;
 }
 
 export interface BlacklistPromise extends Promise<Blacklist>, Fragmentable {
   id: () => Promise<ID_Output>;
-  ip: () => Promise<String>;
+  email: () => Promise<String>;
   end_time: () => Promise<DateTimeOutput>;
   tries: () => Promise<Int>;
 }
@@ -2191,7 +2191,7 @@ export interface BlacklistSubscription
   extends Promise<AsyncIterator<Blacklist>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  ip: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
   end_time: () => Promise<AsyncIterator<DateTimeOutput>>;
   tries: () => Promise<AsyncIterator<Int>>;
 }
@@ -2200,7 +2200,7 @@ export interface BlacklistNullablePromise
   extends Promise<Blacklist | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  ip: () => Promise<String>;
+  email: () => Promise<String>;
   end_time: () => Promise<DateTimeOutput>;
   tries: () => Promise<Int>;
 }
@@ -2265,7 +2265,7 @@ export interface AggregateMessageSubscription
 
 export interface BlacklistPreviousValues {
   id: ID_Output;
-  ip?: String;
+  email?: String;
   end_time?: DateTimeOutput;
   tries?: Int;
 }
@@ -2274,7 +2274,7 @@ export interface BlacklistPreviousValuesPromise
   extends Promise<BlacklistPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  ip: () => Promise<String>;
+  email: () => Promise<String>;
   end_time: () => Promise<DateTimeOutput>;
   tries: () => Promise<Int>;
 }
@@ -2283,7 +2283,7 @@ export interface BlacklistPreviousValuesSubscription
   extends Promise<AsyncIterator<BlacklistPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  ip: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
   end_time: () => Promise<AsyncIterator<DateTimeOutput>>;
   tries: () => Promise<AsyncIterator<Int>>;
 }
