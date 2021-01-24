@@ -4,6 +4,7 @@ const { createGroup, addUsersToGroup, removeUsersToGroup, updateGroup, deleteGro
 const { createMessage, updateMessage, deleteMessage } = require('./Mutations/mutationMessage')
 const { createRight } = require('./Mutations/mutationRight')
 const { createRole, deleteRole, addUsersToRole, removeUsersToRole } = require('./Mutations/mutationRole')
+const { createBlacklist, updateBlacklist } = require('./Mutations/mutationBlacklist')
 
 const Mutation = {
 
@@ -31,7 +32,10 @@ const Mutation = {
     createRole,
     deleteRole,
     addUsersToRole,
-    removeUsersToRole
+    removeUsersToRole,
+    
+    createBlacklist,
+    updateBlacklist
 
 }
 
