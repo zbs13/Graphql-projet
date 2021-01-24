@@ -24,7 +24,7 @@ async function signup (_, args, context, info) {
 
 async function login (parent, {email, password}, ctx, info) {
   // TODO mettre en prod
-  const ip = ctx.headers["x-forwarded-for"];
+  const ip = ctx.req.headers["x-forwarded-for"];
   // query vérification de l'ip
   const blacklist = await ctx.prisma.query.blacklists({ where: { ip } }, '{ id ip end_time tries }')
   const curentDate = new Date();
