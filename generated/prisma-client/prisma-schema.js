@@ -33,7 +33,7 @@ type BatchPayload {
 
 type Blacklist {
   id: ID!
-  ip: String
+  email: String
   end_time: DateTime
   tries: Int
 }
@@ -46,7 +46,7 @@ type BlacklistConnection {
 
 input BlacklistCreateInput {
   id: ID
-  ip: String
+  email: String
   end_time: DateTime
   tries: Int
 }
@@ -59,8 +59,8 @@ type BlacklistEdge {
 enum BlacklistOrderByInput {
   id_ASC
   id_DESC
-  ip_ASC
-  ip_DESC
+  email_ASC
+  email_DESC
   end_time_ASC
   end_time_DESC
   tries_ASC
@@ -69,7 +69,7 @@ enum BlacklistOrderByInput {
 
 type BlacklistPreviousValues {
   id: ID!
-  ip: String
+  email: String
   end_time: DateTime
   tries: Int
 }
@@ -93,13 +93,13 @@ input BlacklistSubscriptionWhereInput {
 }
 
 input BlacklistUpdateInput {
-  ip: String
+  email: String
   end_time: DateTime
   tries: Int
 }
 
 input BlacklistUpdateManyMutationInput {
-  ip: String
+  email: String
   end_time: DateTime
   tries: Int
 }
@@ -119,20 +119,20 @@ input BlacklistWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  ip: String
-  ip_not: String
-  ip_in: [String!]
-  ip_not_in: [String!]
-  ip_lt: String
-  ip_lte: String
-  ip_gt: String
-  ip_gte: String
-  ip_contains: String
-  ip_not_contains: String
-  ip_starts_with: String
-  ip_not_starts_with: String
-  ip_ends_with: String
-  ip_not_ends_with: String
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
   end_time: DateTime
   end_time_not: DateTime
   end_time_in: [DateTime!]
