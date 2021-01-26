@@ -81,16 +81,18 @@ async function login (parent, {email, password}, ctx, info) {
     }
     throw new Error('Invalid password')
   } else {
-    await ctx.prisma.mutation.updateBlacklist(
-      {
-        where: {
-          id: blacklist[0].id,
-        },
-        data: {
-          end_time: null,
-          tries: 0
-        }
-      })
+    if(blacklist[0]){
+      await ctx.prisma.mutation.updateBlacklist(
+        {
+          where: {
+            id: blacklist[0].id,
+          },
+          data: {
+            end_time: null,
+            tries: 0
+          }
+        })
+      }
   }
      
 
